@@ -18,7 +18,20 @@ Good introductions: 1,2,3,4,9, in that order.
 10. [Evolutionary Stability in Repeated Games Played by Finite Automata](https://deepblue.lib.umich.edu/bitstream/handle/2027.42/29923/0000280.pdf%3Bjsessionid%3DAEAFA5FC409CD192FED110736FBDE473?sequence%3D1). This is interesting. It proposes a modified notion of evolutionary stability (called MESS) that states that a strategy with fewer states in its finite automaton can invade a strategy with more states even if they receive the same payoffs. Then, they are able to prove that there exists a 2-state MESS (tat-for-tit), and also that for a strategy to be a MESS it needs to be utilitarian (i.e. get highest payoff with itself). The idea is kind of that a strategy that is not utilitarian can be invaded by a simplified version of itself that only contains the states it has when playing against itself, and then that version can be invaded by someone taking advantage of it. This is actually very reasonable. It is, however, somewhat arbitrary to always prefer strategies with fewer states, which is the critical assumption leading to these results. They also include a discussion in the end of what happens when there are multiple strategies that all cooperate with each other. It would be nice to be able to relax the assumption of preferring fewer states.
 11. [Evolutionary Games and Spatial Chaos](https://www.nature.com/articles/359826a0.pdf). Not super relevant but actually really cool: patterns can arise if we play the game on a grid. Not sure how actually profound this is.
 
-### Conjecture: To be evolutionary stable in a noisy model, a strategy needs to be efficient with itself
+## The State of Current Knowledge
+
+1. In the non-repeated deterministic game, AllD is optimal.
+2. In the finitely repeated deterministic game, AllD is not evolutionary stable.
+3. In the infinitely repeated game with (weird) noise, a strategy can only be evolutionary stable if it is utilitarian.
+4. In the infinitely repeated deterministic game where the number of states in the finite automaton affects its fitness, a strategy can only be evolutionary stable if it is utilitarian.
+
+(The reason that 3 is weird is that it says that TFT is utilitarian with noise, when it isn't if you model noise as having a probability $p$ of making a mistake at every step (no matter how small $p$ is). So the model just doesn't model real noise very well.)
+
+### Conjecture: To be evolutionary stable in a (good) noisy model, a strategy needs to be utilitarian
+
+This conjecture would be a stronger result than what is currently known. (In particular, it uses a definition of evolutionary stable that is weaker than what is used in 4, so the result would thus be stronger than the one there while also having less assumptions.)
+
+recent update: I do not anymore think that this works. see ipad notes.
 
 Note: Most of the below has been transferred to the LaTeX document.
 
