@@ -122,4 +122,8 @@ omg wait the condition I proposed makes no sense at all hmmmm
 
 oh wow read https://search.proquest.com/docview/235762955?accountid=12492 they came up with exactly the same Markov chain as I did and seems to have done more analysis on it. they seem to not do much with their results at all, however.
 
+\section*{A Major Problem}
+
+The definitions in the preceding section were all taken from the existing literature. In particular, the corollary is the traditional definition of evolutionary stability (and the underlying definitions were reversed engineered from that). However, these definitions lead to the following big problem: \textit{AllD can no longer be invaded}. The reason is simple: Suppose strategy S can invade AllD. In the stationary distribution, there can be no state of S that cooperates. Thus, one can contract all independent connected components into single nodes of D, reachable by different branches. One can then easily see that running S against itself also always defects, so it must effectively just be an AllD copy, and will thus not be able to invade.
+
 \end{document}
