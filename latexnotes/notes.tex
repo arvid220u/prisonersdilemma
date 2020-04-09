@@ -10,6 +10,7 @@
 \newtheorem{theorem}{Theorem}
 \newtheorem{proposition}{Proposition}
 \newtheorem{corollary}{Corollary}
+\newtheorem{lemma}{Lemma}
 \newtheorem{problem}{Problem}
 \theoremstyle{remark}
 \newtheorem*{remark}{Remark}
@@ -60,7 +61,7 @@
 
 \begin{definition}
   The \textit{fitness} of a strategy $s$ in a population $P = (S, f)$ is \begin{equation*}
-    F(s) = \sum_{s' \in S} f(s) v(s, s').
+    F(s) = \sum_{s' \in S} f(s') v(s, s').
   \end{equation*}
 \end{definition}
 
@@ -125,5 +126,138 @@ oh wow read https://search.proquest.com/docview/235762955?accountid=12492 they c
 \section*{A Major Problem}
 
 The definitions in the preceding section were all taken from the existing literature. In particular, the corollary is the traditional definition of evolutionary stability (and the underlying definitions were reversed engineered from that). However, these definitions lead to the following big problem: \textit{AllD can no longer be invaded}. The reason is simple: Suppose strategy S can invade AllD. In the stationary distribution, there can be no state of S that cooperates. Thus, one can contract all independent connected components into single nodes of D, reachable by different branches. One can then easily see that running S against itself also always defects, so it must effectively just be an AllD copy, and will thus not be able to invade.
+
+Thus, \textbf{I need to change the definitions} to get something meaningful out of this. Actually, what this also means is that it further goes to show that the results presented using the weird model of noise are weird as well, as the result they proved using that model is provably not reproducible in this model.
+
+I can think of two ways of fixing this problem by changing the definitions:
+
+\begin{enumerate}
+  \item Make $p \to 0$ earlier. i.e. instead of fixing $p$ and then letting $\alpha \to 0$, fix $\alpha$ and let $p \to 0$ or something similar.
+  \item Define invasion differently: a strategy is ES iff given an invasion fraction $\alpha$ (for sufficiently small $\alpha$) there exists no strategy that can achieve a higher fitness.
+\end{enumerate}
+
+There might be other ways of solving this; if so, add to this list later. For now, I should analyze the two methods in separation. Later, I can determine which of the two methods is more reasonable to adopt.
+
+\subsection*{Make $p \to 0$ happen earlier}
+
+The simplest way: define $v(s_1, s_2)$ as the limit $\lim_{p \to 0}$ of the stationary distribution payoff. In this situation, theorem 1 is true, and can be proved by using a very simple strategy that just self-identifies on the first turn and then copies. \textbf{Pros:} This gives us exactly the result we want. \textbf{Cons:} I don't think that result means much, because it is impossible to relate it to a real situation since there is no actual value of $p$ for which the result would hold (not even $p = 0$) which just means that it's some sort of fictional result.
+
+Can we take a middle ground? Could say something like: A strategy $s_2$ can invade a strategy $s_1$ if there exists a real 
+\begin{definition}
+  A strategy $s_2$ can \textit{invade} a strategy $s_1$, if there exists a real number $\alpha \in (0,1]$, such that for all populations $P$ with $S = \{s_1, s_2\}$ and $f(s_2) < \alpha$, there exists a value of $p > 0$ such that
+  \begin{equation*}
+    F(s_2) > F(s_1).
+  \end{equation*}
+\end{definition}
+This means that the same strategy $s_2$ can invade $s_1$ but that the $p$ can possibly change from time to time. This would also solve the AllD problem, and it would also prove theorem 1, while making more sense (albeit not much sense either).
+
+\subsection*{Redefine invasion}
+
+This is sort of similar to our second approach above actually. But here we take a different approach: instead of different $p$ for every $\alpha$, we take different $s_2$ for different $\alpha$. 
+
+The following is one way of defining invasion in this way.
+\begin{definition}
+  A strategy $s_1$ can be invaded if there exists a real number $\alpha \in (0,1]$ such that for all $\epsilon < \alpha$, there exists a strategy $s_2$ such that in the population $P$ with $S = \{s_1,s_2\}$ and $f(s_2) = \epsilon$, we have \begin{equation*}
+    F(s_2) > F(s_1)
+  \end{equation*}
+\end{definition}
+
+Does this alleviate the AllD problem? Yes, and it also proves theorem 1, using the same (boring) construction (except that the self-identification now may take $k$ steps instead of only 1 depending on how small the population is). Is this reasonable? Not really, because it doesn't say anything about what happens to that strategy next.
+
+
+\subsection*{Other approaches}
+
+So we can see that all three possible ways to solve the problem are somewhat unsatisfactory. New ideas:
+\begin{enumerate}
+  \item Include evolutionary drift into the picture: a strategy is not evolutionary stable if it is vulnerable to a 2-stage attack whereby 1 startegy first enters and survives because of evolutionary drift, and then another comes in and colludes with the second one to take over.
+  \item Move away from infinitely repeated games (no no seems very messy and sad)
+  \item Think of another model that better captures the finiteness of real population (which also helps with the $\alpha \to 0$ problem).
+  \item A different model of computation. Note that the Moore machines I'm using have a very clear start. This, one could say, does not really model reality that well, because there will not necessarily be a clear starting point.
+  \item Another way of evaluating fitness: think that the individuals are spread out geographically which means that even in a very large population, the initial strategy mutation injection will first face a small fraction of the population, then take over that part, then face a larger proportion but now be larger itself, and so on and so forth. Thinking this way, as long as the span of higher fitness grows by something like $r^2$ in a 2D model, and there is some $\alpha$ where the invader is better, then it can eventually take over most of the population which is very interesting.
+\end{enumerate}
+
+\subsection*{Evolutionary drift and multiple different strategies}
+
+hmm. This has the same AllD problem as the original setup, using the same argument. The thing with noise really is that you can't really hide a secret that is useful (and when AllD finds out it will end up punishing you for it)
+
+
+[other approaches here]
+
+
+\subsection*{2D model}
+
+Okay so this is cool. Think of 1 strategy as covering a large circle. then start another strategy as a very very tiny circle. who does it interact with? could also think of this in terms of the grid. Hmmmm ok at the very least this would motivate why it is moew reasonable to say that a strategy can invade another strategy as long as there exists some $\alpha$ for which it can invade: because if a strategy only engages with other strategies within a certain fixed radius, the same strategy could then invade a given strategy regardless of how big the population is, which isn't really principally important but still kinda gives the definition a tiny bit more legitimacy. The nice thing about the circle 2D model is that it also doesn't require that the population size stays constant throughout -- it could actually fluctuate quite a bit.
+
+
+
+\subsection*{Redefine invasion}
+
+Can we use definition 9 but prove that it implies that it works for all $\alpha \geq \varepsilon$ and $\alpha <$ maybe $\frac 1 2$? That would be cool because it would show that that model actually makes a lot of sense. OK so that is not true. But generally, if we find a strategy that can invade using definition 9 we can almost certainly find a strategy that can invade using the natural definition. Wait so I think that that means that they're equivalent. Let me state it
+
+\begin{definition}
+  A strategy $s_1$ can be invaded if for all $\varepsilon \in [0,1]$ (and for all $p \in (0,1)$????) there exists a strategy $s_2$ such that in all populations $P$ with $S = \{s_1,s_2\}$ and $f(s_2) \geq \epsilon$, we have \begin{equation*}
+    F(s_2) > F(s_1)
+  \end{equation*}
+\end{definition}
+
+So we have the concept of invadable9 and invadable10. If something is invadable9 then I think we can also make it be invadable10. And if it is invadable10 then certainly it is invadable9. So yay then definition 9 and definition 10 are equivalent which is amazing.
+
+(The proof showing invadable9 implies invadable10 is somewhat interesting: you take a strategy that can invade according to 9 and then you modify it so that it is more or less the same but also has $v(s_1,s_1) + v(s_2,s_2) \geq v(s_1,s_2) + v(s_2,s_1)$ which then would show according to ipad calculations that it the new $s_2$ would be able to invade for all bigger $\varepsilon$ which completes the proof.)
+
+So we can use whichever definition we like. Note that definition 10 has a very nice interpretation: $\varepsilon$ and $p$ can be thought of as two constants of nature (representing the number of interactions and probability of failure, respectively), and then the definition says that a strategy can be invaded if regardless of what those parameters are, there is some bad strategy that can pop up and take over. In other words, a strategy is evolutionary stable if there exists some constants of nature that can make it prevail. So in this sense the evolutionary stability becomes a pretty weak concept. Showing a strong result about a weak concept -- e.g. the utilitarianism result -- would thus be kind of remarkable. Is this notion of ESS weaker than the usual notion of ESS? No because it excludes AllD. But at the same time, the result will be stronger than any results proved earlier, because probably only Pavlov will be good (although I'm still worried about the $p \to 0$ necessities of this statement. But we'll see about that when we get there.)
+
+Note also that definition 9 is nice for proving stuff, because the condition is only to find 1 epsilon and not infinitely many.
+
+\subsection*{Implications of definitions 9 and 10}
+
+
+
+\section*{Interesting Findings}
+
+Using definition 9/10, we can prove the following:
+
+\begin{enumerate}
+  \item For a given $p$, if a strategy $s$ is ESS then $v(s,s) \geq \frac{S + T}{2}$.
+  \item For small $p$, if a strategy $s$ is ESS then $\lim_{p \to 0} v(s,s) \geq R$.
+\end{enumerate}
+
+This is great. The only problematic thing is that not every strategy that tends to $R$ will be a good one I think (although I'm not sure about that actually). And I also need to prove that Pavlov, for example, actually is ESS, because otherwise the definition is kinda stupid. But this is still very nice and promising.
+
+
+Note that all of this can be proven using the obvious self-identifying strategy, which goes to show that the original idea of having someone try to mimic the behavior of the other group but at the same time try to exploit it behind their backs actually works in theory too which is really cool I think.
+
+OK how can we prove that Pavlov is actually ESS? Which definition is easier to use? (probably 9a again).
+
+
+
+OK I will use definition 9 I think. ahhhh so much to do here and I'm not even sure that my result is valid.
+
+
+
+
+
+
+
+\begin{lemma}
+  Suppose $s_1$ is a strategy such that $v(s_1,s_1) < \frac{S + T}{2}$. Then $s_1$ is not ESS according to definition 9.
+\end{lemma}
+\begin{proof}
+  We will show this by exhibiting a strategy $s_2$ and a parameter $\epsilon$. Let the strategy $s_2$ be such that it ``tests'' its opponent for $k$ steps. (uhhh ok this gets a little more complicated I think because it is just not a simple exponential).
+\end{proof}
+
+
+
+
+
+
+\section*{For reference}
+
+Pavlov against itself gets the payoff: \begin{equation*}
+  v(s_\text{Pavlov}, s_\text{Pavlov}) = (-4p^3+7p^2-4p+1, p(1-p), p(1-p), 4p^3-5p^2+2p) \cdot (R, S, T, P)
+\end{equation*}
+which tends to 1 as $p \to 0$.
+
+
+
 
 \end{document}
