@@ -187,3 +187,22 @@ Maybe the way that the `Evolution and Cooperation in Noisy Repeated Games` paper
 1. Consider what happens in `Evolution and Cooperation in Noisy Repeated Games` if the noise is modeled as a fixed probability $p$ of ending up in the wrong state in the finite automaton.
 
 Most work from now on is in the latex document.
+
+
+## Meeting 4/9
+
+#### Pre-meeting
+
+I have looked at many different setups. The suggested idea from last time, using Fudenberg's and Maskin's model, did not work out: when that model uses $p$ probabilities then AllD is suddenly evolutionary stable, which is not what we want. Other possible definitions include letting $p$ go to 0 early on and redefining invasion. It turns out that we can define invasion in two equivalent ways, one of which has a reasonably nice interpretation and one of which is nice to use when proving things. In this model we can then get that a strategy needs to be utilitarian to be evolutionary stable.
+
+Note that the differences in the setup are very subtle, yet can have a huge impact on the result.
+
+Also note that this result is stronger than Fudenberg's and Maskin's since it rules out the potential of TFT being evolutionary stable while their result did not.
+
+It remains to do 3 things: (1) think hard about the setup and the definitions and determine whether it is reasonable enough to be interesting, (2) verify that the proofs I have are correct, and write them down, and (3) prove that Pavlov is evolutionary stable.
+
+I do think that it should be possible to prove that Pavlov is evolutionary stable but it might be harder and might require a new technique. Note, at least, that the proof we use to show our main result cannot be extended to conclude that Pavlov cannot be evolutionary stable, so I am fairly confident that it will turn out to be evolutionary stable.
+
+After that is done, there are many more aspects to look at: (1) what happens in populations with multiple symbiotic strategies?, (2) can there be two evolutionary stable strategies that are not nice to each other?.
+
+Right now I should make sure to type up my definitions as clearly as possible and make sure that they make sense. I should also try to verify and type up my proofs as soon as possible so that I can be confident that they are correct.
