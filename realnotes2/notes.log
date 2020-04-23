@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2020.4.8)  23 APR 2020 16:10
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2020.4.8)  23 APR 2020 19:29
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**"/Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/realnotes/notes.tex"
-(/Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/realnotes/notes.tex
+**"/Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/realnotes2/notes.tex"
+(/Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/realnotes2/notes.tex
 LaTeX2e <2018-12-01>
 (/usr/local/texlive/2019/texmf-dist/tex/latex/amscls/amsart.cls
 Document Class: amsart 2017/10/31 v2.20.4
@@ -353,7 +353,7 @@ Package cleveref Info: `amsthm' support loaded on input line 3026.
 \c@corollary=\count129
 \c@lemma=\count130
 \c@problem=\count131
- (/Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/realnotes/notes.aux)
+ (/Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/realnotes2/notes.aux)
 \openout1 = `notes.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 24.
@@ -423,35 +423,49 @@ Package grfext Info: Graphics extension search list:
 (grfext)             \AppendGraphicsExtensions on input line 456.
  (/usr/local/texlive/2019/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
-)) ABD: EveryShipout initializing macros [1{/usr/local/texlive/2019/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2] [3]
-Overfull \hbox (5.83862pt too wide) detected at line 180
+)) ABD: EveryShipout initializing macros [1{/usr/local/texlive/2019/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+
+LaTeX Warning: cref reference format for label type `' undefined on input line 88.
+
+<tft.jpg, id=44, 679.53876pt x 313.17pt>
+File: tft.jpg Graphic file (type jpg)
+<use tft.jpg>
+Package pdftex.def Info: tft.jpg  used on input line 93.
+(pdftex.def)             Requested size: 113.81102pt x 52.44972pt.
+<pavlov.jpg, id=45, 585.18625pt x 367.3725pt>
+File: pavlov.jpg Graphic file (type jpg)
+<use pavlov.jpg>
+Package pdftex.def Info: pavlov.jpg  used on input line 99.
+(pdftex.def)             Requested size: 113.81102pt x 71.44955pt.
+
+LaTeX Warning: cref reference format for label type `' undefined on input line 105.
+
+
+LaTeX Warning: Marginpar on page 2 moved.
+
+[2 </Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/realnotes2/tft.jpg> </Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/realnotes2/pavlov.jpg>]
+Overfull \hbox (5.83862pt too wide) detected at line 138
 []
  []
 
-<tft.jpg, id=52, 679.53876pt x 313.17pt>
-File: tft.jpg Graphic file (type jpg)
-<use tft.jpg>
-Package pdftex.def Info: tft.jpg  used on input line 187.
-(pdftex.def)             Requested size: 113.81102pt x 52.44972pt.
-<pavlov.jpg, id=53, 585.18625pt x 367.3725pt>
-File: pavlov.jpg Graphic file (type jpg)
-<use pavlov.jpg>
-Package pdftex.def Info: pavlov.jpg  used on input line 192.
-(pdftex.def)             Requested size: 113.81102pt x 71.44955pt.
-[4 </Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/realnotes/tft.jpg> </Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/realnotes/pavlov.jpg>] (/Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/realnotes/notes.aux) ) 
+[3] (/Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/realnotes2/notes.aux)
+
+LaTeX Warning: There were undefined references.
+
+ ) 
 Here is how much of TeX's memory you used:
- 15326 strings out of 492616
- 306817 string characters out of 6129482
- 359548 words of memory out of 5000000
- 18800 multiletter control sequences out of 15000+600000
+ 15445 strings out of 492616
+ 309524 string characters out of 6129482
+ 360548 words of memory out of 5000000
+ 18919 multiletter control sequences out of 15000+600000
  11433 words of font info for 44 fonts, out of 8000000 for 9000
  1302 hyphenation exceptions out of 8191
- 62i,12n,81p,649b,266s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 62i,12n,81p,650b,1013s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb>
-Output written on "/Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/realnotes/notes.pdf" (4 pages, 208440 bytes).
+Output written on "/Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/realnotes2/notes.pdf" (3 pages, 201529 bytes).
 PDF statistics:
- 102 PDF objects out of 1000 (max. 8388607)
- 63 compressed objects within 1 object stream
+ 99 PDF objects out of 1000 (max. 8388607)
+ 61 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  119 words of extra memory for PDF output out of 10000 (max. 10000000)
 

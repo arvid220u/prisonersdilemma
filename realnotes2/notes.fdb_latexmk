@@ -1,7 +1,7 @@
 # Fdb version 3
-["pdflatex"] 1587651043 "/Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/realnotes/notes.tex" "/Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/realnotes/notes.pdf" "notes" 1587651044
-  "/Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/realnotes/notes.aux" 1587651044 774 0fd7910229bdf24868c54fe93a91efdb ""
-  "/Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/realnotes/notes.tex" 1587651043 9124 105c832e0d7f5a784f6b811e734cf6a4 ""
+["pdflatex"] 1587662954 "/Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/realnotes2/notes.tex" "/Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/realnotes2/notes.pdf" "notes" 1587662955
+  "/Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/realnotes2/notes.aux" 1587662955 1222 3ceeaa3d18ba17533cf40abd6a65cdb3 ""
+  "/Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/realnotes2/notes.tex" 1587662953 6780 b6adcd1af029ff87e798a9ca5e243178 ""
   "/usr/local/texlive/2019/texmf-dist/fonts/map/fontname/texfonts.map" 1511824771 3332 103109f5612ad95229751940c61aada0 ""
   "/usr/local/texlive/2019/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
   "/usr/local/texlive/2019/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1246382020 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -151,13 +151,13 @@
   "/usr/local/texlive/2019/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1557342064 3277517 23507ed665b4dd9046f0f2a94bbef2be ""
   "/usr/local/texlive/2019/texmf-var/web2c/pdftex/pdflatex.fmt" 1586346426 4259635 86c5fabb789d8585011485a8aec18d56 ""
   "/usr/local/texlive/2019/texmf.cnf" 1557341546 577 d150fef99ac436ad1156e86b0892f6ef ""
-  "notes.aux" 1587651044 774 0fd7910229bdf24868c54fe93a91efdb "pdflatex"
-  "notes.tex" 1587651043 9124 105c832e0d7f5a784f6b811e734cf6a4 ""
-  "pavlov.jpg" 1586451034 22527 f8c3cdffac06d5a5103aef647c700eb2 ""
-  "tft.jpg" 1586451044 22541 46ac36dc4e5b3d7c679f1d6b826182ad ""
+  "notes.aux" 1587662955 1222 3ceeaa3d18ba17533cf40abd6a65cdb3 "pdflatex"
+  "notes.tex" 1587662953 6780 b6adcd1af029ff87e798a9ca5e243178 ""
+  "pavlov.jpg" 1587653116 22527 f8c3cdffac06d5a5103aef647c700eb2 ""
+  "tft.jpg" 1587653116 22541 46ac36dc4e5b3d7c679f1d6b826182ad ""
   (generated)
-  "/Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/realnotes/notes.pdf"
   "notes.pdf"
-  "/Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/realnotes/notes.log"
-  "notes.log"
   "notes.aux"
+  "/Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/realnotes2/notes.log"
+  "notes.log"
+  "/Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/realnotes2/notes.pdf"

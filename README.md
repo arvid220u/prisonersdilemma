@@ -206,3 +206,13 @@ I do think that it should be possible to prove that Pavlov is evolutionary stabl
 After that is done, there are many more aspects to look at: (1) what happens in populations with multiple symbiotic strategies?, (2) can there be two evolutionary stable strategies that are not nice to each other?.
 
 Right now I should make sure to type up my definitions as clearly as possible and make sure that they make sense. I should also try to verify and type up my proofs as soon as possible so that I can be confident that they are correct.
+
+
+#### Post-meeting
+
+Possible extensions of the model:
+- Probabilistic players
+
+Results that would be interesting:
+- There is a machine of many states that can invade all machines of few states. That is, complexity would be provably advantageous in the evolutionary sense.
+- There is a single clan of strategies, the Pavlov clan, that is exactly all evolutionary stable strategies.

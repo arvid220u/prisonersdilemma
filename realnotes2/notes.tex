@@ -53,7 +53,7 @@ Note: this models an error probability in \textit{perception}. One could also th
   \end{equation*}
 \end{definition}
 
-Note: The graph might be periodic in which case we we will not get a stationary distribution. I need to think about this special case but my intuition is that it shouldn't matter.
+Note: The graph might be periodic in which case we we will not get a stationary distribution — in that case, however, because of the linearity of the payoffs, we can replace the see that the periodic distribution gets the same time-average value as the stationary distribution that is the mean of the distributions of the periodic end state.
 
 \begin{definition}
   A \textit{population} of strategies $P = (S, f)$ is a set $S$ of strategies and a function $f : S \to (0,1]$ such that $\sum_{s \in S} f(s) = 1$, representing the frequency of each strategy in the population.
@@ -73,87 +73,45 @@ Note: The graph might be periodic in which case we we will not get a stationary 
 \end{definition}
 
 \begin{definition}
-  A strategy $s_1$ is \textit{evolutionary stable} if there exists an $\alpha \in (0,1)$ such that for all $\epsilon < \alpha$, $s_1$ is not $\epsilon$-invadable.
+  A strategy $s_1$ is \textit{evolutionarily stable} if there exists parameters $p_0$ and $\alpha$, both in $(0,1)$, such that for all $p < p_0$, and all $\epsilon < \alpha$, $s_1$ is not $\epsilon$-invadable.
 \end{definition}
 
-Note: it is easy to see that this is just equivalent to saying that there exists some $\epsilon$ for which $s_1$ is not $\epsilon$-invadable.
+Note: it is easy to see that this is just equivalent to saying that for all $p < p_0$, there exists some $\epsilon$ for which $s_1$ is not $\epsilon$-invadable.
 
 \begin{theorem}
   \label{evolutionarystable1}
-  Suppose $s_1$ is evolutionary stable. Then $v_{s_1}(s_1) \geq \frac{S + T}{2}$.
+  Suppose $s_1$ is evolutionarily stable. Then $\lim_{p \to 0} v_{s_1}(s_1) = R$.
 \end{theorem}
 
 \begin{theorem}
-  \label{evolutionarystable2}
-  Suppose $s_1$ is evolutionary stable as $p$ goes to 0 (i.e., that it is evolutionary stable if condition \ref{fitnesscond} is replaced by $\lim_{p \to 0} (F (s_2)-F(s_1)) > 0$). Then $v_{s_1}(s_1) = R$. In other words, $s_1$ is utilitarian.
+  \label{pavlovtheorem}
+  The Pavlov strategy, displayed in \cref{pavlovfigure}, is evolutionarily stable.
 \end{theorem}
 
-\begin{theorem}
-  The Pavlov strategy, displayed in Figure ??, is evolutionary stable as $p$ goes to 0.
-\end{theorem}
+\begin{figure}
+  \label{tftfigure}
+  \includegraphics[width=4cm]{tft.jpg}
+  \centering
+  \caption{TFT.}
+\end{figure}
+\begin{figure}
+  \label{pavlovfigure}
+  \includegraphics[width=4cm]{pavlov.jpg}
+  \centering
+  \caption{Pavlov.}
+\end{figure}
 
 \begin{remark}
-  TFT, displayed in Figure ??, is not evolutionary stable as $p$ goes to 0. It has the stationary distribution $(1/4,1/4,1/4,1/4)$ which is smaller than $R$.
+  TFT, displayed in \cref{tftfigure}, is not evolutionarily stable. It has the stationary distribution $(1/4,1/4,1/4,1/4)$ which is smaller than $R$.
 \end{remark}
 
-
-\begin{proof}[Proof of \cref{evolutionarystable1}]
-    Proof idea: Suppose $s_1$ is not utilitarian. Then, for every $\epsilon > 0$, there exists a strategy $s_2$ for which $F(s_2) > F(s_1)$. (where is $p$???)
-
-    OK I think I'm doing: suppose $s_1$ is not utilitarian. Then, we want to show that it can be invaded for some $\epsilon$ (and we'll worry about actually making that work later).
-
-    OK so let's just show this: suppose $s_1$ has value $\gamma < (S + T)/2$ against itself. show that there is an $\alpha$ and an $s_2$ such that $s_1$ gets lower fitness than $s_2$. THINK ABOUT WHAT THIS MEANS LATER.
-
-    We define $s_2$ as the thing with the lonely branch that we had earlier. Then we get the following.
-    \begin{equation}
-      v_{s_2}(s_1) = (1 - p^k) \gamma  + p^k S
-    \end{equation}
-    \begin{equation}
-      v_{s_2}(s_2) = (1-p)^{2k} R + 2 (1-p)^k (1 - (1-p)^k) (\tfrac{S + T}{2}) + (1 - (1-p)^k)^2 \gamma
-    \end{equation}
-    \begin{equation}
-      v_{s_1}(s_1) = \gamma
-    \end{equation}
-    \begin{equation}
-      v_{s_1}(s_2) = (1-p^k) \gamma + p^k T
-    \end{equation}
-
-    Suppose now that $f(s_2) = \alpha$ and $f(s_1) = 1 - \alpha$. 
-    
-    We want to prove the following. Note that we are still free to pick both $k$ and $\alpha$ freely, by the way we set up our claim. \begin{equation}
-      (1- \alpha) v_{s_2}(s_1) + \alpha v_{s_2}(s_2) > (1-\alpha) v_{s_1}(s_1) + \alpha v_{s_1}(s_2)
-    \end{equation}
-
-    We substitute in the definitions from before. We get. \begin{multline}
-      (1- \alpha) \big((1 - p^k) \gamma + p^k S\big) \\
-      + \alpha \big( (1-p)^{2k} R + 2 (1-p)^k (1 - (1-p)^k) (\tfrac{S + T}{2}) + (1 - (1-p)^k)^2 \gamma \big) \\
-      > (1-\alpha) \big(  \gamma \big) \\
-      + \alpha \big(  (1-p^k) \gamma + p^k T  \big)
-    \end{multline}
-
-\end{proof}
-
-
-    OHHHHHH OK SO DO THIS: WE ALSO CHOOSE $p$. SUPPOSE THAT $\gamma < R - \beta$ for some $\beta > 0$. THEN, we can choose an $\alpha$ and a $k$ and a $p$ such that we can invade. Additionally, it will be true that for any $p$ smaller than the one we choose we will be able to invade. So that is, for sufficiently small $p$, $s_1$ will be $\epsilon$-invadable for some $\epsilon$. THIS MAKES SENSE FINALLY ARVID. ok cool now break, talking to dave. i'm still not totally convinced that this is correct but oh well.
-
-    Our new definition of evolutionary stable:
-
-    \begin{definition}
-      A strategy $s_1$ is \textit{evolutionary stable} if there exists $p_0$ and $\alpha$, both in $(0,1)$, such that for all $p < p_0$, and all $\epsilon < \alpha$, $s_1$ is not $\epsilon$-invadable.
-    \end{definition}
-
-    \begin{theorem}
-      \label{preciseevolutionarystable}
-      Suppose $s_1$ is evolutionary stable. Then, 
-      \begin{equation*}
-        v_{s_1}(s_1) \geq \left(\frac{1-p}{1+p}\right) R
+    \begin{proof}[Proof of \cref{evolutionarystable1}]
+      Suppose $s_1$ is such that it is not true that \begin{equation*}
+        \lim_{p \to 0 } v_{s_1}(s_1) = R
       \end{equation*}
-    \end{theorem}
-    \begin{proof}
-      Suppose $s_1$ is such that \begin{equation*}
-        v_{s_1}(s_1) = \gamma < R \left(\frac{1-p}{1+p}\right).
-      \end{equation*}
-      We want to prove that $s_1$ is not evolutionary stable, and to do that, we want to prove that for any sufficiently small $\epsilon$, there exists a strategy $s_2$ that can invade $s_1$.
+      Note first that $v_{s_1}(s_1)$ is a polynomial in $p$, so the limit exists \todo{Formally prove this!}. Also, by the symmetry of the game, we know that $v_{s_1}(s_1) \leq R$ is always true, so this must mean that $\lim_{p \to 0} v_{s_1}(s_1) < R$ \todo{Formally prove this!}. In particular, then, there exists some $\beta > 0$ such that $v_{s_1}(s_1) = R - \beta$.
+      
+      We want to prove that $s_1$ is not evolutionarily stable, and to do that, we want to prove that for any sufficiently small $\epsilon$, there exists a strategy $s_2$ that can invade $s_1$.
 
       We create the strategy $s_2$ as follows. First, copy the entire $s_1$ machine into $s_2$. Suppose the state corresponding to the start state of $s_1$ is $c_s$. Let the output at $c_s$ be $G(c_s)$. Let the node it goes to upon perceiving the opponent move $G(c_s)$ be $T(c_s, G(c_s))$. Then, create a new state $c_0$ that outputs $\lnot G(c_s)$ and has transition $T(c_0, G(c_s)) = T(c_s, G(c_s))$. Create another new state $c_1$. Let $T(c_0, \lnot G(c_s)) = c_1$. Let $T(c_2, \cdot) = c_2$. Let $G(c_2) = C$. This completely describes $s_2$.
 
@@ -179,20 +137,14 @@ Note: it is easy to see that this is just equivalent to saying that there exists
         &= 
       \end{align*}
 
+      We can easily see that this works for some small $p$.
+
     \end{proof}
 
 
+    \begin{proof}[Proof of \cref{pavlovtheorem}]
 
-\begin{figure}
-  \includegraphics[width=4cm]{tft.jpg}
-  \centering
-  \caption{TFT.}
-  \end{figure}
-\begin{figure}
-  \includegraphics[width=4cm]{pavlov.jpg}
-  \centering
-  \caption{Pavlov.}
-  \end{figure}
 
+    \end{proof}
 
 \end{document}
