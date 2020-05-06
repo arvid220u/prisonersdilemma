@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2018.2.11)  6 MAY 2020 19:28
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2018.2.11)  6 MAY 2020 19:31
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -431,6 +431,11 @@ Overfull \hbox (10.94434pt too wide) detected at line 115
 \OML/cmm/m/it/10.95 v[]\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 s[]\OT1/cmr/m/n/10.95 ) = [] \OML/cmm/m/it/10.95 r\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 c[]; c[]\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 E []
  []
 
+
+Overfull \hbox (18.74713pt too wide) has occurred while \output is active
+ \OT1/cmr/m/n/8 COOPERATION PROVABLY PREVAILS IN THE NOISY ITERATED PRISONER'S DILEMMA []
+ []
+
 [3] <tft.jpg, id=30, 679.53876pt x 313.17pt>
 File: tft.jpg Graphic file (type jpg)
  <use tft.jpg>
@@ -441,12 +446,22 @@ File: pavlov.jpg Graphic file (type jpg)
  <use pavlov.jpg>
 Package pdftex.def Info: pavlov.jpg used on input line 175.
 (pdftex.def)             Requested size: 113.81102pt x 71.44955pt.
- [4 </Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/paper/tft.jpg> </Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/paper/pavlov.jpg>] [5]
+ [4 </Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/paper/tft.jpg> </Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/paper/pavlov.jpg>]
+Overfull \hbox (18.74713pt too wide) has occurred while \output is active
+ \OT1/cmr/m/n/8 COOPERATION PROVABLY PREVAILS IN THE NOISY ITERATED PRISONER'S DILEMMA []
+ []
+
+[5]
 Overfull \hbox (56.61969pt too wide) in paragraph at lines 277--277
 [] 
  []
 
-[6] [7] (/Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/paper/paper.aux) ) 
+[6]
+Overfull \hbox (18.74713pt too wide) has occurred while \output is active
+ \OT1/cmr/m/n/8 COOPERATION PROVABLY PREVAILS IN THE NOISY ITERATED PRISONER'S DILEMMA []
+ []
+
+[7] (/Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/paper/paper.aux) ) 
 Here is how much of TeX's memory you used:
  14964 strings out of 492995
  295979 string characters out of 6132704
@@ -456,7 +471,7 @@ Here is how much of TeX's memory you used:
  1302 hyphenation exceptions out of 8191
  62i,12n,76p,580b,845s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb>
-Output written on "/Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/paper/paper.pdf" (7 pages, 241016 bytes).
+Output written on "/Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/paper/paper.pdf" (7 pages, 242161 bytes).
 PDF statistics:
  93 PDF objects out of 1000 (max. 8388607)
  66 compressed objects within 1 object stream
