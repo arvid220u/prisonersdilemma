@@ -3,6 +3,7 @@
 \usepackage{todonotes}
 \usepackage{cleveref}
 
+
 \DeclareMathOperator*{\argmax}{argmax}
 \DeclareMathOperator*{\argmin}{argmin}
 
@@ -18,42 +19,101 @@
 \newtheorem*{example}{Example}
 \newtheorem*{solution}{Solution}
 
+
 \title{Prisoner's Dilemma}
-\author{Arvid Lunnemark}
+\author{Arvid Lunnemark. \\ \\
+Supervised by: Michael Sipser}
 
 \begin{document}
 \maketitle
 
+\section{Introduction}
+
+Lots to add here.
+
+Should some of the definitions be in the introduction?
+
+\section{Setup}
+
 \begin{definition}
-  The \textit{prisoner's dilemma} is a symmetric two-player game with two actions, cooperate ($C$) and defect ($D$), where, if player 1 plays $a$ and player 2 plays $b$, player 1 gets payoff 
+  The \textit{prisoner's dilemma} is a symmetric two-player game with two actions, cooperate ($C$) and defect ($D$), where, if player 1 selects action $a$ and player 2 selects action $b$, player 1 gets reward
   \begin{equation*}
-    p(a,b) = \begin{cases}
+    r(a,b) = \begin{cases}
       R &\text{if $a = C, b = C$} \\
       T &\text{if $a = D, b = C$} \\
       S &\text{if $a = C, b = D$} \\
       P &\text{if $a = D, b = D$}
     \end{cases}
   \end{equation*}
-  We have $T > R > P > S$, and typically, we have the concrete values $T = 5$, $R = 3$, $P = 1$ and $S = 0$.
+  We require $T > R > P > S$ and $2R > T + S$. 
 \end{definition}
 
+A common choice in simulations of the iterated prisoner's dilemma is $T = 5$, $R = 3$, $P = 1$ and $S = 0$.
+
+We want to study the \textit{iterated} prisoner's dilemma, for which we can define strategies that determine their next move based on the history of previous moves. As discussed previously, we want to restrict ourselves to strategies with finite memory.
+
 \begin{definition}
-  A \textit{strategy} is a Moore machine (finite automaton with outputs) over the input and output alphabet $\{C, D\}$, with probability $1-p$ of following the correct transition and probability $p$ of following the incorrect transition.
+  A \textit{strategy} $s$ is a Moore machine (finite automaton with outputs) over the input and output alphabet $\{C, D\}$. 
 \end{definition}
 
-Note: this models an error probability in \textit{perception}. One could also think of an error probability in \textit{outcome}, but it is easy to see that the two are equivalent up to a change of the values of $R, S, T, P$.
+Notation-wise, we will use $c$ to denote states in $s$, $G_s(c)$ to denote the output at state $c$, and $T_s(c, a)$ to denote the state that $c$ transitions to upon receiving input $a$. For simplicity, we will also define the $\lnot$ operator such that $\lnot C = D$ and $\lnot D = C$, and $c_{\text{start}}(s)$ to be the start state of $s$.
+
+We will consider strategies in the presence of noise. To model that, we will assume that a strategy has a probability $1-p$ of following the correct transition and a probability $p$ of following the incorrect transition, at every step. Note that this models noise in \textit{perception}. One could also imagine modeling noise in \textit{action taken}, but it is easy to see that the two are equivalent up to a change of the values of $R, S, T, P$.
 
 \begin{definition}
-  Suppose strategy $s_1$ plays against strategy $s_2$. This defines an \textit{$s_1$-$s_2$ graph} which is a Markov chain where each node represents a pair of states $(c_1,c_2)$ where $c_1$ is a state in $s_1$ and $c_2$ is a state in $s_2$. The transition probabilities are defined in the obvious way.
+  Suppose that strategy $s_1$ plays against strategy $s_2$. This defines an \textit{$s_1$-$s_2$ Markov chain} where each state $x$ is the vector $(c_1,c_2)$ where $c_1$ is a state in $s_1$ and $c_2$ is a state in $s_2$. The transition probabilities are defined in the obvious way, using the error probability $p$.
 \end{definition}
 
+We use the notation $G_{s_1,s_2}(c_1,c_2)$ to refer to the vector $(G_{s_1}(c_1), G_{s_2}(c_2))$, and we use $S_{s_1,s_2}$ to refer to the set of all states in the Markov chain.
+
 \begin{definition}
-  Let $\pi$ be the stationary distribution achieved by starting in the start state of the \textit{$s_1$-$s_2$ graph}. The \textit{payoff} of strategy $s_1$ when played against strategy $s_2$ is \begin{equation*}
-    v_{s_1}(s_2) = \sum \pi_{c_1, c_2} \cdot p(c_1, c_2).
+  \label{strategypayoffs}
+  Let $X_t$ be the random variable designating which state the $s_1$-$s_2$ Markov chain is in at time $t$. Then, the \text{payoff} of strategy $s_1$ when played against strategy $s_2$ is 
+  \begin{equation*}
+    v_{s_1}(s_2) = E \left[ \lim_{T \to \infty} \frac{1}{T} \sum_{t=0}^T r(G_{s_1,s_2} (X_t)) \Bigm| X_0 = (c_{\text{start}}(s_1), c_{\text{start}}(s_2)) \right]
   \end{equation*}
 \end{definition}
 
-Note: The graph might be periodic in which case we we will not get a stationary distribution — in that case, however, because of the linearity of the payoffs, we can replace the see that the periodic distribution gets the same time-average value as the stationary distribution that is the mean of the distributions of the periodic end state.
+That is, when $s_1$ plays against $s_2$, we define its payoff to be the average payoff over all possible infinite sequences of moves. Note that the expectation is taken over the infinite sequence $(X_0, X_1, \ldots)$. The limit inside is thus simply a normal time-average limit of bounded real numbers, which clearly exists. 
+
+We will now introduce the notion of a time average distribution which will lead us to a second way of defining the payoff $v_{s_1}(s_2)$. \todo{is this really necessary?? should i pick one or the other?? should i move one of them to the next section? which one is easier to understand? do they trivially say the same thing?}
+
+\begin{definition}
+  \label{timeaveragedistribution}
+  The \textit{time average distribution} of the $s_1$-$s_2$ Markov chain given the start state $(a, b)$, denoted $\pi^{(a, b)}$, is the distribution such that \begin{equation*}
+    \pi_{c_1, c_2}^{(a, b)} = E \left[ \text{fraction of time in state $(c_1,c_2)$} \mid \text{initial state is } (a, b)  \right]
+  \end{equation*}
+  where the fraction of time is taken over the infinite sequence $(X_0, X_1, \ldots)$.
+\end{definition}
+
+\begin{lemma}
+  \label{payofftimeaverage}
+  The payoff when $s_1$ plays against $s_2$ is
+  \begin{equation*}
+    v_{s_1}(s_2) = \sum_{(c_1,c_2) \in S_{s_1,s_2}} \pi_{c_1,c_2}^{(c_{\text{start}}(s_1), c_{\text{start}}(s_2))} \cdot r(c_1,c_2).
+  \end{equation*}
+\end{lemma}
+
+\begin{proof}
+  The key idea is that a time average sum where each element is one of finitely many values can be written as a frequency-weighted finite sum instead. Let $I_{c_1,c_2,t}$ be the indicator variable that is 1 if $G_{s_1,s_2}(X_t) = (c_1,c_2)$ and 0 otherwise.  Then, we can write \begin{equation*}
+    \lim_{T \to \infty} \frac{1}{T} \sum_{t = 0}^T r(G_{s_1,s_2}(X_t)) = 
+    \lim_{T \to \infty}\frac{1}{T} \sum_{t = 0}^T \sum_{(c_1,c_2) \in S_{s_1,s_2}} r(c_1,c_2) \cdot I_{c_1,c_2,t}
+  \end{equation*}
+  We may now exchange the order of summation and move the finite sum out of the limit, to get \begin{equation*}
+    \lim_{T \to \infty}\frac{1}{T} \sum_{t = 0}^T \sum_{(c_1,c_2) \in S_{s_1,s_2}} r(c_1,c_2) \cdot I_{c_1,c_2,t}
+    = \sum_{(c_1,c_2) \in S_{s_1,s_2}} r(c_1,c_2) \cdot \lim_{T \to \infty} \sum_{t=0}^T \frac{I_{c_1,c_2,t} }{T}
+  \end{equation*}
+  We can now use \cref{strategypayoffs} and linearity of expectation to find that
+  \begin{equation*}
+    v_{s_1}(s_2) = \sum_{(c_1,c_2) \in S_{s_1,s_2}} r(c_1, c_2) E \left[ \lim_{T \to \infty} \sum_{t=0}^T \frac{I_{c_1,c_2,t}}{T} \bigm| X_0 = (c_{\text{start}}(s_1), c_{\text{start}}(s_2))
+    \right]
+  \end{equation*}
+  Finally, we note that this is exactly the statement of \cref{payofftimeaverage}, which proves our lemma.
+\end{proof}
+
+Appendix A contains more details on time average distributions. In particular, if a unique stationary distribution exists, it is equal to the time-average distribution, which enables us to quickly find the time-average distribution in many cases.
+
+We're now ready to look at how strategies interact.
 
 \begin{definition}
   A \textit{population} of strategies $P = (S, f)$ is a set $S$ of strategies and a function $f : S \to (0,1]$ such that $\sum_{s \in S} f(s) = 1$, representing the frequency of each strategy in the population.
@@ -65,27 +125,38 @@ Note: The graph might be periodic in which case we we will not get a stationary 
   \end{equation*}
 \end{definition}
 
+One can think of this as saying that we have infinitely many members of the population, and that they all interact with everyone else. This justifies the usage of expectation when definining $v_{s_1}(s_2)$.
+
+We can now use the fitness of a strategy to compare it with other strategies in the same population. If a strategy $s_1$ has a higher fitness than another strategy $s_2$, that means that the frequency of $s_1$ will increase on the expense of the frequency of $s_2$, in the next step of the evolutionary process. This is getting us close to how we want to define stable strategies; our next move is looking not only at a single evolutionary step, but the entire evolutionary process.
+
 \begin{definition}
-  A strategy $s_1$ is \textit{$\epsilon$-invadable} if there exists a strategy $s_2$ such that in all populations $P$ with $S = \{s_1,s_2\}$ and $f(s_2) \geq \epsilon$, we have \begin{equation}
+  A strategy $s_1$ is \textit{$\epsilon$-invadable} if there exists a strategy $s_2$ such that in all populations $P$ with $S = \{s_1,s_2\}$ and $f(s_2) \geq \epsilon$, we have 
+  \begin{equation*}
     \label{fitnesscond}
     F(s_2) > F(s_1)
-  \end{equation}
+  \end{equation*}
 \end{definition}
+
+That is, if $s_1$ is $\epsilon$-invadable, there exists a strategy $s_2$ that can start as only a tiny fraction $\epsilon$ of the total population, and consistently have higher fitness than $s_1$, eventually causing overtaking $s_1$ completely. We are now finally ready to state our main definition.
 
 \begin{definition}
   A strategy $s_1$ is \textit{evolutionarily stable} if there exists parameters $p_0$ and $\alpha$, both in $(0,1)$, such that for all $p < p_0$, and all $\epsilon < \alpha$, $s_1$ is not $\epsilon$-invadable.
 \end{definition}
 
-Note: it is easy to see that this is just equivalent to saying that for all $p < p_0$, there exists some $\epsilon$ for which $s_1$ is not $\epsilon$-invadable.
+That is, a strategy $s_1$ is evolutionarily stable if it can withstand invasion attempts from any strategy that starts off in low numbers, as the probability of noise tends to 0.
+
+\section{Results}
+
+We can now state our results! Together, the following two theorems prove that in the setup described here, mutual cooperation arises as the only stable choice.
 
 \begin{theorem}
   \label{evolutionarystable1}
-  Suppose $s_1$ is evolutionarily stable. Then $\lim_{p \to 0} v_{s_1}(s_1) = R$.
+  Suppose that a strategy $s_1$ is evolutionarily stable. Then $\lim_{p \to 0} v_{s_1}(s_1) = R$.
 \end{theorem}
 
 \begin{theorem}
   \label{pavlovtheorem}
-  The Pavlov strategy, displayed in \cref{pavlovfigure}, is evolutionarily stable.
+  The Pavlov strategy is evolutionarily stable.
 \end{theorem}
 
 \begin{figure}
@@ -102,49 +173,136 @@ Note: it is easy to see that this is just equivalent to saying that for all $p <
 \end{figure}
 
 \begin{remark}
-  TFT, displayed in \cref{tftfigure}, is not evolutionarily stable. It has the stationary distribution $(1/4,1/4,1/4,1/4)$ which is smaller than $R$.
+  Tit-for-tat, displayed in \cref{tftfigure}, is not evolutionarily stable. It has the stationary distribution $(1/4,1/4,1/4,1/4)$ in its own Markov chain, which has a payoff that is significantly smaller than $R$. This should be intuitive: if tit-for-tat makes one mistake, it goes into a defection cycle that it doesn't break out of until it makes a second mistake.
 \end{remark}
 
+
+\section{Proofs}
+
+\subsection{Helpful Lemmas}
+
+\begin{lemma}
+  \label{limitvexists}
+  The limit \begin{equation*}
+    \lim_{p \to 0} v_{s_1}(s_2)
+  \end{equation*}
+  exists, for any strategies $s_1$ and $s_2$.
+\end{lemma}
+\begin{proof}
+  Hmmmm this was harder than I expected.
+  \todo{prove this; seems obvious}
+\end{proof}
+
+\begin{lemma}
+  \label{neverbetterthanr}
+  For any strategy $s$,
+  \begin{equation*}
+    v_{s}(s) \leq R
+  \end{equation*}
+\end{lemma}
+\begin{proof}
+  For notational simplicity, we will let $s_1$ and $s_2$ be two copies of strategy $s$. Then, $v_{s}(s) = v_{s_1}(s_2) = v_{s_2}(s_1)$. By definition, we have
+  \begin{equation*}
+    v_{s_1}(s_2) = \sum \pi_{c_1,c_2} \cdot r(c_1,c_2)
+  \end{equation*}
+  and
+  \begin{equation*}
+    v_{s_2}(s_1) = \sum \pi_{c_2,c_1} \cdot r(c_2,c_1).
+  \end{equation*}
+  Note that $\pi_{c_1,c_2}$ and $\pi_{c_2,c_1}$ refer to the same state, so we thus have \begin{equation*}
+    v_{s_1}(s_2) + v_{s_2}(s_1) = \sum \pi_{c_1,c_2} \cdot (r(c_1,c_2) + r(c_2,c_1))
+  \end{equation*}
+  which implies that \begin{equation*}
+    v_s(s) = \sum \left( \pi_{c_1,c_2} \cdot \frac{r(c_1,c_2) + r(c_2,c_1)}{2} \right).
+  \end{equation*}
+  Now, note that $r(c_1,c_2) + r(c_2,c_1) \in \{R + R, S + T, T+S, P + P\}$. Since $P < R$ and $T + S < 2R$, we thus find that \begin{equation*}
+    v_s(s) \leq \sum \pi_{c_1,c_2} \cdot R = R \sum \pi_{c_1,c_2} = R,
+  \end{equation*}
+  as desired.
+\end{proof}
+
+\subsection{Evolutionary Stability Implies Utilitarianism}
+
+With these lemmas, we are now ready to prove our first theorem.
+
     \begin{proof}[Proof of \cref{evolutionarystable1}]
-      Suppose $s_1$ is such that it is not true that \begin{equation*}
+      Suppose that the strategy $s_1$ is such that it is \textit{not} true that \begin{equation*}
         \lim_{p \to 0 } v_{s_1}(s_1) = R
       \end{equation*}
-      Note first that $v_{s_1}(s_1)$ is a polynomial in $p$, so the limit exists \todo{Formally prove this!}. Also, by the symmetry of the game, we know that $v_{s_1}(s_1) \leq R$ is always true, so this must mean that $\lim_{p \to 0} v_{s_1}(s_1) < R$ \todo{Formally prove this!}. In particular, then, there exists some $\beta > 0$ such that $v_{s_1}(s_1) = R - \beta$.
+      By \cref{limitvexists} and \cref{neverbetterthanr}, this assumption implies that the limit is strictly less than $R$. Define $\gamma = v_{s_1}(s_1)$. We thus know that \begin{equation*}
+        \gamma < R.
+      \end{equation*}
       
-      We want to prove that $s_1$ is not evolutionarily stable, and to do that, we want to prove that for any sufficiently small $\epsilon$, there exists a strategy $s_2$ that can invade $s_1$.
+      We want to prove that $s_1$ is not evolutionarily stable. 
+      
+      To do that, we want to prove that for all $p_0, \alpha \in (0,1)$, there exists $p < p_0$ and $\epsilon < \alpha$, such that $s_1$ is $\epsilon$-invadable. We choose $\epsilon = \alpha / 2$, and present a strategy $s_2$ that can invade $s_1$ for sufficiently small $p$.
 
-      We create the strategy $s_2$ as follows. First, copy the entire $s_1$ machine into $s_2$. Suppose the state corresponding to the start state of $s_1$ is $c_s$. Let the output at $c_s$ be $G(c_s)$. Let the node it goes to upon perceiving the opponent move $G(c_s)$ be $T(c_s, G(c_s))$. Then, create a new state $c_0$ that outputs $\lnot G(c_s)$ and has transition $T(c_0, G(c_s)) = T(c_s, G(c_s))$. Create another new state $c_1$. Let $T(c_0, \lnot G(c_s)) = c_1$. Let $T(c_2, \cdot) = c_2$. Let $G(c_2) = C$. This completely describes $s_2$.
+      We create the strategy $s_2$ as follows. First, copy the entire $s_1$ machine into $s_2$. Suppose that the state corresponding to the start state of $s_1$ is $c_s$. Recall that the output at $c_s$ is $G(c_s)$, and that the state $s$ goes to upon perceiving the opponent move $G(c_s)$ is $T(c_s, G(c_s))$. Now, create two new states: $c_0$ and $c_1$. Define the transitions as \begin{align*}
+        T(c_0, G(c_s)) &= T(c_s, G(c_s))\\
+        T(c_0, \lnot G(c_s)) &= c_1 \\
+        T(c_1, \cdot) &= c_1
+      \end{align*}
+      and the outputs as \begin{align*}
+        G(c_0) &= \lnot G(c_2)\\
+        G(c_1) &= C.
+      \end{align*}
+      Let the start state of $s_2$ be $c_0$.
+      
+      Given this construction, we claim that the rewards are as follows:
+      \begin{align*}
+        v_{s_1}(s_1) &= \gamma \\
+        v_{s_1}(s_2) &\leq (1-p) \gamma + p T \\
+        v_{s_2}(s_1) &\geq (1 - p) \gamma  + p S \\
+        v_{s_2}(s_2) &\geq (1-p)^{2} R + 2 (1-p) p (\tfrac{S + T}{2}) + p^2 \gamma 
+      \end{align*}
+      \todo{prove this! using time-average distributions this becomes relatively trivial}
 
-      Now, we claim that the payoffs are as follows.
-      \begin{equation}
-        v_{s_2}(s_1) = (1 - p) \gamma  + p S
-      \end{equation}
-      \begin{equation}
-        v_{s_2}(s_2) = (1-p)^{2} R + 2 (1-p) p (\tfrac{S + T}{2}) + p^2 \gamma
-      \end{equation}
-      \begin{equation}
-        v_{s_1}(s_1) = \gamma
-      \end{equation}
-      \begin{equation}
-        v_{s_1}(s_2) = (1-p) \gamma + p T
-      \end{equation}
-
-      Now, we simply compute $F(s_2) - F(s_1)$, and want to show that it is greater than 0 for all $\alpha$ that are sufficiently small.
+      Now, we simply compute $F(s_2) - F(s_1)$, which we want to show is greater than 0.
 
       \begin{align*}
         F(s_2) - F(s_1) &= \\
-        &= (1 - \alpha) \cdot v_{s_2}(s_1) + \alpha \cdot v_{s_2}(s_2) - (1 - \alpha) \cdot v_{s_1}(s_1) - \alpha \cdot v_{s_1}(s_2) \\
-        &= 
+        &= (1 - \epsilon) \cdot v_{s_2}(s_1) + \epsilon \cdot v_{s_2}(s_2) - (1 - \epsilon) \cdot v_{s_1}(s_1) - \epsilon \cdot v_{s_1}(s_2) \\
+        &= (1 - \epsilon) (\gamma + p(\ldots)) + \epsilon (R + p(\ldots)) - (1-\epsilon) \gamma - \epsilon (\gamma + p(\ldots)) \\
+        &= \epsilon (R - \gamma) + p(\ldots)
       \end{align*}
 
-      We can easily see that this works for some small $p$.
+      $R - \gamma > 0$ by our assumption. Clearly, since $(\ldots)$ is some polynomial in $p$, given an $\epsilon$ we can find a sufficiently small $p$ such that the full expression is positive. This proves that $s_2$ can invade $s_1$, and thus, that $s_1$ is not $\epsilon$-invadable for this value of $p$. In conclusion, then $s_1$ is not evolutionarily stable, which concludes the proof of \cref{evolutionarystable1}.
 
     \end{proof}
 
+    \subsection{Evolutionarily Stable Strategies Exist}
 
     \begin{proof}[Proof of \cref{pavlovtheorem}]
 
+      TBC.
 
     \end{proof}
+
+
+
+
+    \section{Discussion of Model}
+
+
+
+    \subsection{Potential Other Models}
+
+    Right now we have only modeled noise in perception. One could think of another possible kind of noise: a ``failure of the mind,'' which perhaps could be modeled instead by a probability $p$ of being transported to any random state, instead. This would create ergodicity which is nice.
+
+    \section{Appendix: Non-stationary limiting distributions}
+
+    We might have periodicity, but for our purposes, we might as well extend the definition and look at periodic distributions as stationary too. The following two lemmas help with that.
+
+    \begin{lemma}
+      Given a starting distribution $v$ and a Markov matrix $M$, for every $\epsilon > 0$, there will exist a $k$ such that $|vP^{nk} - vP^{mk}| < \epsilon$ for all $n$ and $m$ $> 0$.
+    \end{lemma}
+
+    This proves that a Markov chain will always reach a periodic state.
+
+    \begin{lemma}
+      Suppose distributions form a chain $p_1 \to p_2 \to \cdots \to p_n \to p_1$. Then $\pi = \frac{p_1 + \ldots p_n}{n}$ is stationary.
+    \end{lemma}
+
+    This proves that we're able to talk about stationary distributions even when they don't really actually exist.
 
 \end{document}
