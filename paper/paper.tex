@@ -21,7 +21,7 @@
 \newtheorem*{solution}{Solution}
 
 
-\title{Cooperation Provably Prevails in the Noisy Iterated Prisoner's Dilemma}
+\title{Cooperation Provably Prevails in a Version of the Noisy Iterated Prisoner's Dilemma}
 \author{Arvid Lunnemark. \\ \\
 Supervised by: Michael Sipser}
 
@@ -91,11 +91,11 @@ We will now introduce the notion of a time average distribution which will lead 
   \label{payofftimeaverage}
   The payoff when $s_1$ plays against $s_2$ is
   \begin{equation*}
-    v_{s_1}(s_2) = \sum_{(c_1,c_2) \in S_{s_1,s_2}} \pi_{c_1,c_2}^{(c_{\text{start}}(s_1), c_{\text{start}}(s_2))} \cdot r(c_1,c_2).
+    v_{s_1}(s_2) = \sum_{(c_1,c_2) \in S_{s_1,s_2}} \pi_{c_1,c_2}^{(c_{\text{start}}(s_1), c_{\text{start}}(s_2))} \cdot r(G_{s_1}(c_1),G_{s_2}(c_2)).
   \end{equation*}
 \end{lemma}
 
-We may also make $r(c_1,c_2)$ into a vector, denoted by $r$, and write this as \begin{equation*}
+We may also make $r(G_{s_1}(c_1),G_{s_2}(c_2))$ into a vector, denoted by $r$, and write this as \begin{equation*}
   v_{s_1}(s_2) = \pi^{(c_{\text{start}}(s_1), c_{\text{start}}(s_2))} \cdot r.
 \end{equation*}
 
