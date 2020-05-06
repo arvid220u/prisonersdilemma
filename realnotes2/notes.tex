@@ -13,6 +13,7 @@
 \newtheorem{proposition}{Proposition}
 \newtheorem{corollary}{Corollary}
 \newtheorem{lemma}{Lemma}
+\newtheorem{claim}{Claim}
 \newtheorem{problem}{Problem}
 \theoremstyle{remark}
 \newtheorem*{remark}{Remark}
@@ -29,7 +30,7 @@ Supervised by: Michael Sipser}
 
 \section{Introduction}
 
-Lots to add here.
+Introduce the prisoner's dilemma, the iterated prisoner's dilemma and the goal of finding out how cooperation can appear. Introduce Axelrod along with some other previous results.
 
 Should some of the definitions be in the introduction?
 
@@ -68,7 +69,7 @@ We use the notation $G_{s_1,s_2}(c_1,c_2)$ to refer to the vector $(G_{s_1}(c_1)
 
 \begin{definition}
   \label{strategypayoffs}
-  Let $X_t$ be the random variable designating which state the $s_1$-$s_2$ Markov chain is in at time $t$. Then, the \text{payoff} of strategy $s_1$ when played against strategy $s_2$ is 
+  Let $X_t$ be the random variable designating which state the $s_1$-$s_2$ Markov chain is in at time $t$. The \text{payoff} of strategy $s_1$ when played against strategy $s_2$ is 
   \begin{equation*}
     v_{s_1}(s_2) = E \left[ \lim_{T \to \infty} \frac{1}{T} \sum_{t=0}^T r(G_{s_1,s_2} (X_t)) \Bigm| X_0 = (c_{\text{start}}(s_1), c_{\text{start}}(s_2)) \right]
   \end{equation*}
@@ -94,7 +95,11 @@ We will now introduce the notion of a time average distribution which will lead 
   \end{equation*}
 \end{lemma}
 
-\begin{proof}
+We may also make $r(c_1,c_2)$ into a vector, denoted by $r$, and write this as \begin{equation*}
+  v_{s_1}(s_2) = \pi^{(c_{\text{start}}(s_1), c_{\text{start}}(s_2))} \cdot r.
+\end{equation*}
+
+\begin{proof}[Proof of \cref{payofftimeaverage}]
   The key idea is that a time average sum where each element is one of finitely many values can be written as a frequency-weighted finite sum instead. Let $I_{c_1,c_2,t}$ be the indicator variable that is 1 if $G_{s_1,s_2}(X_t) = (c_1,c_2)$ and 0 otherwise.  Then, we can write \begin{equation*}
     \lim_{T \to \infty} \frac{1}{T} \sum_{t = 0}^T r(G_{s_1,s_2}(X_t)) = 
     \lim_{T \to \infty}\frac{1}{T} \sum_{t = 0}^T \sum_{(c_1,c_2) \in S_{s_1,s_2}} r(c_1,c_2) \cdot I_{c_1,c_2,t}
@@ -171,9 +176,11 @@ We can now state our results! Together, the following two theorems prove that in
   \centering
   \caption{Pavlov.}
 \end{figure}
+  \todo{use tikz for these figures!}
 
 \begin{remark}
-  Tit-for-tat, displayed in \cref{tftfigure}, is not evolutionarily stable. It has the stationary distribution $(1/4,1/4,1/4,1/4)$ in its own Markov chain, which has a payoff that is significantly smaller than $R$. This should be intuitive: if tit-for-tat makes one mistake, it goes into a defection cycle that it doesn't break out of until it makes a second mistake.
+  Tit-for-tat, displayed in \cref{tftfigure}, is not evolutionarily stable. It has the stationary distribution $(\frac{1}{4},\frac{1}{4},\frac{1}{4},\frac{1}{4})$ in its own Markov chain, which has a payoff that is significantly smaller than $R$. This should be intuitive: if tit-for-tat makes one mistake, it goes into a defection cycle that it doesn't break out of until it makes a second mistake.
+
 \end{remark}
 
 
@@ -189,7 +196,7 @@ We can now state our results! Together, the following two theorems prove that in
   exists, for any strategies $s_1$ and $s_2$.
 \end{lemma}
 \begin{proof}
-  Hmmmm this was harder than I expected.
+  Use the fact that this is the dot product of a stationary distribution with a fixed coefficient vector, and then say something about how any stationary distribution with the correct sum needs to be a polynomial in $p$ maybe?
   \todo{prove this; seems obvious}
 \end{proof}
 
@@ -246,28 +253,35 @@ With these lemmas, we are now ready to prove our first theorem.
         G(c_0) &= \lnot G(c_2)\\
         G(c_1) &= C.
       \end{align*}
-      Let the start state of $s_2$ be $c_0$.
-      
-      Given this construction, we claim that the rewards are as follows:
+      Let the start state of $s_2$ be $c_0$. \todo{add a figure!! the construction is simple but this description is deceivingly hard}
+
+      \begin{claim}
+        \label{claimpayoffs}
+        Given the above construction of $s_2$, the following inequalities hold:
       \begin{align*}
-        v_{s_1}(s_1) &= \gamma \\
+        v_{s_1}(s_1) &\leq (1-p)^2 \gamma + 2(1-p)p R + p^2  R \\ 
         v_{s_1}(s_2) &\leq (1-p) \gamma + p T \\
         v_{s_2}(s_1) &\geq (1 - p) \gamma  + p S \\
-        v_{s_2}(s_2) &\geq (1-p)^{2} R + 2 (1-p) p (\tfrac{S + T}{2}) + p^2 \gamma 
+        v_{s_2}(s_2) &\geq (1-p)^{2} R + 2 (1-p) p (\tfrac{S + T}{2}) + p^2 \gamma .
       \end{align*}
-      \todo{prove this! using time-average distributions this becomes relatively trivial}
+      \end{claim}
+
+      We will first finish the proof of the theorem assuming this claim, and then prove it.
 
       Now, we simply compute $F(s_2) - F(s_1)$, which we want to show is greater than 0.
-
       \begin{align*}
         F(s_2) - F(s_1) &= \\
         &= (1 - \epsilon) \cdot v_{s_2}(s_1) + \epsilon \cdot v_{s_2}(s_2) - (1 - \epsilon) \cdot v_{s_1}(s_1) - \epsilon \cdot v_{s_1}(s_2) \\
-        &= (1 - \epsilon) (\gamma + p(\ldots)) + \epsilon (R + p(\ldots)) - (1-\epsilon) \gamma - \epsilon (\gamma + p(\ldots)) \\
+        &= (1 - \epsilon) (\gamma + p(\ldots)) + \epsilon (R + p(\ldots)) - (1-\epsilon) (\gamma + p(\ldots)) - \epsilon (\gamma + p(\ldots)) \\
         &= \epsilon (R - \gamma) + p(\ldots)
       \end{align*}
 
-      $R - \gamma > 0$ by our assumption. Clearly, since $(\ldots)$ is some polynomial in $p$, given an $\epsilon$ we can find a sufficiently small $p$ such that the full expression is positive. This proves that $s_2$ can invade $s_1$, and thus, that $s_1$ is not $\epsilon$-invadable for this value of $p$. In conclusion, then $s_1$ is not evolutionarily stable, which concludes the proof of \cref{evolutionarystable1}.
+      We know that $R - \gamma > 0$ by our initial assumption. Clearly, since $(\ldots)$ is some polynomial in $p$, given an $\epsilon$ we can find a sufficiently small $p$ such that the full expression is positive. This proves that $s_2$ can invade $s_1$, and thus, that $s_1$ is not $\epsilon$-invadable for this value of $p$. In conclusion, then $s_1$ is not evolutionarily stable, which concludes the proof of \cref{evolutionarystable1}.
 
+    \end{proof}
+
+    \begin{proof}[Proof of \cref{claimpayoffs}]
+      We can prove this using either of the two definitions.
     \end{proof}
 
     \subsection{Evolutionarily Stable Strategies Exist}
