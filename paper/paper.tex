@@ -84,7 +84,7 @@ We will now introduce the notion of a time average distribution which will lead 
   The \textit{time average distribution} of the $s_1$-$s_2$ Markov chain given the start state $(a, b)$, denoted $\pi^{(a, b)}$, is the distribution such that \begin{equation*}
     \pi_{c_1, c_2}^{(a, b)} = E \left[ \text{fraction of time in state $(c_1,c_2)$} \mid \text{initial state is } (a, b)  \right]
   \end{equation*}
-  where the fraction of time is taken over the infinite sequence $(X_0, X_1, \ldots)$.
+  where the expected fraction of time is taken over the infinite sequence $(X_0, X_1, \ldots)$.
 \end{definition}
 
 \begin{lemma}
@@ -303,7 +303,7 @@ With these lemmas, we are now ready to prove our first theorem.
 
     Right now we have only modeled noise in perception. One could think of another possible kind of noise: a ``failure of the mind,'' which perhaps could be modeled instead by a probability $p$ of being transported to any random state, instead. This would create ergodicity which is nice.
 
-    \section{Appendix: Non-stationary limiting distributions}
+    \section{Appendix: Time average distributions}
 
     We might have periodicity, but for our purposes, we might as well extend the definition and look at periodic distributions as stationary too. The following two lemmas help with that.
 
