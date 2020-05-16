@@ -2,6 +2,8 @@
 \usepackage{amsmath, amssymb, amsthm}
 \usepackage{todonotes}
 \usepackage{cleveref}
+\usepackage{tikz}
+\usetikzlibrary{backgrounds,arrows,automata,positioning}
 
 
 \DeclareMathOperator*{\argmax}{argmax}
@@ -37,7 +39,7 @@ Should some of the definitions be in the introduction?
 \section{Setup}
 
 \begin{definition}
-  The \textit{prisoner's dilemma} is a symmetric two-player game with two actions, cooperate ($C$) and defect ($D$), where, if player 1 selects action $a$ and player 2 selects action $b$, player 1 gets reward
+  The \textit{prisoner's dilemma} is a symmetric two-player game with two actions, cooperate ($C$) and defect ($D$), where, if player 1 selects action $a$ and player 2 selects action $b$, player 1 gets the reward
   \begin{equation*}
     r(a,b) = \begin{cases}
       R &\text{if $a = C, b = C$} \\
@@ -57,7 +59,7 @@ We want to study the \textit{iterated} prisoner's dilemma, for which we can defi
   A \textit{strategy} $s$ is a Moore machine (finite automaton with outputs) over the input and output alphabet $\{C, D\}$. 
 \end{definition}
 
-Notation-wise, we will use $c$ to denote states in $s$, $G_s(c)$ to denote the output at state $c$, and $T_s(c, a)$ to denote the state that $c$ transitions to upon receiving input $a$. For simplicity, we will also define the $\lnot$ operator such that $\lnot C = D$ and $\lnot D = C$, and $c_{\text{start}}(s)$ to be the start state of $s$.
+Notation-wise, we will use $c$ to denote states in $s$, $G_s(c)$ to denote the output at state $c$, and $T_s(c, a)$ to denote the state that $c$ transitions to upon receiving input $a$. For simplicity, we will also define the $\bar{\;}$ operator such that $\bar{C} = D$ and $\bar{D} = C$, and $c_{\text{start}}(s)$ to be the start state of $s$.
 
 We will consider strategies in the presence of noise. To model that, we will assume that a strategy has a probability $1-p$ of following the correct transition and a probability $p$ of following the incorrect transition, at every step. Note that this models noise in \textit{perception}. One could also imagine modeling noise in \textit{action taken}, but it is easy to see that the two are equivalent up to a change of the values of $R, S, T, P$.
 
@@ -75,7 +77,7 @@ We use the notation $G_{s_1,s_2}(c_1,c_2)$ to refer to the vector $(G_{s_1}(c_1)
   \end{equation*}
 \end{definition}
 
-That is, when $s_1$ plays against $s_2$, we define its payoff to be the average payoff over all possible infinite sequences of moves. Note that the expectation is taken over the infinite sequence $(X_0, X_1, \ldots)$. The limit inside is thus simply a normal time-average limit of bounded real numbers, which clearly exists. 
+That is, when $s_1$ plays against $s_2$, we define its payoff to be the average payoff over all possible infinite sequences of moves. Note that the expectation is taken over the infinite sequence $(X_0, X_1, \ldots)$. The limit inside is thus simply a normal time average limit of bounded real numbers, which clearly exists. 
 
 We will now introduce the notion of a time average distribution which will lead us to a second way of defining the payoff $v_{s_1}(s_2)$. \todo{is this really necessary?? should i pick one or the other?? should i move one of them to the next section? which one is easier to understand? do they trivially say the same thing?}
 
@@ -87,16 +89,18 @@ We will now introduce the notion of a time average distribution which will lead 
   where the expected fraction of time is taken over the infinite sequence $(X_0, X_1, \ldots)$.
 \end{definition}
 
+We will use $\pi$ to refer to $\pi^{(c_{\text{start}}(s_1), c_\text{start}(s_2))}$.
+
 \begin{lemma}
   \label{payofftimeaverage}
   The payoff when $s_1$ plays against $s_2$ is
   \begin{equation*}
-    v_{s_1}(s_2) = \sum_{(c_1,c_2) \in S_{s_1,s_2}} \pi_{c_1,c_2}^{(c_{\text{start}}(s_1), c_{\text{start}}(s_2))} \cdot r(G_{s_1}(c_1),G_{s_2}(c_2)).
+    v_{s_1}(s_2) = \sum_{(c_1,c_2) \in S_{s_1,s_2}} \pi_{c_1,c_2} \cdot r(G_{s_1}(c_1),G_{s_2}(c_2)).
   \end{equation*}
 \end{lemma}
 
-We may also make $r(G_{s_1}(c_1),G_{s_2}(c_2))$ into a vector, denoted by $r$, and write this as \begin{equation*}
-  v_{s_1}(s_2) = \pi^{(c_{\text{start}}(s_1), c_{\text{start}}(s_2))} \cdot r.
+We may also make $r(G_{s_1}(c_1),G_{s_2}(c_2))$ into a vector, denoted by $r$, and write this as the dot product \begin{equation*}
+  v_{s_1}(s_2) = \pi \cdot r.
 \end{equation*}
 
 \begin{proof}[Proof of \cref{payofftimeaverage}]
@@ -145,7 +149,7 @@ We can now use the fitness of a strategy to compare it with other strategies in 
 That is, if $s_1$ is $\epsilon$-invadable, there exists a strategy $s_2$ that can start as only a tiny fraction $\epsilon$ of the total population, and consistently have higher fitness than $s_1$, eventually causing overtaking $s_1$ completely. We are now finally ready to state our main definition.
 
 \begin{definition}
-  A strategy $s_1$ is \textit{evolutionarily stable} if there exists parameters $p_0$ and $\alpha$, both in $(0,1)$, such that for all $p < p_0$, and all $\epsilon < \alpha$, $s_1$ is not $\epsilon$-invadable.
+  A strategy $s_1$ is \textit{evolutionarily stable} if there exists parameters $p_0$ and $\epsilon_0$, both in $(0,1)$, such that for all $p < p_0$, and all $\epsilon < \epsilon_0$, $s_1$ is not $\epsilon$-invadable.
 \end{definition}
 
 That is, a strategy $s_1$ is evolutionarily stable if it can withstand invasion attempts from any strategy that starts off in low numbers, as the probability of noise tends to 0.
@@ -165,18 +169,40 @@ We can now state our results! Together, the following two theorems prove that in
 \end{theorem}
 
 \begin{figure}
-  \label{tftfigure}
-  \includegraphics[width=4cm]{tft.jpg}
-  \centering
-  \caption{TFT.}
-\end{figure}
-\begin{figure}
   \label{pavlovfigure}
-  \includegraphics[width=4cm]{pavlov.jpg}
+\begin{tikzpicture}[node distance=2cm]
+  \node[state,initial] (s_0) {$C$};
+  \node[state] (s_1) [right of=s_0] {$D$};
+
+  \path[->] (s_0) edge [loop above] node {$C$} ();
+  \path[->] (s_0) edge [bend left] node [above] {$D$} (s_1);
+  \path[->] (s_1) edge [loop above] node {$C$} ();
+  \path[->] (s_1) edge [bend left] node [below] {$D$} (s_0);
+\end{tikzpicture}
   \centering
   \caption{Pavlov.}
 \end{figure}
-  \todo{use tikz for these figures!}
+
+\begin{figure}
+  \label{tftfigure}
+\begin{tikzpicture}[node distance=2cm]
+  \node[state,initial] (s_0) {$C$};
+  \node[state] (s_1) [right of=s_0] {$D$};
+
+  \path[->] (s_0) edge [loop above] node {$C$} ();
+  \path[->] (s_0) edge [bend left] node [above] {$D$} (s_1);
+  \path[->] (s_1) edge [loop above] node {$D$} ();
+  \path[->] (s_1) edge [bend left] node [below] {$C$} (s_0);
+\end{tikzpicture}
+  \centering
+  \caption{Tit for tat.}
+\end{figure}
+  % \begin{tikzpicture}[scale=0.8, show background rectangle]
+  %   \draw (0,0) -- (2,1);
+  %   \draw (1,1) circle (3);
+  %   \path[draw] (0,0) -- (1,1) -- (2,0);
+  % \end{tikzpicture}
+
 
 \begin{remark}
   Tit-for-tat, displayed in \cref{tftfigure}, is not evolutionarily stable. It has the stationary distribution $(\frac{1}{4},\frac{1}{4},\frac{1}{4},\frac{1}{4})$ in its own Markov chain, which has a payoff that is significantly smaller than $R$. This should be intuitive: if tit-for-tat makes one mistake, it goes into a defection cycle that it doesn't break out of until it makes a second mistake.
@@ -242,18 +268,36 @@ With these lemmas, we are now ready to prove our first theorem.
       
       We want to prove that $s_1$ is not evolutionarily stable. 
       
-      To do that, we want to prove that for all $p_0, \alpha \in (0,1)$, there exists $p < p_0$ and $\epsilon < \alpha$, such that $s_1$ is $\epsilon$-invadable. We choose $\epsilon = \alpha / 2$, and present a strategy $s_2$ that can invade $s_1$ for sufficiently small $p$.
+      To do that, we want to prove that for all $p_0, \epsilon_0 \in (0,1)$, there exists $p < p_0$ and $\epsilon < \epsilon_0$, such that $s_1$ is $\epsilon$-invadable. We choose $\epsilon = \epsilon_0 / 2$, and present a strategy $s_2$ that can invade $s_1$ for sufficiently small $p$.
 
-      We create the strategy $s_2$ as follows. First, copy the entire $s_1$ machine into $s_2$. Suppose that the state corresponding to the start state of $s_1$ is $c_s$. Recall that the output at $c_s$ is $G(c_s)$, and that the state $s$ goes to upon perceiving the opponent move $G(c_s)$ is $T(c_s, G(c_s))$. Now, create two new states: $c_0$ and $c_1$. Define the transitions as \begin{align*}
-        T(c_0, G(c_s)) &= T(c_s, G(c_s))\\
-        T(c_0, \lnot G(c_s)) &= c_1 \\
+      We create the strategy $s_2$ as follows. First, copy the entire $s_1$ machine into $s_2$. Suppose that the state corresponding to the start state of $s_1$ is $c$, and that the output at $c$ is $\alpha$, and that the state $s$ goes to upon perceiving the opponent move $\alpha$ is $c' = T(c, \alpha)$. Now, create two new states: $c_0$ and $c_1$. Define the transitions as \begin{align*}
+        T(c_0, \alpha) &= c'\\
+        T(c_0, \bar{\alpha}) &= c_1 \\
         T(c_1, \cdot) &= c_1
       \end{align*}
       and the outputs as \begin{align*}
         G(c_0) &= \lnot G(c_2)\\
         G(c_1) &= C.
       \end{align*}
-      Let the start state of $s_2$ be $c_0$. \todo{add a figure!! the construction is simple but this description is deceivingly hard}
+      Let the start state of $s_2$ be $c_0$. 
+
+      \begin{figure}
+        \centering
+        \begin{tikzpicture}[node distance=2cm]
+          \node[state, initial] (c_0) {$\bar{\alpha}$};
+          \node[state] (c_1) [below right of=c_0] {$C$};
+          \node[state] (c_prime) [above right of=c_0] {};
+          \node[state] (c) [above left of=c_prime] {$\alpha$};
+
+          \path[->] (c_0) edge node [above right] {$\bar{\alpha}$} (c_1);
+          \path[->] (c_1) edge [loop right] node [right] {$C,D$} ();
+          \path[->] (c_0) edge node [above left] {$\alpha$} (c_prime);
+          \path[->] (c) edge node [below left] {$\alpha$} (c_prime);
+        \end{tikzpicture}
+        \caption{Constructon of invasion strategy, used in the proof of \cref{evolutionarystable1}}
+        \label{invasionstrategy}
+      \end{figure}
+
 
       \begin{claim}
         \label{claimpayoffs}
