@@ -10,17 +10,16 @@
 \DeclareMathOperator*{\argmin}{argmin}
 
 \theoremstyle{definition}
-\newtheorem{definition}{Definition}
-\newtheorem{theorem}{Theorem}
-\newtheorem{proposition}{Proposition}
-\newtheorem{corollary}{Corollary}
-\newtheorem{lemma}{Lemma}
-\newtheorem{claim}{Claim}
-\newtheorem{problem}{Problem}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{claim}[theorem]{Claim}
 \theoremstyle{remark}
 \newtheorem*{remark}{Remark}
 \newtheorem*{example}{Example}
-\newtheorem*{solution}{Solution}
 
 
 \title{Cooperation Provably Prevails in a Version of the Noisy Iterated Prisoner's Dilemma}
@@ -36,6 +35,8 @@ Introduce the prisoner's dilemma, the iterated prisoner's dilemma and the goal o
 
 Should some of the definitions be in the introduction?
 
+\todo{clean up the julia notebook and refer to it for people who want to play with the setup}
+
 \section{Setup}
 
 \begin{definition}
@@ -48,7 +49,7 @@ Should some of the definitions be in the introduction?
       P &\text{if $a = D, b = D$}
     \end{cases}
   \end{equation*}
-  We require $T > R > P > S$ and $2R > T + S$. 
+  We require $T > R > P > S$.
 \end{definition}
 
 A common choice in simulations of the iterated prisoner's dilemma is $T = 5$, $R = 3$, $P = 1$ and $S = 0$.
@@ -163,10 +164,10 @@ We can now state our results! Together, the following two theorems prove that in
   Suppose that a strategy $s_1$ is evolutionarily stable. Then $\lim_{p \to 0} v_{s_1}(s_1) = R$.
 \end{theorem}
 
-\begin{theorem}
+\begin{conjecture}
   \label{pavlovtheorem}
-  The Pavlov strategy is evolutionarily stable.
-\end{theorem}
+  Suppose $2R > T + P$. Then, the Pavlov strategy is evolutionarily stable.
+\end{conjecture}
 
 \begin{figure}
   \label{pavlovfigure}
@@ -222,8 +223,7 @@ We can now state our results! Together, the following two theorems prove that in
   exists, for any strategies $s_1$ and $s_2$.
 \end{lemma}
 \begin{proof}
-  Use the fact that this is the dot product of a stationary distribution with a fixed coefficient vector, and then say something about how any stationary distribution with the correct sum needs to be a polynomial in $p$ maybe?
-  \todo{prove this; seems obvious}
+  Note that $v_{s_1}(s_2)$ is a weighted average of the rewards $R, T, S$ and $P$. Therefore, $S \leq v_{s_1}(s_2) \leq T$. \todo{eughhhh fix this somehow}
 \end{proof}
 
 \begin{lemma}
@@ -330,12 +330,9 @@ With these lemmas, we are now ready to prove our first theorem.
 
     \subsection{Evolutionarily Stable Strategies Exist}
 
-    \begin{proof}[Proof of \cref{pavlovtheorem}]
+    Unfortunately, we have no proof of \cref{pavlovtheorem}.
 
-      TBC.
-
-    \end{proof}
-
+    We note that the $2R > T + P$ condition is necessary. Otherwise, the AllD strategy would be able to invade Pavlov. We see this by noting that $\lim_{p \to 0} v_{s_2}(s_1) = T + P$ if $s_2$ is AllD and $s_1$ is Pavlov, and that AllD is better against itself than Pavlov is against it.
 
 
 
@@ -343,7 +340,7 @@ With these lemmas, we are now ready to prove our first theorem.
 
 
 
-    \subsection{Potential Other Models}
+    \subsection{Other Potential Models}
 
     Right now we have only modeled noise in perception. One could think of another possible kind of noise: a ``failure of the mind,'' which perhaps could be modeled instead by a probability $p$ of being transported to any random state, instead. This would create ergodicity which is nice.
 
@@ -362,5 +359,14 @@ With these lemmas, we are now ready to prove our first theorem.
     \end{lemma}
 
     This proves that we're able to talk about stationary distributions even when they don't really actually exist.
+
+
+    \section{Appendix: Probablistic Automata}
+
+    In this paper, we have considered strategies that make a deterministic move based on what they perceive. One could also imagine strategies that attaches a certain probability distribution to a perceived input, and chooses their next action based on that. In this appendix we show that these can be reduced to the deterministic ones, and thus that all results for the deterministic ones also hold for the probabilistic ones.
+
+    Proof idea: we can use cycles in the Markov chain with n total outputs, x of which are to state 1, to model getting to state 1 with probability x / n. this assumes that the outputs are of low enough probability, which can be achieved by chaining together lots of (1-p) transitions, which go to 0.
+
+    the hard part of this is showing that modifying the finite automaton like this won't hurt us. in fact, it would certainly not hurt us if not every state had to give an output. but that doesn't work for our model i think. so there are certainly things to think about here.
 
 \end{document}
