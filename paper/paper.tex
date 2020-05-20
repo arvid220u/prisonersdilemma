@@ -21,8 +21,15 @@
 \newtheorem*{remark}{Remark}
 \newtheorem*{example}{Example}
 
+\newenvironment{subproof}[1][\proofname]{%
+  \renewcommand{\qedsymbol}{$\blacksquare$}%
+  \begin{proof}[#1]%
+}{%
+  \end{proof}%
+}
 
-\title{Cooperation Provably Prevails in a Version of the Noisy Iterated Prisoner's Dilemma}
+
+\title{Cooperation Is Provably Required in a Version of the Noisy Iterated Prisoner's Dilemma}
 \author{Arvid Lunnemark. \\ \\
 Supervised by: Michael Sipser}
 
@@ -39,6 +46,8 @@ Should some of the definitions be in the introduction?
 
 \section{Setup}
 
+In this section we thoroughly define our problem setup.
+
 \begin{definition}
   The \textit{prisoner's dilemma} is a symmetric two-player game with two actions, cooperate ($C$) and defect ($D$), where, if player 1 selects action $a$ and player 2 selects action $b$, player 1 gets the reward
   \begin{equation*}
@@ -49,7 +58,7 @@ Should some of the definitions be in the introduction?
       P &\text{if $a = D, b = D$}
     \end{cases}
   \end{equation*}
-  We require $T > R > P > S$.
+  We require $T > R > P > S$ and $2R > T + S$.
 \end{definition}
 
 A common choice in simulations of the iterated prisoner's dilemma is $T = 5$, $R = 3$, $P = 1$ and $S = 0$.
@@ -60,7 +69,7 @@ We want to study the \textit{iterated} prisoner's dilemma, for which we can defi
   A \textit{strategy} $s$ is a Moore machine (finite automaton with outputs) over the input and output alphabet $\{C, D\}$. 
 \end{definition}
 
-Notation-wise, we will use $c$ to denote states in $s$, $G_s(c)$ to denote the output at state $c$, and $T_s(c, a)$ to denote the state that $c$ transitions to upon receiving input $a$. For simplicity, we will also define the $\bar{\;}$ operator such that $\bar{C} = D$ and $\bar{D} = C$, and $c_{\text{start}}(s)$ to be the start state of $s$.
+Notation-wise, we will use $c$ to denote states in $s$, $G_s(c)$ to denote the output at state $c$, and $T_s(c, a)$ to denote the state that $c$ transitions to upon receiving input $a$. For simplicity, we will also define the $\bar{\;}$ operator such that $\bar{C} = D$ and $\bar{D} = C$.
 
 We will consider strategies in the presence of noise. To model that, we will assume that a strategy has a probability $1-p$ of following the correct transition and a probability $p$ of following the incorrect transition, at every step. Note that this models noise in \textit{perception}. One could also imagine modeling noise in \textit{action taken}, but it is easy to see that the two are equivalent up to a change of the values of $R, S, T, P$.
 
@@ -103,6 +112,8 @@ We will use $\pi$ to refer to $\pi^{(c_{\text{start}}(s_1), c_\text{start}(s_2))
 We may also make $r(G_{s_1}(c_1),G_{s_2}(c_2))$ into a vector, denoted by $r$, and write this as the dot product \begin{equation*}
   v_{s_1}(s_2) = \pi \cdot r.
 \end{equation*}
+
+\todo{I think the best way to handle this is to remove the expected value definition altogether. just do the time average distribution and skip the proof of the lemma. it is honestly a very natural definition}
 
 \begin{proof}[Proof of \cref{payofftimeaverage}]
   The key idea is that a time average sum where each element is one of finitely many values can be written as a frequency-weighted finite sum instead. Let $I_{c_1,c_2,t}$ be the indicator variable that is 1 if $G_{s_1,s_2}(X_t) = (c_1,c_2)$ and 0 otherwise.  Then, we can write \begin{equation*}
@@ -153,7 +164,7 @@ That is, if $s_1$ is $\epsilon$-invadable, there exists a strategy $s_2$ that ca
   A strategy $s_1$ is \textit{evolutionarily stable} if there exists parameters $p_0$ and $\epsilon_0$, both in $(0,1)$, such that for all $p < p_0$, and all $\epsilon < \epsilon_0$, $s_1$ is not $\epsilon$-invadable.
 \end{definition}
 
-That is, a strategy $s_1$ is evolutionarily stable if it can withstand invasion attempts from any strategy that starts off in low numbers, as the probability of noise tends to 0.
+That is, a strategy $s_1$ is evolutionarily stable if it can withstand invasion attempts from any strategy that starts off in low numbers, as the probability of noise tends to 0. 
 
 \section{Results}
 
@@ -213,7 +224,47 @@ We can now state our results! Together, the following two theorems prove that in
 
 \section{Proofs}
 
-\subsection{Helpful Lemmas}
+\subsection{The time average distribution}
+
+Before we prove \cref{evolutionarystable1}, we need to understand what the payoff $v_{s_1}(s_2)$ really means. In this subsection, we prove a series of lemmas that characterize the time average distribution, and consequently $v_{s_1}(s_2)$.
+
+\begin{lemma}
+  \label{timeaverageisstationary}
+  The time average distribution $\pi^{(a,b)}$, for any starting state $(a,b)$, is a stationary distribution of the Markov chain.
+\end{lemma}
+
+We state this lemma without proof, as it is a fairly standard result. Important to note is that the time average distribution is not necessarily a \textit{unique} stationary distribution, as we make no assumptions that our Markov chain be ergodic.
+
+\begin{definition}
+  A \textit{strongly connected component} of a directed graph is a subgraph where there is a path from every node to every other node.
+\end{definition}
+
+\begin{definition}
+  An \textit{absorbing component} of a directed graph is a subgraph where there are no edges from vertices inside the component to vertices outside it.
+\end{definition}
+
+We may also put both of the terms together and talk about absorbing strongly connected components, which, as shown by the next few lemmas, are useful.
+
+\begin{lemma}
+  An absorbing strongly connected component has a unique time average distribution, i.e., the time average distribution does not depend on the start state.
+\end{lemma}
+
+\begin{lemma}
+  \label{timeaveragedistributiondecomposition}
+  Let $\mathcal{S}$ be the set of absorbing strongly connected components of the $s_1$-$s_2$ Markov chain. For every $C \in \mathcal{S}$, let $\pi^{(C)}$ be its unique time average distribution. Then, for some probabilities $p_C$ with $\sum_{C \in \mathcal{S}} p_C = 1$, depending only on the condensation of the Markov chain, we have \begin{equation*}
+    \pi = \sum_{C \in \mathcal{S}} p_C \cdot \pi^{(C)}.
+  \end{equation*}
+\end{lemma}
+
+Finally, we can characterize the absorbing strongly connected components of the $s_1$-$s_2$ Markov chain in terms of the absorbing SCCs of $s_1$ and $s_2$ separately.
+
+\begin{lemma}
+  \label{absorbingstronglyconnectedcomponentscartesianproduct}
+  Let $\mathcal{C}_1$ be the set of absorbing SCCs of $s_1$, and similarly, let $\mathcal{C}_2$ be the set of absorbing SCCs of $s_2$. If $\mathcal{C}$ is the set of absorbing SCCs of the $s_1$-$s_2$ Markov chain, then it is the cartesian product of the two, i.e.,
+  \begin{equation*}
+    \mathcal{C} = \mathcal{C}_1 \times \mathcal{C}_2.
+  \end{equation*}
+\end{lemma}
 
 \begin{lemma}
   \label{limitvexists}
@@ -223,7 +274,12 @@ We can now state our results! Together, the following two theorems prove that in
   exists, for any strategies $s_1$ and $s_2$.
 \end{lemma}
 \begin{proof}
-  Note that $v_{s_1}(s_2)$ is a weighted average of the rewards $R, T, S$ and $P$. Therefore, $S \leq v_{s_1}(s_2) \leq T$. \todo{eughhhh fix this somehow}
+  By definition, \begin{equation*}
+    v_{s_1}(s_2) = \pi \cdot r.
+  \end{equation*}
+
+  By \cref{timeaverageisstationary}, $\pi$ is a stationary distribution. In particular, if $M$ is the transition matrix for the $s_1$-$s_2$ Markov chain, then $\pi$ is an eigenvector of $M$ with eigenvalue 1. This implies that $\pi$ is in the nullspace of $M - I$. Thus, we can find $\pi$ by solving for $X$ in $(M - I)X = 0$. If we solve this using Gaussian elimination and back substitution, it is clear that the entries of $\pi$ will be on the form $\frac{f(p)}{g(p)}$ where $f$ and $g$ are polynomials in $p$, since each 
+  entry of $M$ is a second-degree polynomial in $p$. This is continuous for all $p$ where $g(p) \neq 0$, and since $g$ will have a finite degree it is therefore continuous in a small right neighborhood of 0. Finally, note that $v_{s_1}(s_2)$ is between $S$ and $T$, which in conclusion means that the limit of it as $p$ goes to 0 tends to a finite number, as desired.
 \end{proof}
 
 \begin{lemma}
@@ -256,21 +312,112 @@ We can now state our results! Together, the following two theorems prove that in
 
 \subsection{Evolutionary Stability Implies Utilitarianism}
 
-With these lemmas, we are now ready to prove our first theorem.
 
     \begin{proof}[Proof of \cref{evolutionarystable1}]
       Suppose that the strategy $s_1$ is such that it is \textit{not} true that \begin{equation*}
         \lim_{p \to 0 } v_{s_1}(s_1) = R
       \end{equation*}
-      By \cref{limitvexists} and \cref{neverbetterthanr}, this assumption implies that the limit is strictly less than $R$. Define $\gamma = v_{s_1}(s_1)$. We thus know that \begin{equation*}
+      By \cref{limitvexists} and \cref{neverbetterthanr}, this assumption implies that the limit is strictly less than $R$. Define $\gamma = v_{s_1}(s_1)$. Then,
+      \begin{equation*}
         \gamma < R.
       \end{equation*}
       
-      We want to prove that $s_1$ is not evolutionarily stable. 
+      We want to prove that $s_1$ is not evolutionarily stable. This would prove the theorem.
       
       To do that, we want to prove that for all $p_0, \epsilon_0 \in (0,1)$, there exists $p < p_0$ and $\epsilon < \epsilon_0$, such that $s_1$ is $\epsilon$-invadable. We choose $\epsilon = \epsilon_0 / 2$, and present a strategy $s_2$ that can invade $s_1$ for sufficiently small $p$.
 
-      We create the strategy $s_2$ as follows. First, copy the entire $s_1$ machine into $s_2$. Suppose that the state corresponding to the start state of $s_1$ is $c$, and that the output at $c$ is $\alpha$, and that the state $s$ goes to upon perceiving the opponent move $\alpha$ is $c' = T(c, \alpha)$. Now, create two new states: $c_0$ and $c_1$. Define the transitions as \begin{align*}
+
+      The underlying idea is to create $s_2$ such that $s_1$ can see no difference between itself and $s_2$, while $s_2$, on the other hand, can. In that case, we would have $v_{s_1}(s_2) = v_{s_2}(s_1) = v_{s_1}(s_1)$, and could construct $s_2$ such that it always cooperates when it recognizes itself, thereby yielding $v_{s_2}(s_2) = R$. This would give $s_2$ a higher fitness than $s_1$. The rest of this proof executes this plan in detail.
+
+      We create the strategy $s_2$ as follows. First, we copy all of $s_1$ into $s_2$. Let $\mathcal{C}_1$ be the absorbing strongly connected components of $s_1$. The key idea, now, is to replace each original absorbing strongly connected component $C_1 \in \mathcal{C}_1$ with a new absorbing component $C_2$, which has the capability of self identifying.
+      
+      We construct $C_2$ as follows. First, it finds out in finite time what action $A$ that $s_1$ will take at some large finite future time $T$ (with probability $1 - O(p)$). 
+      After that, it responds with the opposite action (which we will denote by $\bar{A}$) right after time $T$. 
+      If $s_2$ subsequently perceives that its opponent takes action $A$, it will transition into a copy of $C_1$, the absorbing strongly connected component that $C_2$ replaces. On the other hand, if $s_2$ perceives its opponent taking action $\bar{A}$, then it will transition into an absorbing strongly connected component that always cooperates. A schematic view of $C_2$ is presented in figure ????. This concludes the construction of $s_2$.
+
+      \todo{add picture here when low on focus}
+
+      We now want to prove that $s_2$ can in fact invade $s_1$ for small $p$. First, we will assume that $C_2$ can find out the action $A$ that $s_1$ would take at time $T$, and finish the proof of our theorem using this assumption. After that, we will prove that that is indeed the case.
+
+      \begin{claim}
+        \label{claimpayoffs}
+        Given the above construction of $s_2$, the payoffs are as follows.
+      \begin{align*}
+        v_{s_1}(s_1) &= \gamma \\
+        v_{s_1}(s_2) &= \gamma + O(p) \\
+        v_{s_2}(s_1) &= \gamma + O(p) \\
+        v_{s_2}(s_2) &= R + O(p)
+      \end{align*}
+      \end{claim}
+      \begin{subproof}
+        By definition, $v_{s_1}(s_1) = \gamma$. By \cref{timeaveragedistributiondecomposition}, the time average distribution of the $s_1$-$s_1$ Markov chain $\pi$ is \begin{equation*}
+          \pi = \sum_{(C_1, C_1') \in \mathcal{C}_1 \times \mathcal{C}_1} p_{(C_1, C_1')} \cdot \pi^{(C_1, C_1')}
+        \end{equation*}
+        When creating $s_2$, we replaced each $C_1$ by a $C_2$, containing two absorbing strongly connected components: a copy of $C_1$, which we call $C_{1, \text{copy}}$ and the always cooperating $C_c$. This means that the condensation of the $s_1$-$s_2$ Markov chain is the same as the condensation of the $s_1$-$s_1$ Markov chain, except that each absorbing strongly connected component has been replaced by two. That is, the absorbing strongly connected component $(C_1, C_1')$ of the $s_1$-$s_1$ chain has become both $(C_1, C_{1, \text{copy}})$ and $(C_1, C_c)$ in the $s_1$-$s_2$ chain. Then, we find by our construction, that 
+        \begin{align}
+          \label{c1c1copy}
+          p_{(C_1, C_{1, \text{copy}})} &= (1 - O(p)) p_{(C_1, C_1')} \\
+          p_{(C_1, C_c)} &= O(p) p_{(C_1, C_1')}
+        \end{align}
+        This equation is true because when $s_2$ plays against $s_1$, it identifies the action $A$ that $s_1$ will take at time $A$ with probability $(1 - O(p))$, and upon seeing that transitions to $C_{1, \text{copy}}$ with probability $(1-p)$.
+
+        Now, we can calculate $\tau$, the time average distribution of the $s_1$-$s_2$ Markov chain:
+        \begin{align*}
+          \tau &= \sum_{(C_1, C') \in \mathcal{C}_1 \times \mathcal{C}_2} p_{(C_1, C')} \cdot \pi^{(C_1, C')} \\
+          &= \sum_{(C_1, C_{1, \text{copy}})} p_{(C_1, C_{1, \text{copy}})} \cdot \pi^{(C_1, C_{1, \text{copy}})} + \sum_{(C_1, C_c)} p_{(C_1, C_c)} \cdot \pi^{(C_1, C_c)} \\
+          &= \sum_{(C_1, C_1') \in \mathcal{C}_1 \times \mathcal{C}_1} p_{(C_1, C_1')} \cdot \pi^{(C_1, C_1')} + O(p) \\
+          &= \pi + O(p)
+        \end{align*}
+        where the second-to-last equality follows by \cref{c1c1copy}. \todo{we're kinda abusing notation here} This proves that $v_{s_1}(s_2) = \gamma + O(p)$ and $v_{s_2}(s_1) = \gamma + O(p)$.
+
+        For the last part of the claim, note that at time $T$, $s_2$ and its copy $s_2$ will be in the exact same state with probability at least $(1-p)^T = 1 - O(p)$, since if there are no mistakes they will both go to the exact same states. Thus, when $s_2$ outputs $\bar{A}$ to identify $s_1$, both of them will do that, and thus transition to an always cooperating state with probability $1 - O(p)$. Therefore, $v_{s_2}(s_2) = R - O(p)$, which finishes the proof of the claim.
+      \end{subproof}
+
+      Given \cref{claimpayoffs}, we simply compute $F(s_2) - F(s_1)$, which we want to show is greater than 0.
+      \begin{align*}
+        F(s_2) - F(s_1) &= \\
+        &= (1 - \epsilon) \cdot v_{s_2}(s_1) + \epsilon \cdot v_{s_2}(s_2) - (1 - \epsilon) \cdot v_{s_1}(s_1) - \epsilon \cdot v_{s_1}(s_2) \\
+        &= (1 - \epsilon) (\gamma - O(p)) + \epsilon (R - O(p)) - (1-\epsilon) \gamma - \epsilon (\gamma + O(p)) \\
+        &\leq \epsilon (R - \gamma) + O(p)
+      \end{align*}
+
+      We know that $R - \gamma > 0$ by our initial assumption. For a sufficiently small $p$, thus, $F(s_2) - F(s_1) > 0$. This proves that $s_2$ can invade $s_1$, and thus, that $s_1$ is not $\epsilon$-invadable for this value of $p$. In conclusion, then, $s_1$ is not evolutionarily stable, which concludes the proof of \cref{evolutionarystable1}.
+
+    \end{proof}
+
+      We now return to the part we left out: how to construct $C_2$ such that it can find out which action that $s_1$ would take at time $T$.
+
+      \begin{claim}
+        There is a $T$ and a procedure implementable in $C_2$ that runs in a finite number of steps and can determine the action $A$ of $s_1$ at time $T$ with probability $1 - O(p)$.
+      \end{claim}
+
+      \begin{proof}
+          Let $\mathcal{C}_1$ be the set of all absorbing strongly connected components in $s_1$.
+           Let $M$ be the set of all tuples of $(C, c)$ where $C \in \mathcal{C}_1$ and $c$ is a possible state of $C$. Let $M'$ be a subset of $M$ where a tuple $(C, c)$ has been removed if there is another tuple $(C', c') \in M'$ produces exactly the same output on all inputs, when only following the $1-p$ transitions.
+
+        The procedure works as follows:
+        \begin{enumerate}
+          \item Simulate $C_1$ for $N$ steps. (This can be done by e.g. duplicating $C_1$ $N$ times and having all edges advance to corresponding state in the next copy.) Choose $N$ so that after $N$ timesteps, $s_1$ will be in an absorbing strongly connected component with probability $1 - O(p)$. \todo{move this out of the claim??? but it's annoying and needs a space somewhere}
+          \item Iterate over every pair of tuples $(C,c)$ and $(C', c')$ in $M$:
+          \begin{enumerate}
+            \item There is a string $S$ of actions on which $C$ starting in $c$ and $C'$ starting in $c'$ will produce a different output at a time $t$. Now, output the string $S$, and determine if the sequence of perceived actions corresponds to $(C,c)$ or $(C', c')$.
+          \end{enumerate}
+        \end{enumerate}
+        Choose $T = \max t$ over all $t$.
+         With probability $1 - O(p)$, there will be exactly 1 pair $(C, c)$ that corresponds to all perceived actions in each of its comparisons. We know what $C$, when starting in $c$, outputs at time $T$. Thus, with probability $1 - O(p)$, we know what action $A$ that $s_1$ outputs at time $T$.
+
+        It should be noted that this procedure is easily implementable on a finite automaton, using e.g. a decision tree structure.
+      \end{proof}
+
+
+      \todo{KEY IMPORTANT DETAIL: we need to say that at a large finite $T$ then $s_1$ will be within an absorbing strongly connected component. probably need to look at all possible starting states of all possible ASCCs, not only every ASCC. uhhhhhhhhhhhh also need to modify our language a little bit to think about the fact that absorbing strongly connected components of $s_2$ actually DO AFFECT the condensation probabilities. however, since $C_2$ behaves as $C_1$ for many steps, it won't affect it meaningfully. }
+
+    \begin{proof}
+      \begin{claim}
+        Suppose that there are no mistakes, i.e., that $p = 0$. We can create a $C_2$ such that 
+      \end{claim}
+      
+      First, copy the entire $s_1$ machine into $s_2$. Suppose that the state corresponding to the start state of $s_1$ is $c$, and that the output at $c$ is $\alpha$, and that the state $s$ goes to upon perceiving the opponent move $\alpha$ is $c' = T(c, \alpha)$. Now, create two new states: $c_0$ and $c_1$. Define the transitions as \begin{align*}
         T(c_0, \alpha) &= c'\\
         T(c_0, \bar{\alpha}) &= c_1 \\
         T(c_1, \cdot) &= c_1
@@ -300,7 +447,6 @@ With these lemmas, we are now ready to prove our first theorem.
 
 
       \begin{claim}
-        \label{claimpayoffs}
         Given the above construction of $s_2$, the following inequalities hold:
       \begin{align*}
         v_{s_1}(s_1) &\leq (1-p)^2 \gamma + 2(1-p)p R + p^2  R \\ 
