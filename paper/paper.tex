@@ -3,6 +3,7 @@
 \usepackage{todonotes}
 \usepackage{cleveref}
 \usepackage{tikz}
+\usepackage{blkarray}
 \usetikzlibrary{backgrounds,arrows,automata,positioning}
 
 
@@ -38,15 +39,55 @@ Supervised by: Michael Sipser}
 
 \section{Introduction}
 
-Introduce the prisoner's dilemma, the iterated prisoner's dilemma and the goal of finding out how cooperation can appear. Introduce Axelrod along with some other previous results.
+The prisoner's dilemma is a classic symmetric two-player game, where both players acting in their own best interests leads to an outcome that is not optimal for either of them. There are two actions, cooperate ($C$) and defect ($D$), with the payoffs represented by the matrix
+\begin{equation*}
+  \begin{matrix}
+      &  C & D \\ 
+    C &  (R, R) & (S, T) \\
+    D & (T, S) & (P, P)
+  \end{matrix}
+  % \begin{blockarray}{cccccc}
+  %   a & b & c & d & e \\
+  %   \begin{block}{c(ccccc)}
+  %     1 & 1 & 1 & 1 & 1 & f \\
+  %     0 & 1 & 0 & 0 & 1 & g \\
+  %     0 & 0 & 1 & 0 & 1 & h \\
+  %     0 & 0 & 0 & 1 & 1 & i \\
+  %     0 & 0 & 0 & 0 & 1 & j \\
+  %   \end{block}
+  %   \end{blockarray}
+\end{equation*}
+where $T > R > P > S$ (the row player gets the first in each pair of numbers). Given the other player's action, a player always maximizes their payoff by choosing $D$, but with both doing so, the players end up in the $(D, D)$ state, which is worse for both than the $(C, C)$ state since $R > P$. The idea of this game has been applied to many societal situations, including climate change, etc.
 
-Should some of the definitions be in the introduction?
+To make the game more interesting, one can consider playing it multiple times in a row with multiple players. One might loosely connect the repeated multiplayer game to evolution: why have humans evolved to cooperate with each other? In a seminal paper in 1980, Axelrod presented evidence that in a repeated setting with multiple players facing off in a tournament, cooperation can arise as the strategy of choice even for a selfish player \cite{axelrod1980effective}. In particular, the mostly cooperating Tit-for-tat strategy, depicted in \cref{tftfigure}, won his tournament. The idea is that even though Tit-for-tat loses when played against defecting strategies, that is outweighed by it being heavily rewarded when cooperating with other cooperating strategies.
 
-\todo{clean up the julia notebook and refer to it for people who want to play with the setup}
+\begin{figure}
+\begin{tikzpicture}[node distance=2cm]
+  \node[state,initial] (s_0) {$C$};
+  \node[state] (s_1) [right of=s_0] {$D$};
+
+  \path[->] (s_0) edge [loop above] node {$C$} ();
+  \path[->] (s_0) edge [bend left] node [above] {$D$} (s_1);
+  \path[->] (s_1) edge [loop above] node {$D$} ();
+  \path[->] (s_1) edge [bend left] node [below] {$C$} (s_0);
+\end{tikzpicture}
+  \centering
+  \caption{The Tit-for-tat strategy. At any one point, it is in one of two states, taking the action corresponding to the label of the state. Upon perceiving its opponent's move, it decides to switch state if the opponent does something different.}
+  \label{tftfigure}
+\end{figure}
+
+Clearly, however, the winning strategy in a tournament depends on the composition of strategies in that tournament. If all strategies had been of the type to always defect, Tit-for-tat would not have won the Axelrod tournament. Therefore, follow-up tournaments and simulations have been run, and perhaps surprisingly, most provide further evidence that cooperation is the prevailing strategy, as Axelrod summarizes in a 1981 book \cite{axelrod1981evolution}. There, he also introduces an evolutionary model that can be used for analyzing the game theoretically: strategies are considered to exist in a population that evolves over time in an evolutionary way (more successful strategies reproduce, and mutations can happen). In that context, a strategy is said to be evolutionarily stable if, supposing it controls a large share of the population, it resists being overtaken by any other strategy entering the population in small numbers. That is, populations of evolutionarily stable strategies form the equilibruim states of the evolutionary process, and thus, one may say that evolutionarily stable strategies are the ``best'' strategies.
+
+In light of Axelrod's tournaments highlighting the effectiveness of cooperation, it has long been a goal to prove that a cooperating strategy like Tit-for-tat is evolutionarily stable. A few variants of this has been shown: First, Nowak has shown that in the finitely repeated game, a strategy that always defects is sometimes not evolutionarily stable \cite{nowak2004emergence}. Second, Binmore has shown that in the infinitely repeated game where strategies are modeled as finite automatons where having more states comes at a cost, a strategy needs to cooperate with itself to be stable \cite{binmore1992evolutionary}. And third, Fundenberg and Maskin have shown that a strategy needs to cooperate with itself to be stable also in the infinitely repeated game in the presence of a certain notion of infinitesimally small noise \cite{fundenberg1990evolution}.
+
+Notably, all these results impose additional restrictions on the setup, and as noted by Fundenberg and Maskin, one has to do that: in the deterministic infinitely repeated game, one could create a strategy that can self-identify — if the opponent ever deviates from the pattern, the strategy resorts to defecting for the rest of the game. This strategy will be evolutionarily stable, but is not cooperative.
+
+In this paper, we, like Fundenberg and Maskin, choose the addition of noise as our restriction. In contrast to them, however, we present a model where, at every step, each strategy has a tiny probability $p$ of doing the wrong thing, which is arguably the most natural way of modeling noise. In \cref{sectionsetup}, we define the setup of our version of the problem in detail. Then, in \cref{sectionresults}, we state the two main results: that a strategy needs to be cooperative to be evolutionarily stable, and that such evolutionarily stable strategies exist. In \cref{sectionproofs}, we prove our results. Finally, in \cref{sectiondiscussion} we briefly discuss other potential ways of modeling the problem.
 
 \section{Setup}
+\label{sectionsetup}
 
-In this section we thoroughly define our problem setup.
+In this section we meticulously define our setup.
 
 \begin{definition}
   The \textit{prisoner's dilemma} is a symmetric two-player game with two actions, cooperate ($C$) and defect ($D$), where, if player 1 selects action $a$ and player 2 selects action $b$, player 1 gets the reward
@@ -167,6 +208,7 @@ That is, if $s_1$ is $\epsilon$-invadable, there exists a strategy $s_2$ that ca
 That is, a strategy $s_1$ is evolutionarily stable if it can withstand invasion attempts from any strategy that starts off in low numbers, as the probability of noise tends to 0. 
 
 \section{Results}
+\label{sectionresults}
 
 We can now state our results! Together, the following two theorems prove that in the setup described here, mutual cooperation arises as the only stable choice.
 
@@ -195,20 +237,6 @@ We can now state our results! Together, the following two theorems prove that in
   \caption{Pavlov.}
 \end{figure}
 
-\begin{figure}
-  \label{tftfigure}
-\begin{tikzpicture}[node distance=2cm]
-  \node[state,initial] (s_0) {$C$};
-  \node[state] (s_1) [right of=s_0] {$D$};
-
-  \path[->] (s_0) edge [loop above] node {$C$} ();
-  \path[->] (s_0) edge [bend left] node [above] {$D$} (s_1);
-  \path[->] (s_1) edge [loop above] node {$D$} ();
-  \path[->] (s_1) edge [bend left] node [below] {$C$} (s_0);
-\end{tikzpicture}
-  \centering
-  \caption{Tit for tat.}
-\end{figure}
   % \begin{tikzpicture}[scale=0.8, show background rectangle]
   %   \draw (0,0) -- (2,1);
   %   \draw (1,1) circle (3);
@@ -223,6 +251,7 @@ We can now state our results! Together, the following two theorems prove that in
 
 
 \section{Proofs}
+\label{sectionproofs}
 
 \subsection{The time average distribution}
 
@@ -484,6 +513,7 @@ Finally, we can characterize the absorbing strongly connected components of the 
 
 
     \section{Discussion of Model}
+    \label{sectiondiscussion}
 
 
 
@@ -515,5 +545,11 @@ Finally, we can characterize the absorbing strongly connected components of the 
     Proof idea: we can use cycles in the Markov chain with n total outputs, x of which are to state 1, to model getting to state 1 with probability x / n. this assumes that the outputs are of low enough probability, which can be achieved by chaining together lots of (1-p) transitions, which go to 0.
 
     the hard part of this is showing that modifying the finite automaton like this won't hurt us. in fact, it would certainly not hurt us if not every state had to give an output. but that doesn't work for our model i think. so there are certainly things to think about here.
+
+
+
+    \bibliography{bibliography.bib}
+    \bibliographystyle{acm}
+
 
 \end{document}
