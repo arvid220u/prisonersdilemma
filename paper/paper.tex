@@ -56,8 +56,8 @@ The prisoner's dilemma is a classic symmetric two-player game, where both player
   %     0 & 0 & 0 & 0 & 1 & j \\
   %   \end{block}
   %   \end{blockarray}
-\end{equation*}
-where $T > R > P > S$ (the row player gets the first in each pair of numbers). Given the other player's action, a player always maximizes their payoff by choosing $D$, but with both doing so, the players end up in the $(D, D)$ state, which is worse for both than the $(C, C)$ state since $R > P$. The idea of this game has been applied to many societal situations, including climate change, etc.
+\end{equation*} \todo{copy the table from axelrod's book because it's much better and much clearer!!!}
+where $T > R > P > S$ (the row player gets the first in each pair of numbers). Given the other player's action, a player always maximizes their payoff by choosing $D$, but with both doing so, the players end up in the $(D, D)$ state, which is worse for both than the $(C, C)$ state since $R > P$. The game can been used to model many real-world situations, including countries failing to act to stop climate change, doping in sport, and economic competition.
 
 To make the game more interesting, one can consider playing it multiple times in a row with multiple players. One might loosely connect the repeated multiplayer game to evolution: why have humans evolved to cooperate with each other? In a seminal paper in 1980, Axelrod presented evidence that in a repeated setting with multiple players facing off in a tournament, cooperation can arise as the strategy of choice even for a selfish player \cite{axelrod1980effective}. In particular, the mostly cooperating Tit-for-tat strategy, depicted in \cref{tftfigure}, won his tournament. The idea is that even though Tit-for-tat loses when played against defecting strategies, that is outweighed by it being heavily rewarded when cooperating with other cooperating strategies.
 
@@ -80,14 +80,18 @@ Clearly, however, the winning strategy in a tournament depends on the compositio
 
 In light of Axelrod's tournaments highlighting the effectiveness of cooperation, it has long been a goal to prove that a cooperating strategy like Tit-for-tat is evolutionarily stable. A few variants of this has been shown: First, Nowak has shown that in the finitely repeated game, a strategy that always defects is sometimes not evolutionarily stable \cite{nowak2004emergence}. Second, Binmore has shown that in the infinitely repeated game where strategies are modeled as finite automatons where having more states comes at a cost, a strategy needs to cooperate with itself to be stable \cite{binmore1992evolutionary}. And third, Fundenberg and Maskin have shown that a strategy needs to cooperate with itself to be stable also in the infinitely repeated game in the presence of a certain notion of infinitesimally small noise \cite{fundenberg1990evolution}.
 
-Notably, all these results impose additional restrictions on the setup, and as noted by Fundenberg and Maskin, one has to do that: in the deterministic infinitely repeated game, one could create a strategy that can self-identify — if the opponent ever deviates from the pattern, the strategy resorts to defecting for the rest of the game. This strategy will be evolutionarily stable, but is not cooperative.
+Notably, all these results impose additional restrictions on the setup, and as noted by Fundenberg and Maskin, one has to do that: in the deterministic infinitely repeated game, one could create a strategy that can self-identify — if the opponent ever deviates from the pattern, the strategy resorts to defecting for the rest of the game. This strategy will be evolutionarily stable, but is not cooperative. 
 
 In this paper, we, like Fundenberg and Maskin, choose the addition of noise as our restriction. In contrast to them, however, we present a model where, at every step, each strategy has a tiny probability $p$ of doing the wrong thing, which is arguably the most natural way of modeling noise. In \cref{sectionsetup}, we define the setup of our version of the problem in detail. Then, in \cref{sectionresults}, we state the two main results: that a strategy needs to be cooperative to be evolutionarily stable, and that such evolutionarily stable strategies exist. In \cref{sectionproofs}, we prove our results. Finally, in \cref{sectiondiscussion} we briefly discuss other potential ways of modeling the problem.
 
 \section{Setup}
 \label{sectionsetup}
 
-In this section we meticulously define our setup.
+In this section we define our setup. In summary, we consider the infinitely repeated prisoner's dilemma played by finite automata in infinite populations, evolving evolutionarily in the presence of noise.
+
+\subsection{Formal Definition}
+
+First, we define the reward function.
 
 \begin{definition}
   The \textit{prisoner's dilemma} is a symmetric two-player game with two actions, cooperate ($C$) and defect ($D$), where, if player 1 selects action $a$ and player 2 selects action $b$, player 1 gets the reward
@@ -102,22 +106,52 @@ In this section we meticulously define our setup.
   We require $T > R > P > S$ and $2R > T + S$.
 \end{definition}
 
-A common choice in simulations of the iterated prisoner's dilemma is $T = 5$, $R = 3$, $P = 1$ and $S = 0$.
-
-We want to study the \textit{iterated} prisoner's dilemma, for which we can define strategies that determine their next move based on the history of previous moves. As discussed previously, we want to restrict ourselves to strategies with finite memory.
+When we study the \textit{iterated} prisoner's dilemma, we want to look at strategies that determine their next move based on the history of previous moves. We restrict ourselves to strategies that can be implemented on a computer with finite memory.
 
 \begin{definition}
   A \textit{strategy} $s$ is a Moore machine (finite automaton with outputs) over the input and output alphabet $\{C, D\}$. 
 \end{definition}
 
-Notation-wise, we will use $c$ to denote states in $s$, $G_s(c)$ to denote the output at state $c$, and $T_s(c, a)$ to denote the state that $c$ transitions to upon receiving input $a$. For simplicity, we will also define the $\bar{\;}$ operator such that $\bar{C} = D$ and $\bar{D} = C$.
+We will consider strategies in the presence of noise. To model that, we will assume that a strategy has a probability $1-p$ of following the correct transition and a probability $p$ of following the incorrect transition, at every step. Note that this models noise in \textit{perception}. One could also imagine modeling noise in \textit{action taken}, but it is easy to see that the two are equivalent up to a change in the values of $R, T, S$ and $P$.
 
-We will consider strategies in the presence of noise. To model that, we will assume that a strategy has a probability $1-p$ of following the correct transition and a probability $p$ of following the incorrect transition, at every step. Note that this models noise in \textit{perception}. One could also imagine modeling noise in \textit{action taken}, but it is easy to see that the two are equivalent up to a change of the values of $R, S, T, P$.
+We can now begin to define the outcome of two strategies playing against each other in the infinitely repeated game. We do this using Markov chains.
 
 \begin{definition}
-  Suppose that strategy $s_1$ plays against strategy $s_2$. This defines an \textit{$s_1$-$s_2$ Markov chain} where each state $x$ is the vector $(c_1,c_2)$ where $c_1$ is a state in $s_1$ and $c_2$ is a state in $s_2$. The transition probabilities are defined in the obvious way, using the error probability $p$.
+  Suppose that strategy $s_1$ plays against strategy $s_2$. This defines an \textit{$s_1$-$s_2$ Markov chain} where each state is a tuple $(c_1,c_2)$ with $c_1$ being a state in $s_1$ and $c_2$ a state in $s_2$. The transition probabilities are defined in the obvious way:
+  \begin{equation*}
+    p_{(c_1,c_2) \to (c_1', c_2')} = p_{c_1 \to c_1'} \cdot p_{c_2 \to c_2'},
+  \end{equation*}
+  where $p_{c_1 \to c_1'}$ is $1-p$ if the output of $s_2$ at state $c_2$ causes $c_1$ to transition to $c_1'$, and is $p$ if the opposite of that output causes that transition; $p_{c_2 \to c_2'}$ is defined similarly.
 \end{definition}
 
+Markov chains naturally leads themselves to the study of limiting cases.
+
+\begin{definition}
+  \label{timeaveragedistribution}
+  The \textit{time average distribution} of the $s_1$-$s_2$ Markov chain given the start state $(a, b)$, denoted $\pi^{(a, b)}$, is the distribution such that \begin{equation*}
+    \pi_{c_1, c_2}^{(a, b)} = E \left[ \text{fraction of time in state $(c_1,c_2)$} \mid \text{initial state is } (a, b)  \right]
+  \end{equation*}
+  where the expected fraction of time is taken over the infinite sequence $(X_0, X_1, \ldots)$.
+\end{definition}
+
+We will often use $\pi$ to refer to $\pi^{(a_0, b_0)}$ where $a_0$ is the initial state of $s_1$ and $b_0$ is the initial state of $s_2$.
+
+\begin{definition}
+  \label{payofftimeaverage}
+  The payoff that $s_1$ gets when playing against $s_2$ is
+  \begin{equation*}
+    v_{s_1}(s_2) = \sum_{(c_1,c_2)} \pi_{c_1,c_2} \cdot r(G_{s_1}(c_1),G_{s_2}(c_2))
+  \end{equation*}
+  where $G_s(c)$ is the output of strategy $s$ at state $c$. The sum is taken over all states $(c_1,c_2)$ in the $s_1$-$s_2$ Markov chain.
+\end{definition}
+
+For notational convenience, we may also make $r(G_{s_1}(c_1),G_{s_2}(c_2))$ into a vector, denoted by $r$, and write this as the dot product \begin{equation*}
+  v_{s_1}(s_2) = \pi \cdot r.
+\end{equation*}
+
+That is, the payoff that $s_1$ gets when playing against $s_2$ is simply an average of the reward it gets in each possible state of the Markov chain weighted by the fraction of time that is spent there.
+
+\iffalse
 We use the notation $G_{s_1,s_2}(c_1,c_2)$ to refer to the vector $(G_{s_1}(c_1), G_{s_2}(c_2))$, and we use $S_{s_1,s_2}$ to refer to the set of all states in the Markov chain.
 
 \begin{definition}
@@ -175,6 +209,8 @@ We may also make $r(G_{s_1}(c_1),G_{s_2}(c_2))$ into a vector, denoted by $r$, a
 
 Appendix A contains more details on time average distributions. In particular, if a unique stationary distribution exists, it is equal to the time-average distribution, which enables us to quickly find the time-average distribution in many cases.
 
+\fi
+
 We're now ready to look at how strategies interact.
 
 \begin{definition}
@@ -187,9 +223,9 @@ We're now ready to look at how strategies interact.
   \end{equation*}
 \end{definition}
 
-One can think of this as saying that we have infinitely many members of the population, and that they all interact with everyone else. This justifies the usage of expectation when definining $v_{s_1}(s_2)$.
+One can think of this as saying that we have infinitely many members of the population, interacting with each other evenly, and that the fitness of a strategy is its expected payoff. Having infinitely many interactions like this justifies the usage of expectation when definining $v_{s_1}(s_2)$.
 
-We can now use the fitness of a strategy to compare it with other strategies in the same population. If a strategy $s_1$ has a higher fitness than another strategy $s_2$, that means that the frequency of $s_1$ will increase on the expense of the frequency of $s_2$, in the next step of the evolutionary process. This is getting us close to how we want to define stable strategies; our next move is looking not only at a single evolutionary step, but the entire evolutionary process.
+We can now use the fitness of a strategy to compare it with other strategies in the same population. If a strategy $s_1$ has a higher fitness than another strategy $s_2$, we say that the frequency of $s_1$ will increase at the expense of the frequency of $s_2$, in the next step of the evolutionary process. This is getting us close to how we want to define stable strategies; our next move is looking not only at a single evolutionary step, but the entire evolutionary process.
 
 \begin{definition}
   A strategy $s_1$ is \textit{$\epsilon$-invadable} if there exists a strategy $s_2$ such that in all populations $P$ with $S = \{s_1,s_2\}$ and $f(s_2) \geq \epsilon$, we have 
@@ -199,27 +235,38 @@ We can now use the fitness of a strategy to compare it with other strategies in 
   \end{equation*}
 \end{definition}
 
-That is, if $s_1$ is $\epsilon$-invadable, there exists a strategy $s_2$ that can start as only a tiny fraction $\epsilon$ of the total population, and consistently have higher fitness than $s_1$, eventually causing overtaking $s_1$ completely. We are now finally ready to state our main definition.
+That is, if $s_1$ is $\epsilon$-invadable, there exists a strategy $s_2$ that can start as only a tiny fraction $\epsilon$ of the total population, and consistently have higher fitness than $s_1$, eventually causing $s_2$ to overtake and then eliminate $s_1$ completely. We are now finally ready to define evolutionary stability.
 
 \begin{definition}
-  A strategy $s_1$ is \textit{evolutionarily stable} if there exists parameters $p_0$ and $\epsilon_0$, both in $(0,1)$, such that for all $p < p_0$, and all $\epsilon < \epsilon_0$, $s_1$ is not $\epsilon$-invadable.
+  A strategy $s_1$ is \textit{evolutionarily stable} if there exists parameters $p_0$ and $\epsilon_0$ with $0 < p_0, \epsilon_0 < 1$, such that for all $p < p_0$, and all $\epsilon < \epsilon_0$, $s_1$ is not $\epsilon$-invadable.
 \end{definition}
 
-That is, a strategy $s_1$ is evolutionarily stable if it can withstand invasion attempts from any strategy that starts off in low numbers, as the probability of noise tends to 0. 
+\todo{separate this definition out into a pure evolutionarily stable definition, and then an evolutionarily stable for infinitesimally small probabilities definition?? would make interpretation much clearer.}
+
+That is, a strategy $s_1$ is evolutionarily stable if, as the noise probability $p$ goes to 0, it can withstand invasion attempts from any strategy that starts off as a tiny fraction of the population.
+
+\subsection{Interpretation}
+
+Having concluded our formal definition of evolutionary stability, it might be helpful to see examples of concrete setups in which this definition makes sense.
+
+Consider the following world. 
+
+\todo{WRITE THIS SECTION?? I'M NOT SURE THAT MY MODEL MAKES MUCH SENSE ANYMORE THOUGH, BECAUSE IT REQUIRES PEOPLE TO PLAY AGAINST THEMSELVES WHICH IS A NONO. also the probability going to 0 does not really make sense}
+
 
 \section{Results}
 \label{sectionresults}
 
-We can now state our results! Together, the following two theorems prove that in the setup described here, mutual cooperation arises as the only stable choice.
+We can now state our results! Together, the following two conjectures imply that in the setup described here, mutual cooperation arises as the only stable choice.
 
-\begin{theorem}
+\begin{conjecture}
   \label{evolutionarystable1}
   Suppose that a strategy $s_1$ is evolutionarily stable. Then $\lim_{p \to 0} v_{s_1}(s_1) = R$.
-\end{theorem}
+\end{conjecture}
 
 \begin{conjecture}
   \label{pavlovtheorem}
-  Suppose $2R > T + P$. Then, the Pavlov strategy is evolutionarily stable.
+  Suppose $2R > T + P$. Then, the Pavlov strategy, depicted in \cref{pavlovfigure}, is evolutionarily stable.
 \end{conjecture}
 
 \begin{figure}
@@ -234,24 +281,21 @@ We can now state our results! Together, the following two theorems prove that in
   \path[->] (s_1) edge [bend left] node [below] {$D$} (s_0);
 \end{tikzpicture}
   \centering
-  \caption{Pavlov.}
+  \caption{The Pavlov strategy. Similar to but not the same as the Tit-for-tat strategy.}
 \end{figure}
-
-  % \begin{tikzpicture}[scale=0.8, show background rectangle]
-  %   \draw (0,0) -- (2,1);
-  %   \draw (1,1) circle (3);
-  %   \path[draw] (0,0) -- (1,1) -- (2,0);
-  % \end{tikzpicture}
 
 
 \begin{remark}
-  Tit-for-tat, displayed in \cref{tftfigure}, is not evolutionarily stable. It has the stationary distribution $(\frac{1}{4},\frac{1}{4},\frac{1}{4},\frac{1}{4})$ in its own Markov chain, which has a payoff that is significantly smaller than $R$. This should be intuitive: if tit-for-tat makes one mistake, it goes into a defection cycle that it doesn't break out of until it makes a second mistake.
-
+  Tit-for-tat, depicted in \cref{tftfigure}, is not evolutionarily stable. 
+  When played against itself, it ends up spending just as much time in the defection state as in the cooperation state, because as soon as one mistake is made, it goes into a mutual defection cycle with its clone that is only broken by an additional mistake.
+  Thus, $v_s(s)$ where $s$ is Tit-for-tat is much smaller than $R$, which means that it is not evolutionarily stable by \cref{evolutionarystable1}.
 \end{remark}
 
 
 \section{Proofs}
 \label{sectionproofs}
+
+In this section, we prove our results from the previous section.
 
 \subsection{The time average distribution}
 
@@ -521,6 +565,8 @@ Finally, we can characterize the absorbing strongly connected components of the 
 
     Right now we have only modeled noise in perception. One could think of another possible kind of noise: a ``failure of the mind,'' which perhaps could be modeled instead by a probability $p$ of being transported to any random state, instead. This would create ergodicity which is nice.
 
+    \iffalse
+
     \section{Appendix: Time average distributions}
 
     We might have periodicity, but for our purposes, we might as well extend the definition and look at periodic distributions as stationary too. The following two lemmas help with that.
@@ -537,8 +583,11 @@ Finally, we can characterize the absorbing strongly connected components of the 
 
     This proves that we're able to talk about stationary distributions even when they don't really actually exist.
 
+    \fi
 
     \section{Appendix: Probablistic Automata}
+
+    OHHHHHHH. THIS WILL HELP WITH MY PROOF????? THIS IS EXACTLY WHAT I'M TRYING TO DO IN MY PROOF RIGHT????? YEAHHHH, NO.
 
     In this paper, we have considered strategies that make a deterministic move based on what they perceive. One could also imagine strategies that attaches a certain probability distribution to a perceived input, and chooses their next action based on that. In this appendix we show that these can be reduced to the deterministic ones, and thus that all results for the deterministic ones also hold for the probabilistic ones.
 
