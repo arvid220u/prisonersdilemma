@@ -4,7 +4,9 @@
 \usepackage{cleveref}
 \usepackage{tikz}
 \usepackage{blkarray}
-\usetikzlibrary{backgrounds,arrows,automata,positioning,shapes,shapes.geometric}
+\usetikzlibrary{backgrounds,arrows,automata,positioning,shapes,shapes.geometric,calc, arrows.meta, bending, decorations.pathreplacing}
+
+\usepackage{witharrows}
 
 
 \DeclareMathOperator*{\argmax}{argmax}
@@ -333,8 +335,9 @@ We may also put both of the terms together and talk about absorbing strongly con
 
 \begin{lemma}
   \label{timeaveragedistributiondecomposition}
-  Let $\mathcal{A}$ be the set of absorbing strongly connected components of the $s_1$-$s_2$ Markov chain. For every $S \in \mathcal{A}$, let $\pi^{(S)}$ be its unique time average distribution. Then, for some probabilities $p_{S}$ with $\sum_{S \in \mathcal{A}} p_{S} = 1$, corresponding to the time average probabilities of ending up in the absorbing strongly connected component $S$, we have \begin{equation*}
-    \pi = \sum_{S \in \mathcal{A}} p_{S} \cdot \pi^{(S)}.
+  Let $\mathcal{A}$ be the set of absorbing strongly connected components of the $s_1$-$s_2$ Markov chain. For every $S \in \mathcal{A}$, let $\pi^{(S)}$ be its unique time average distribution. Then
+  \begin{equation*}
+    \pi = \sum_{S \in \mathcal{A}} P(\text{$s_1$-$s_2$ chain ends up in $S$}) \cdot \pi^{(S)}.
   \end{equation*}
 \end{lemma}
 
@@ -480,29 +483,33 @@ Now that we know more about the time average distribution, we are also intereste
         \label{claimpayoffs}
         Given the above construction of $s_2$, the payoffs are as follows.
       \begin{align*}
-        v_{s_1}(s_1) &= \gamma + O(p) \\
-        v_{s_1}(s_2) &= \gamma + O(p) \\
-        v_{s_2}(s_1) &= \gamma + O(p) \\
-        v_{s_2}(s_2) &= R + O(p)
+        v_{s_1}(s_1) &= \gamma \pm O(p) \\
+        v_{s_1}(s_2) &= \gamma \pm O(p) \\
+        v_{s_2}(s_1) &= \gamma \pm O(p) \\
+        v_{s_2}(s_2) &= R \pm O(p)
       \end{align*}
       \end{claim}
       \begin{subproof}
 
-        By our definition of $\gamma$, we have that $v_{s_1}(s_1) = \gamma + O(p)$.
+        By our definition of $\gamma$, we have that $v_{s_1}(s_1) = \gamma \pm O(p)$.
 
-        Consider now the case of $s_1$ playing against $s_2$. Suppose that $s_2$ ends up in the absorbing component $K_H$. By \cref{claimcanwaitfors1}, with probability $1 - O(p)$, $s_2$ is indistinguishable from $s_1$ until $s_1$ also reaches an absorbing strongly connected component, which we call $H'$. This means that the probability for reaching the absorbing component $(C_1', C_2)$ in the $s_1$-$s_2$ Markov chain, is up to a factor of $1 - O(p)$ the same as if we hadn't replaced $C_1$ by $C_2$, which is just the probability of reaching the absorbing component $(C_1', C_1)$ in the $s_1$-$s_1$ Markov chain. Thus, 
+        Consider now the case of $s_1$ playing against $s_2$. Suppose that $s_2$ ends up in the absorbing component $K_H$. By \cref{claimcanwaitfors1}, with probability $1 - O(p)$, $s_2$ is indistinguishable from $s_1$ until $s_1$ reaches an absorbing strongly connected component, which we call $H'$.         
+        This means that the probability of reaching the absorbing component $H' \times K_H$ in the $s_1$-$s_2$ Markov chain, is up to a factor of $1 - O(p)$ the same as if we hadn't replaced $H$ by $K_H$ in $s_2$, which is just the probability of reaching the absorbing component $H' \times H$ in the $s_1$-$s_1$ Markov chain. Thus, 
         \begin{multline*}
-          P(\text{$s_1$-$s_2$ chain ends up in $(C_1', C_2)$}) \\ = (1 - O(p)) P(\text{$s_1$-$s_1$ chain ends up in $(C_1', C_1)$})
+          P(\text{$s_1$-$s_2$ ends up in $H' \times K_H$}) = (1 - O(p)) P(\text{$s_1$-$s_1$ ends up in $H' \times H$})
         \end{multline*}
-        Now, by \cref{claimcanfigureout}, the probability that $s_2$ enters the absorbing strongly connected component $C_1$ after having gotten to $C_2$ is $1 - O(p)$, and that it enters the always cooperating component $C_c$ is $O(p)$. Thus,
-        \begin{align*}
-          P(\text{$s_1$-$s_2$ chain ends up in $(C_1',C_1)$}) &= P(\text{$s_1$-$s_1$ chain ends up in $(C_1',C_1)$}) + O(p) \\
-          P(\text{$s_1$-$s_2$ chain ends up in $(C_1',C_c)$}) &= O(p)
-        \end{align*}
-        That is, when $s_1$ plays against $s_2$, the absorbing strongly connected components are mostly the same, with mostly the same probabilities. 
-        Now, we can calculate $\tau$, the time average distribution of the $s_1$-$s_2$ Markov chain:
-
-        \todo{this is nonsensical here!! i should really try to explain this better!!!!!}
+        Now, by \cref{claimcanfigureout}, the probability that $s_2$ enters the absorbing strongly connected component $H_\text{copy}$ after having gotten to $K_H$ is $1 - O(p)$ when playing against $s_1$. Thus,
+        \begin{equation}
+          \label{equationhhcopy}
+          P(\text{$s_1$-$s_2$ ends up in $H' \times H_\text{copy}$}) = P(\text{$s_1$-$s_1$ ends up in $H' \times H$}) \pm O(p).
+        \end{equation}
+        Let $C_H$ be the always cooperating absorbing state of $K_H$. Then, this equation implies that 
+        \begin{equation}
+          \label{equationhch}
+          P(\text{$s_1$-$s_2$ ends up in $H' \times C_H$}) = O(p).
+        \end{equation}
+        Thus, when $s_1$ plays against $s_2$, the absorbing strongly connected components are mostly the same, with mostly the same probabilities. 
+        Now, let $\pi$ be the time average distribution of the $s_1$-$s_1$ Markov chain and let $\tau$ be the time average distribution of the $s_1$-$s_2$ Markov chain. Let $\mathcal{A}$ be the set of absorbing strongly connected components of the $s_1$-$s_1$ chain, and let $\mathcal{B}$ be the set of absorbing strongly connected components of the $s_1$-$s_2$ chain. Using \cref{timeaveragedistributiondecomposition} and \cref{absorbingstronglyconnectedcomponentscartesianproduct}, we can now calculate $\tau$:
 
         % By definition, $v_{s_1}(s_1) = \gamma$. By \cref{timeaveragedistributiondecomposition}, the time average distribution of the $s_1$-$s_1$ Markov chain $\pi$ is \begin{equation*}
         %   \pi = \sum_{(C_1, C_1') \in \mathcal{C}_1 \times \mathcal{C}_1} p_{(C_1, C_1')} \cdot \pi^{(C_1, C_1')}
@@ -516,25 +523,30 @@ Now that we know more about the time average distribution, we are also intereste
         % This equation is true because when $s_2$ plays against $s_1$, it identifies the action $A$ that $s_1$ will take at time $A$ with probability $(1 - O(p))$, and upon seeing that transitions to $C_{1, \text{copy}}$ with probability $(1-p)$.
 
         \begin{align*}
-          \tau &= \sum_{(C_1, C') \in \mathcal{C}_1 \times \mathcal{C}_2} p_{(C_1, C')} \cdot \pi^{(C_1, C')} \\
-          &= \sum_{(C_1, C_{1, \text{copy}})} p_{(C_1, C_{1, \text{copy}})} \cdot \pi^{(C_1, C_{1, \text{copy}})} + \sum_{(C_1, C_c)} p_{(C_1, C_c)} \cdot \pi^{(C_1, C_c)} \\
-          &= \sum_{(C_1, C_1') \in \mathcal{C}_1 \times \mathcal{C}_1} p_{(C_1, C_1')} \cdot \pi^{(C_1, C_1')} + O(p) \\
-          &= \pi + O(p)
+          \WithArrowsOptions{displaystyle}
+          \begin{WithArrows}
+          \tau &= \sum_{S \in \mathcal{B}} P(\text{$s_1$-$s_2$ ends up in $S$}) \cdot \pi^{(S)} \Arrow{\cref{absorbingstronglyconnectedcomponentscartesianproduct}}\\
+          &= \sum_{H', C_H} P(\text{$s_1$-$s_2$ ends up in $H' \times C_H$}) \cdot \pi^{(H' \times C_H)}\\ &\:\:\:\:\:\:\:+ \sum_{H', H_\text{copy}} P(\text{$s_1$-$s_2$ ends up in $H' \times H_\text{copy}$}) \cdot \pi^{(H' \times H_\text{copy})} \Arrow{\cref{equationhch}}\\
+          &= \sum_{H', H_\text{copy}} P(\text{$s_1$-$s_2$ ends up in $H' \times H_\text{copy}$}) \cdot \pi^{(H' \times H_\text{copy})} \pm O(p) \Arrow{\cref{equationhhcopy}}\\
+          &= \sum_{H', H} P(\text{$s_1$-$s_1$ ends up in $H' \times H$}) \cdot \pi^{(H' \times H)} \pm O(p) \Arrow{\cref{absorbingstronglyconnectedcomponentscartesianproduct}}\\
+          &= \sum_{S \in \mathcal{A}} P(\text{$s_1$-$s_1$ ends up in $S$}) \cdot \pi^{(S)} \pm O(p)\\
+          &= \pi \pm O(p)
+          \end{WithArrows}
         \end{align*}
-        where the second-to-last equality follows by \cref{c1c1copy}. \todo{we're kinda abusing notation here} This proves that $v_{s_1}(s_2) = \gamma + O(p)$ and $v_{s_2}(s_1) = \gamma + O(p)$.
+        Thus, $s_1$-$s_1$ and $s_1$-$s_2$ have almost the same time average distribution. This proves that $v_{s_1}(s_2) = \gamma \pm O(p)$ and $v_{s_2}(s_1) = \gamma \pm O(p)$.
 
-        For the last part of the claim, consider the $s_2$-$s_2$ Markov chain. By \cref{claimcansyncs2}, both clones will be in the exact same position after the sync step. The third step takes only a finite number of steps by \cref{claimcanfigureout}. Thus, after leaving the third step of $C_2$, if no mistakes have happened since leaving state 2, both clones of $s_2$ will be in the exact same state. This happens with probability $(1-p)^N$ where $N$ is the finite number of states in step 3, and thus with probability $1 - O(p)$. Thus, in the identifying stage, both clones will output the same thing, and as we can see in \cref{c2flowchart}, they will then both transition to the always cooperating state with probability $1 - O(p)$. Therefore, $v_{s_2}(s_2) = R - O(p)$, which finishes the proof of the claim.
+        For the last part of the claim, consider the $s_2$-$s_2$ Markov chain. By \cref{claimcansyncs2}, both clones will be in the exact same position after the sync step. The third step takes only a finite number of steps by \cref{claimcanfigureout}. Thus, after leaving the third step of $K_H$, if no mistakes have happened since leaving state 2, both clones of $s_2$ will be in the exact same state. This happens with probability at least $(1-p)^N$ where $N$ is the finite number of states in step 3, and thus with probability $1 - O(p)$. Thus, in the identifying stage, both clones will output the same thing, and as we can see in \cref{c2flowchart}, they will then both transition to the always cooperating state with probability $1 - O(p)$. Therefore, $v_{s_2}(s_2) = R \pm O(p)$, which finishes the proof of the claim.
       \end{subproof}
 
       Given \cref{claimpayoffs}, we simply compute $F(s_2) - F(s_1)$, which we want to show is greater than 0.
       \begin{align*}
         F(s_2) - F(s_1) &= \\
         &= (1 - \epsilon) \cdot v_{s_2}(s_1) + \epsilon \cdot v_{s_2}(s_2) - (1 - \epsilon) \cdot v_{s_1}(s_1) - \epsilon \cdot v_{s_1}(s_2) \\
-        &= (1 - \epsilon) (\gamma - O(p)) + \epsilon (R - O(p)) - (1-\epsilon) \gamma - \epsilon (\gamma + O(p)) \\
-        &\geq \epsilon (R - \gamma) - O(p)
+        &= (1 - \epsilon) (\gamma \pm O(p)) + \epsilon (R \pm O(p)) - (1-\epsilon) (\gamma \pm O(p)) - \epsilon (\gamma \pm O(p)) \\
+        &\geq \epsilon (R - \gamma) \pm O(p)
       \end{align*}
 
-      We know that $R - \gamma > 0$ by our initial assumption. For a sufficiently small $p$, thus, $F(s_2) - F(s_1) > 0$. This proves that $s_2$ can invade $s_1$, and thus, that $s_1$ is not $\epsilon$-invadable for this value of $p$. In conclusion, then, $s_1$ is not evolutionarily stable, which concludes the proof of \cref{evolutionarystable1}.
+      We know that $R - \gamma > 0$ by our initial assumption. For all sufficiently small $p$, thus, $F(s_2) - F(s_1) > 0$. This proves that $s_2$ can invade $s_1$, and thus, that $s_1$ is not $\epsilon$-invadable some value of $p < p_0$. In conclusion, then, $s_1$ is not evolutionarily stable, which concludes the proof of \cref{evolutionarystable1}.
 
     \end{proof}
 
