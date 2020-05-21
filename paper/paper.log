@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2020.4.8)  21 MAY 2020 17:41
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2020.4.8)  21 MAY 2020 22:30
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -502,11 +502,6 @@ Overfull \hbox (102.84833pt too wide) has occurred while \output is active
  []
 
 [5] [6]
-Overfull \hbox (5.70872pt too wide) in paragraph at lines 392--393
- \OT1/cmr/m/n/10.95 4.2.\OT1/cmr/bx/n/10.95 Evolutionary Sta-bil-ity Im-plies Util-i-tar-i-an-ism.[] \OT1/cmr/m/n/10.95 The fol-low-ing proof
- []
-
-
 Overfull \hbox (102.84833pt too wide) has occurred while \output is active
  \OT1/cmr/m/n/8 COOPERATION IS PROVABLY REQUIRED IN A VERSION OF THE NOISY ITERATED PRISONER'S DILEMMA []
  []
@@ -517,24 +512,31 @@ Overfull \hbox (102.84833pt too wide) has occurred while \output is active
  []
 
 [9]
-Overfull \hbox (20.98398pt too wide) detected at line 486
+Overfull \hbox (20.98398pt too wide) detected at line 501
 []
  []
 
 
-LaTeX Warning: Reference `c1c1copy' on page 1 undefined on input line 509.
+Underfull \vbox (badness 2547) has occurred while \output is active []
 
-[10]
+ [10]
+
+LaTeX Warning: Reference `c1c1copy' on page 1 undefined on input line 524.
+
+
 Overfull \hbox (102.84833pt too wide) has occurred while \output is active
  \OT1/cmr/m/n/8 COOPERATION IS PROVABLY REQUIRED IN A VERSION OF THE NOISY ITERATED PRISONER'S DILEMMA []
  []
 
 [11]
-Overfull \hbox (56.61969pt too wide) detected at line 605
+Underfull \vbox (badness 1496) has occurred while \output is active []
+
+ [12]
+Overfull \hbox (56.61969pt too wide) detected at line 620
 []
  []
 
-[12]
+
 Overfull \hbox (102.84833pt too wide) has occurred while \output is active
  \OT1/cmr/m/n/8 COOPERATION IS PROVABLY REQUIRED IN A VERSION OF THE NOISY ITERATED PRISONER'S DILEMMA []
  []
@@ -545,15 +547,15 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 18397 strings out of 492616
- 390581 string characters out of 6129482
- 456273 words of memory out of 5000000
- 21814 multiletter control sequences out of 15000+600000
+ 18400 strings out of 492616
+ 390679 string characters out of 6129482
+ 455425 words of memory out of 5000000
+ 21817 multiletter control sequences out of 15000+600000
  12079 words of font info for 46 fonts, out of 8000000 for 9000
  1302 hyphenation exceptions out of 8191
- 62i,13n,81p,1318b,1084s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 62i,13n,81p,1262b,1084s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb>
-Output written on "/Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/paper/paper.pdf" (14 pages, 253893 bytes).
+Output written on "/Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/paper/paper.pdf" (14 pages, 257950 bytes).
 PDF statistics:
  141 PDF objects out of 1000 (max. 8388607)
  92 compressed objects within 1 object stream
