@@ -4,7 +4,7 @@
 \usepackage{cleveref}
 \usepackage{tikz}
 \usepackage{blkarray}
-\usetikzlibrary{backgrounds,arrows,automata,positioning}
+\usetikzlibrary{backgrounds,arrows,automata,positioning,shapes,shapes.geometric}
 
 
 \DeclareMathOperator*{\argmax}{argmax}
@@ -35,6 +35,10 @@
 Supervised by: Michael Sipser}
 
 \begin{document}
+\tikzset{elliptic state/.style={draw,ellipse, text centered, text width=10em}}
+\tikzstyle{block} = [rectangle, draw, fill=blue!20, 
+    text width=5em, text centered, rounded corners, minimum height=4em]
+
 \maketitle
 
 \section{Introduction}
@@ -385,57 +389,117 @@ Finally, we can characterize the absorbing strongly connected components of the 
 
 \subsection{Evolutionary Stability Implies Utilitarianism}
 
+  The following proof is relatively involved, and we believe that a simpler proof exists, but haven't been able to find one.
 
     \begin{proof}[Proof of \cref{evolutionarystable1}]
       Suppose that the strategy $s_1$ is such that it is \textit{not} true that \begin{equation*}
         \lim_{p \to 0 } v_{s_1}(s_1) = R
       \end{equation*}
-      By \cref{limitvexists} and \cref{neverbetterthanr}, this assumption implies that the limit is strictly less than $R$. Define $\gamma = v_{s_1}(s_1)$. Then,
+      By \cref{limitvexists} and \cref{neverbetterthanr}, this assumption implies that the limit is strictly less than $R$. Define $\gamma = \lim_{p \to 0} v_{s_1}(s_1)$. Then,
       \begin{equation*}
         \gamma < R.
       \end{equation*}
       
-      We want to prove that $s_1$ is not evolutionarily stable. This would prove the theorem.
+      We want to prove that $s_1$ is not evolutionarily stable. 
       
-      To do that, we want to prove that for all $p_0, \epsilon_0 \in (0,1)$, there exists $p < p_0$ and $\epsilon < \epsilon_0$, such that $s_1$ is $\epsilon$-invadable. We choose $\epsilon = \epsilon_0 / 2$, and present a strategy $s_2$ that can invade $s_1$ for sufficiently small $p$.
+      To do that, we want to prove that for all $p_0, \epsilon_0 \in (0,1)$, there exists $p < p_0$ and $\epsilon < \epsilon_0$, such that $s_1$ is $\epsilon$-invadable. We choose $\epsilon = \epsilon_0 / 2$, and present a strategy $s_2$ that can invade $s_1$ for all $p$ that are sufficiently small.
 
 
-      The underlying idea is to create $s_2$ such that $s_1$ can see no difference between itself and $s_2$, while $s_2$, on the other hand, can. In that case, we would have $v_{s_1}(s_2) = v_{s_2}(s_1) = v_{s_1}(s_1)$, and could construct $s_2$ such that it always cooperates when it recognizes itself, thereby yielding $v_{s_2}(s_2) = R$. This would give $s_2$ a higher fitness than $s_1$. The rest of this proof executes this plan in detail.
+      The underlying idea is to create $s_2$ such that $s_1$ can see no difference between itself and $s_2$, while $s_2$, on the other hand, can. In that case, we would have that $v_{s_1}(s_2) = v_{s_2}(s_1) = v_{s_1}(s_1)$, and could construct $s_2$ such that it always cooperates when it recognizes itself, thereby yielding $v_{s_2}(s_2) = R$. This would give $s_2$ a higher fitness than $s_1$. The rest of this proof executes this plan in detail.
 
-      We create the strategy $s_2$ as follows. First, we copy all of $s_1$ into $s_2$. Let $\mathcal{C}_1$ be the absorbing strongly connected components of $s_1$. The key idea, now, is to replace each original absorbing strongly connected component $C_1 \in \mathcal{C}_1$ with a new absorbing component $C_2$, which has the capability of self identifying.
+      We create the strategy $s_2$ as follows. First, we copy all of $s_1$ into $s_2$. Let $\mathcal{C}_1$ be the set of
+       absorbing strongly connected components of $s_1$. The key idea, now, is to replace each original absorbing strongly connected component $C_1 \in \mathcal{C}_1$ with a new absorbing component $C_2$, which has the capability of self identifying.
+
+      We now construct $C_2$, given $C_1$. \Cref{c2flowchart} shows the high-level construction of $C_2$. All of the steps succeed with probability $1 - O(p)$. The first step makes sure that $C_2$ does not deviate from $s_1$ at all, until $s_1$ has reached an absorbing strongly connected component. Once $s_1$ is in an absorbing strongly connected component, we already know that the time average distribution does not depend on the particular state in $s_1$, which means that even if $s_1$ now ``figures out'' that it is not playing against itself anymore, there is nothing it can do about it. The next step makes sure that, if $s_2$ is playing against itself, it is in sync; i.e., with probability $1 - O(p)$ they will both copies of $s_2$ will be in the same state after this step. The third step now figures out what action $s_1$ would take at some large finite time $T$, and then outputs the exact opposite action at time $T$. At that point, if its opponent outputs $s_1$'s expected action, it transitions into the absorbing strongly connected component $C_1$, but if its opponent outputs the opposite of that action, it has successfully recognized itself and enters an always cooperating state.
+
+      \begin{figure}
+        \centering
+        \begin{tikzpicture}[node distance=0.9cm,initial text=]
+          \node[elliptic state, initial, initial where=above] (c_0) {1. Wait until $s_1$ is in an absorbing SCC, while simulating $C_1$.};
+          \node[elliptic state] (c_1) [below=of c_0] {2. Sync $s_2$.};
+          \node[elliptic state] (c_3) [below=of c_1] {3. Figure out what action that $s_1$ will take right after this.};
+          \node[state] (c_4) [below left=of c_3] {$C$};
+          \node[state] (c_5) [below right=of c_3] {$D$};
+          \node[state] (c_6) [below=of c_5] {$C$};
+          \node[state] (c_7) [below=of c_4] {$C_1$};
+
+
+          \path[->] (c_0) edge (c_1);
+          \path[->] (c_1) edge (c_3);
+          \path[->] (c_3) edge node [above left] {$s_1$ will take $D$} (c_4);
+          \path[->] (c_3) edge node [above right] {$s_1$ will take $C$} (c_5);
+          \path[->] (c_4) edge node [below, pos=0.1] {$C$} (c_6);
+          \path[->] (c_5) edge node [right] {$D$} (c_6);
+          \path[->] (c_4) edge node [left] {$D$} (c_7);
+          \path[->] (c_5) edge node [below, pos=0.1] {$C$} (c_7);
+          \path[->] (c_6) edge [loop right] (c_6);
+          % \path[->] (c_0) edge node [above right] {$\bar{\alpha}$} (c_1);
+          % \path[->] (c_1) edge [loop right] node [right] {$C,D$} ();
+          % \path[->] (c_0) edge node [above left] {$\alpha$} (c_prime);
+          % \path[->] (c) edge node [below left] {$\alpha$} (c_prime);
+        \end{tikzpicture}
+        \caption{High level construction of $C_2$, the absorbing component replacing $C_1$ when creating $s_2$ in the proof of \cref{evolutionarystable1}. Note that $C_2$ contains exactly 2 absorbing strongly connected components.}
+        \label{c2flowchart}
+      \end{figure}
       
-      We construct $C_2$ as follows. First, it finds out in finite time what action $A$ that $s_1$ will take at some large finite future time $T$ (with probability $1 - O(p)$). 
-      \todo{THIS DOESN'T WORK. The problem is the circulation states: if $s_2$ goes into an absorbing SCC before $s_1$ does, our modified $C_2$ might affect the probabilities of $s_1$ going into certain absorbing SCCs. I think a way to fix that is as follows: You take $C_1$, and replace each of its individual states by an SCC, targeting a particular non-absorbing SCC of $s_1$. Make sure that they circulate in sync with each other. That means that we will be able to delay getting into the identification stage of $C_2$ which is exactly what we want.}
-      After that, it responds with the opposite action (which we will denote by $\bar{A}$) right after time $T$. 
-      If $s_2$ subsequently perceives that its opponent takes action $A$, it will transition into a copy of $C_1$, the absorbing strongly connected component that $C_2$ replaces. On the other hand, if $s_2$ perceives its opponent taking action $\bar{A}$, then it will transition into an absorbing strongly connected component that always cooperates. A schematic view of $C_2$ is presented in figure ????. This concludes the construction of $s_2$.
+      This concludes the construction of $s_2$. We now want to prove that this $s_2$ can in fact invade $s_1$. To do that, we will first assume that the below 3 claims are correct, i.e., that the construction is possible and works as specified, and finish the proof of our theorem using those assumptions. Then, we will prove the 3 claims.
 
-      \todo{add picture here when low on focus}
+      \begin{claim}
+        \label{claimcanwaitfors1}
+        We can construct a non-absorbing component with indistinguishable output from the component $C_1$, such that when we leave the component, $s_1$ will be in an absorbing strongly connected component with probability $1 - O(p)$.
+      \end{claim}
 
-      We now want to prove that $s_2$ can in fact invade $s_1$ for small $p$. First, we will assume that $C_2$ can find out the action $A$ that $s_1$ would take at time $T$, and finish the proof of our theorem using this assumption. After that, we will prove that that is indeed the case.
+      \begin{claim}
+        \label{claimcansyncs2}
+        We can construct a non-absorbing component placed after the first component, such that if $s_2$ plays against itself, both clones transition out of the component at the exact same time with probability $1 - O(p)$.
+      \end{claim}
+
+      \begin{claim}
+        \label{claimcanfigureout}
+        We can construct a non-absorbing component with a finite number of maximum steps that, supposing that $s_2$ plays against $s_1$, can figure out what action $s_1$ will take at the exact timestep following the transition out of the component.
+      \end{claim}
+
+      We now finish our proof.
 
       \begin{claim}
         \label{claimpayoffs}
         Given the above construction of $s_2$, the payoffs are as follows.
       \begin{align*}
-        v_{s_1}(s_1) &= \gamma \\
+        v_{s_1}(s_1) &= \gamma + O(p) \\
         v_{s_1}(s_2) &= \gamma + O(p) \\
         v_{s_2}(s_1) &= \gamma + O(p) \\
         v_{s_2}(s_2) &= R + O(p)
       \end{align*}
       \end{claim}
       \begin{subproof}
-        By definition, $v_{s_1}(s_1) = \gamma$. By \cref{timeaveragedistributiondecomposition}, the time average distribution of the $s_1$-$s_1$ Markov chain $\pi$ is \begin{equation*}
-          \pi = \sum_{(C_1, C_1') \in \mathcal{C}_1 \times \mathcal{C}_1} p_{(C_1, C_1')} \cdot \pi^{(C_1, C_1')}
-        \end{equation*}
-        When creating $s_2$, we replaced each $C_1$ by a $C_2$, containing two absorbing strongly connected components: a copy of $C_1$, which we call $C_{1, \text{copy}}$ and the always cooperating $C_c$. This means that the condensation of the $s_1$-$s_2$ Markov chain is the same as the condensation of the $s_1$-$s_1$ Markov chain, except that each absorbing strongly connected component has been replaced by two. That is, the absorbing strongly connected component $(C_1, C_1')$ of the $s_1$-$s_1$ chain has become both $(C_1, C_{1, \text{copy}})$ and $(C_1, C_c)$ in the $s_1$-$s_2$ chain. Then, we find by our construction, that 
-        \begin{align}
-          \label{c1c1copy}
-          p_{(C_1, C_{1, \text{copy}})} &= (1 - O(p)) p_{(C_1, C_1')} \\
-          p_{(C_1, C_c)} &= O(p) p_{(C_1, C_1')}
-        \end{align}
-        This equation is true because when $s_2$ plays against $s_1$, it identifies the action $A$ that $s_1$ will take at time $A$ with probability $(1 - O(p))$, and upon seeing that transitions to $C_{1, \text{copy}}$ with probability $(1-p)$.
 
+        That $v_{s_1}(s_1) = \gamma + O(p)$ follows by our definition of $\gamma$.
+
+        Consider first the case of $s_1$ playing against $s_2$. By \cref{claimcanwaitfors1}, with probability $1 - O(p)$, $s_2$ is indistinguishable from $s_1$ until $s_1$ reaches an absorbing strongly connected component $C_1'$. This means that the probability for reaching the absorbing component $(C_1', C_2)$ in the $s_1$-$s_2$ Markov chain, is up to a factor of $1 - O(p)$ the same as if we hadn't replaced $C_1$ by $C_2$, which is just the probability of reaching the absorbing component $(C_1', C_1)$ in the $s_1$-$s_1$ Markov chain. Thus, 
+        \begin{multline*}
+          P(\text{$s_1$-$s_2$ chain ends up in $(C_1', C_2)$}) \\ = (1 - O(p)) P(\text{$s_1$-$s_1$ chain ends up in $(C_1', C_1)$})
+        \end{multline*}
+        Now, by \cref{claimcanfigureout}, the probability that $s_2$ enters the absorbing strongly connected component $C_1$ after having gotten to $C_2$ is $1 - O(p)$, and that it enters the always cooperating component $C_c$ is $O(p)$. Thus,
+        \begin{align*}
+          P(\text{$s_1$-$s_2$ chain ends up in $(C_1',C_1)$}) &= P(\text{$s_1$-$s_1$ chain ends up in $(C_1',C_1)$}) + O(p) \\
+          P(\text{$s_1$-$s_2$ chain ends up in $(C_1',C_c)$}) &= O(p)
+        \end{align*}
+        That is, when $s_1$ plays against $s_2$, the absorbing strongly connected components are mostly the same, with mostly the same probabilities. 
         Now, we can calculate $\tau$, the time average distribution of the $s_1$-$s_2$ Markov chain:
+
+        \todo{this is nonsensical here!! i should really try to explain this better!!!!!}
+
+        % By definition, $v_{s_1}(s_1) = \gamma$. By \cref{timeaveragedistributiondecomposition}, the time average distribution of the $s_1$-$s_1$ Markov chain $\pi$ is \begin{equation*}
+        %   \pi = \sum_{(C_1, C_1') \in \mathcal{C}_1 \times \mathcal{C}_1} p_{(C_1, C_1')} \cdot \pi^{(C_1, C_1')}
+        % \end{equation*}
+        % When creating $s_2$, we replaced each $C_1$ by a $C_2$, containing two absorbing strongly connected components: a copy of $C_1$, which we call $C_{1, \text{copy}}$ and the always cooperating $C_c$. This means that the condensation of the $s_1$-$s_2$ Markov chain is the same as the condensation of the $s_1$-$s_1$ Markov chain, except that each absorbing strongly connected component has been replaced by two. That is, the absorbing strongly connected component $(C_1, C_1')$ of the $s_1$-$s_1$ chain has become both $(C_1, C_{1, \text{copy}})$ and $(C_1, C_c)$ in the $s_1$-$s_2$ chain. Then, we find by our construction, that 
+        % \begin{align}
+        %   \label{c1c1copy}
+        %   p_{(C_1, C_{1, \text{copy}})} &= (1 - O(p)) p_{(C_1, C_1')} \\
+        %   p_{(C_1, C_c)} &= O(p) p_{(C_1, C_1')}
+        % \end{align}
+        % This equation is true because when $s_2$ plays against $s_1$, it identifies the action $A$ that $s_1$ will take at time $A$ with probability $(1 - O(p))$, and upon seeing that transitions to $C_{1, \text{copy}}$ with probability $(1-p)$.
+
         \begin{align*}
           \tau &= \sum_{(C_1, C') \in \mathcal{C}_1 \times \mathcal{C}_2} p_{(C_1, C')} \cdot \pi^{(C_1, C')} \\
           &= \sum_{(C_1, C_{1, \text{copy}})} p_{(C_1, C_{1, \text{copy}})} \cdot \pi^{(C_1, C_{1, \text{copy}})} + \sum_{(C_1, C_c)} p_{(C_1, C_c)} \cdot \pi^{(C_1, C_c)} \\
@@ -444,7 +508,7 @@ Finally, we can characterize the absorbing strongly connected components of the 
         \end{align*}
         where the second-to-last equality follows by \cref{c1c1copy}. \todo{we're kinda abusing notation here} This proves that $v_{s_1}(s_2) = \gamma + O(p)$ and $v_{s_2}(s_1) = \gamma + O(p)$.
 
-        For the last part of the claim, note that at time $T$, $s_2$ and its copy $s_2$ will be in the exact same state with probability at least $(1-p)^T = 1 - O(p)$, since if there are no mistakes they will both go to the exact same states. Thus, when $s_2$ outputs $\bar{A}$ to identify $s_1$, both of them will do that, and thus transition to an always cooperating state with probability $1 - O(p)$. Therefore, $v_{s_2}(s_2) = R - O(p)$, which finishes the proof of the claim.
+        For the last part of the claim, consider the $s_2$-$s_2$ Markov chain. By \cref{claimcansyncs2}, both clones will be in the exact same position after the sync step. The third step takes only a finite number of steps by \cref{claimcanfigureout}. Thus, after leaving the third step of $C_2$, if no mistakes have happened since leaving state 2, both clones of $s_2$ will be in the exact same state. This happens with probability $(1-p)^N$ where $N$ is the finite number of states in step 3, and thus with probability $1 - O(p)$. Thus, in the identifying stage, both clones will output the same thing, and as we can see in \cref{c2flowchart}, they will then both transition to the always cooperating state with probability $1 - O(p)$. Therefore, $v_{s_2}(s_2) = R - O(p)$, which finishes the proof of the claim.
       \end{subproof}
 
       Given \cref{claimpayoffs}, we simply compute $F(s_2) - F(s_1)$, which we want to show is greater than 0.
@@ -459,7 +523,7 @@ Finally, we can characterize the absorbing strongly connected components of the 
 
     \end{proof}
 
-      We now return to the part we left out: how to construct $C_2$ such that it can find out which action that $s_1$ would take at time $T$.
+      We now return to the three claims we left out that detail the construction of $s_2$.
 
       \begin{claim}
         There is a $T$ and a procedure implementable in $C_2$ that runs in a finite number of steps and can determine the action $A$ of $s_1$ at time $T$ with probability $1 - O(p)$.
