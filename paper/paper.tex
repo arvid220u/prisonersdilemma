@@ -430,7 +430,7 @@ Now that we know more about the time average distribution, we are also intereste
 
 \subsection{Evolutionary Stability Requires Cooperation}
 
-  We are now finally ready to prove that to be evolutionarily stable, a strategy needs to cooperate with a clone of itself.
+In this subsection, we prove that evolutionary stability requires that a strategy be cooperating with a clone of itself.
 
     \begin{proof}[Proof of \cref{evolutionarystable1}]
       Suppose that the strategy $s_1$ is such that it is \textit{not} true that \begin{equation*}
@@ -446,26 +446,26 @@ Now that we know more about the time average distribution, we are also intereste
       To do that, we want to prove that for all $p_0, \epsilon_0 \in (0,1)$, there exists $p < p_0$ and $\epsilon < \epsilon_0$, such that $s_1$ is $\epsilon$-invadable. We present a strategy $s_2$ that can invade $s_1$ for all $p$ and $\epsilon$ that are sufficiently small.
 
 
-      The underlying idea is to construct $s_2$ such that $s_1$ can see no difference between itself and $s_2$, while $s_2$, on the other hand, can. If we succeed in doing so, we will have that $v_{s_1}(s_2) = v_{s_2}(s_1) = v_{s_1}(s_1)$, and can construct $s_2$ such that it always cooperates when it recognizes itself, thereby yielding $v_{s_2}(s_2) = R$. This would give $s_2$ a higher fitness than $s_1$. The rest of this proof executes this plan in detail.
+      The underlying idea is to construct $s_2$ such that $s_1$ can see no difference between itself and $s_2$, while $s_2$, on the other hand, can. If we succeed in doing so, we will have that $v_{s_1}(s_2) = v_{s_2}(s_1) = v_{s_1}(s_1)$, and will be able to construct $s_2$ such that it always cooperates when it recognizes itself, thereby yielding $v_{s_2}(s_2) = R$. This would give $s_2$ a higher fitness than $s_1$. The rest of this proof executes this plan in detail.
 
       We create the strategy $s_2$ as follows. First, we copy all of $s_1$ into $s_2$. Let $\mathcal{A}_1$ be the set of
        absorbing strongly connected components of $s_1$. The key idea, now, is to replace each original absorbing strongly connected component $H \in \mathcal{A}_1$ with a new absorbing component $K_H$, which has the capability of identifying itself.
 
-      We now construct a $K_H$ for each $H$. \Cref{c2flowchart} shows the high-level construction of $K_H$.
+      We now describe how to construct $K_H$ for each $H$. \Cref{c2flowchart} shows the high-level construction of $K_H$.
        All of the steps succeed with probability $1 - O(p)$. The first step makes sure that $K_H$ does not deviate from $s_1$ at all
         until $s_1$ has reached an absorbing strongly connected component. 
        Once $s_1$ is in an absorbing strongly connected component, it cannot escape, and $s_2$ can also force it to end up in any of the states in the component, which means that even if $s_1$ after this point ``figures out'' that it is not playing against itself anymore, there's nothing it can do about it.
       The second step in the construction of $K_H$ makes sure that if $s_2$ is playing against itself, it is in sync with its clone; that is, with probability $1 - O(p)$, both copies of $s_2$ will transition to the third component at the exact same time (although not necessarily in the same $K_H$). 
-      The third step now figures out what action $s_1$ would take at some large finite time $T$. 
+      The third step figures out what action $s_1$ would take at some large finite time $T$. 
       Then, $K_H$ outputs the exact opposite action at time $T$. 
-      At that point, if its opponent outputs $s_1$'s expected action, it wants to transition into the absorbing strongly connected component $H_\text{copy}$, which is just an exact copy of $H$, but if its opponent outputs the opposite of that action, it has successfully recognized itself and enters an always cooperating state.
+      At that point, if its opponent outputs $s_1$'s expected action, it wants to transition into the absorbing strongly connected component $H_\text{copy}$, which is just an exact copy of $H$, but if its opponent outputs the opposite of that action, it has successfully recognized itself and thus enters an always cooperating state.
       Before transitioning into $H_\text{copy}$, $s_2$ makes sure that $s_1$ is in a state that is beneficial for $s_2$.
 
       \begin{figure}
         \centering
         \begin{tikzpicture}[node distance=0.9cm,initial text=]
           \node[elliptic state, initial, initial where=above] (c_0) {1. Wait until $s_1$ is in an absorbing SCC, while simulating $H$.};
-          \node[elliptic state] (c_1) [below=of c_0] {2. Sync $s_2$.};
+          \node[elliptic state] (c_1) [below=of c_0] {2. Sync up with $s_2$.};
           \node[elliptic state] (c_3) [below=of c_1] {3. Figure out what action that $s_1$ will take right after this.};
           \node[state] (c_4) [below left=of c_3] {$C$};
           \node[state] (c_5) [below right=of c_3] {$D$};
@@ -489,11 +489,11 @@ Now that we know more about the time average distribution, we are also intereste
           % \path[->] (c_0) edge node [above left] {$\alpha$} (c_prime);
           % \path[->] (c) edge node [below left] {$\alpha$} (c_prime);
         \end{tikzpicture}
-        \caption{High level construction of $K_H$, the absorbing component replacing $H$ when creating $s_2$ in the proof of \cref{evolutionarystable1}. Note that $K_H$ contains exactly 2 absorbing strongly connected components. SCC means strongly connected component.}
+        \caption{High-level construction of $K_H$, the absorbing component replacing $H$ in the creation of $s_2$ in the proof of \cref{evolutionarystable1}. Note that $K_H$ contains exactly 2 absorbing strongly connected components. SCC is short for strongly connected component.}
         \label{c2flowchart}
       \end{figure}
       
-      This concludes the high-level construction of $s_2$. We now want to prove that this $s_2$ can in fact invade $s_1$. To do that, we will first assume that the below four lemmas are correct, i.e., that the construction is possible and works as specified, and then finish the proof of our theorem using those assumptions. Once that's done, we will prove the four lemmas.
+      This concludes the high-level construction of $s_2$. We now want to prove that this $s_2$ can in fact invade $s_1$. To do that, we will first assume that the below four lemmas are correct, that is, that the construction is possible and works as specified, and then finish the proof of our theorem using those assumptions. Once that's done, we will prove the four lemmas.
 
       \begin{lemma}
         \label{claimcanwaitfors1}
@@ -530,17 +530,17 @@ Now that we know more about the time average distribution, we are also intereste
       \end{align*}
       or
       \begin{align*}
-        v_{s_1}(s_2) = \gamma \pm O(p) \text{ and }
-        v_{s_2}(s_1) = \gamma \pm O(p).
+        v_{s_2}(s_1) = \gamma \pm O(p) \text{ and }
+        v_{s_1}(s_2) \leq \gamma \pm O(p).
       \end{align*}
       \end{lemma}
       \begin{subproof}
-        By our definition of $\gamma$, we have that $v_{s_1}(s_1) \leq \gamma \pm O(p)$.
+        By our definition of $\gamma$, we have that $v_{s_1}(s_1) = \gamma \pm O(p)$.
 
         Consider now the $s_2$-$s_2$ Markov chain. By \cref{claimcansyncs2}, both clones will transition into the third component at the exact same time. The third component spends only a finite amount of time by \cref{claimcanfigureout}, and is the same regardless of which $K_H$ the strategies are in. Thus, after leaving the third component of $K_H$, if no mistakes have happened since leaving the second component, both clones of $s_2$ will be in exactly corresponding states, since they will always mirror each other. This happens with probability at least $(1-p)^N$ where $N$ is the finite number of states in the third component, and thus with probability $1 - O(p)$. Thus, in the identifying stage, both clones will output the same action, and as we can see in \cref{c2flowchart}, they will then both transition to the always cooperating state with probability $1 - O(p)$. Therefore, $v_{s_2}(s_2) = R \pm O(p)$.
 
         Consider now the case of $s_1$ playing against $s_2$. Suppose that $s_2$ ends up in the absorbing component $K_H$. By \cref{claimcanwaitfors1}, with probability $1 - O(p)$, $s_2$ is indistinguishable from $s_1$ until $s_1$ reaches an absorbing strongly connected component, which we call $H'$.         
-        This means that the probability of reaching the absorbing component $H' \times K_H$ in the $s_1$-$s_2$ Markov chain, is up to a factor of $1 - O(p)$ the same as if we had not replaced $H$ by $K_H$ in $s_2$, which is just the probability of reaching the absorbing component $H' \times H$ in the $s_1$-$s_1$ Markov chain. Thus, 
+        This means that the probability of reaching the absorbing component $H' \times K_H$ of the $s_1$-$s_2$ Markov chain, is up to a factor of $1 - O(p)$ the same as if we had not replaced $H$ by $K_H$ in $s_2$, which is just the probability of reaching the absorbing component $H' \times H$ in the $s_1$-$s_1$ Markov chain. Thus, 
         \begin{equation*}
           P(\text{$s_1$-$s_2$ ends up in $H' \times K_H$}) = (1 - O(p)) P(\text{$s_1$-$s_1$ ends up in $H' \times H$})
         \end{equation*}
@@ -555,18 +555,18 @@ Now that we know more about the time average distribution, we are also intereste
         %   P(\text{$s_1$-$s_2$ ends up in $H' \times C_H$}) = O(p).
         % \end{equation}
         By \cref{claimcanforcegoodstate}, $s_1$ can choose to end up in any absorbing strongly connected component $S_{H', H}$ that is a subset of $H' \times H_\text{copy}$, with probability $1 - O(p)$. 
-        Naturally, $s_1$ chooses an $S_{H', H}^*$ as follows: among the $S$ that have the maximum payoff for $s_2$, not caring about $O(p)$, we choose the one the minimizes the payoff for $s_1$.
-        Let $v_{s}(S)$ denote the payoff that strategy $s$ achieves in the absorbing strongly connected component $S$. Then,
+        Naturally, $s_1$ chooses an $S_{H', H}^*$ as follows: among the $S$ that have the maximum payoff for $s_2$, in the limit as $p$ goes to 0, we choose the one the minimizes the payoff for $s_1$.
+        Let $v_{s}(S)$ denote the payoff that strategy $s$ achieves in the absorbing strongly connected component $S$ of the Markov chain. Then,
         \begin{equation}
           \label{imtoootired}
           v_{s_2}(S_{H', H}^*) \geq \sum_{S} P(\text{$s_1$-$s_1$ ends up in $S$} \mid \text{$s_1$-$s_1$ ends up in $H' \times H$}) \cdot v_{s_1}(S) \pm O(p)
         \end{equation}
-        since the right hand side is a weighted average of $v_{s_1}(S)$, which is the same as $v_{s_2}(S)$ in this case, which is what we maximized over when we chose $S_{H', H}^*$. Also, since $s_1$ could make sure to get into it with probability $1 - O(p)$, we have 
+        since the right hand side is a weighted average of $v_{s_1}(S)$, which is the same as $v_{s_2}(S)$ in this case, which is what we maximized over when we chose $S_{H', H}^*$. Also, since $s_2$ could ensure with probability $1 - O(p)$ that the Markov chain enters $S_{H',H}^*$ (by \cref{claimcanforcegoodstate}), we have
         \begin{equation}
           \label{eqshh}
           P(\text{$s_1$-$s_2$ ends up in $S_{H',H}^*$}) = P(\text{$s_1$-$s_2$ ends up in $H' \times H_\text{copy}$})  \pm O(p).
         \end{equation}
-        Also, as a consequence, the $S_{H,H'}^*$ for all $H$ and $H'$ become the only absorbing strongly connected components with probabilities of ending up in them greater than $O(p)$.
+        Also, as a consequence, the collection of $S_{H,H'}^*$ for all $H$ and $H'$ become the only absorbing strongly connected components with probabilities of ending up in them greater than $O(p)$.
 
         Now, let $\mathcal{A}$ be the set of absorbing strongly connected components of the $s_1$-$s_1$ chain, and let $\mathcal{B}$ be the set of absorbing strongly connected components of the $s_1$-$s_2$ chain. We can now calculate $v_{s_2}(s_1)$.
 
@@ -592,8 +592,7 @@ Now that we know more about the time average distribution, we are also intereste
           &= v_{s_1}(s_1) \pm O(p)
           \end{WithArrows}
         \end{align*}
-        Thus, we have that $v_{s_2}(s_1) \geq \gamma \pm O(p)$. Suppose that $v_{s_2}(s_1) = \gamma \pm O(p)$. Then, we must have equality in \cref{imtoootired} for all $H$ and $H'$, which means that all $S$ were equally good for $s_2$, in which case we chose $S_{H',H}^*$ to minimize the payoff for $s_1$. Following through with the exact same argument as above, but flipping the inequalities, we then find that $v_{s_1}(s_2) \leq \gamma \pm O(p)$.
-
+        Thus, we have that $v_{s_2}(s_1) \geq \gamma \pm O(p)$. Suppose that $v_{s_2}(s_1) = \gamma \pm O(p)$. Then, we must have equality in \cref{imtoootired} for all $H$ and $H'$, which means that all $S$ were equally good for $s_2$, in which case we chose $S_{H',H}^*$ to minimize the payoff for $s_1$. Following through with the exact same argument as above, but flipping the inequalities, we then find that $v_{s_1}(s_2) \leq \gamma \pm O(p)$. This proves the lemma.
       \end{subproof}
 
       Given \cref{claimpayoffs}, we simply compute $F(s_2) - F(s_1)$, which we want to show is greater than 0. We have two cases. First, we assume that $\lim_{p \to 0} v_{s_2}(s_1) > \gamma$. Let $\lim_{p \to 0} v_{s_2}(s_1) = \beta$. Then,
@@ -601,9 +600,9 @@ Now that we know more about the time average distribution, we are also intereste
         F(s_2) - F(s_1) &= \\
         &= (1 - \epsilon) \cdot v_{s_2}(s_1) + \epsilon \cdot v_{s_2}(s_2) - (1 - \epsilon) \cdot v_{s_1}(s_1) - \epsilon \cdot v_{s_1}(s_2) \\
         &= (1 - \epsilon) (\beta \pm O(p)) + \epsilon (R \pm O(p)) - (1-\epsilon) (\gamma \pm O(p)) - \epsilon (v_{s_1}(s_2) \pm O(p)) \\
-        &\geq (1 - \epsilon) (\beta - \gamma) + \epsilon(R - v_{s_1}(s_2)) \pm O(p)
+        &= (1 - \epsilon) (\beta - \gamma) + \epsilon(R - v_{s_1}(s_2)) \pm O(p)
       \end{align*}
-      Here, we can make $\epsilon$ small enough such that this becomes positive, since $\beta - \gamma > 0$. Now, in the second case, we assume that $v_{s_2}(s_1) = \gamma \pm O(p)$ and $v_{s_1}(s_2) \leq \gamma \pm O(p)$. Then,
+      Here, we can make $\epsilon$ and $p$ small enough such that this becomes positive, since $\beta - \gamma > 0$. Now, in the second case, we assume that $v_{s_2}(s_1) = \gamma \pm O(p)$ and $v_{s_1}(s_2) \leq \gamma \pm O(p)$. Then,
       \begin{align*}
         F(s_2) - F(s_1) &= \\
         &= (1 - \epsilon) \cdot v_{s_2}(s_1) + \epsilon \cdot v_{s_2}(s_2) - (1 - \epsilon) \cdot v_{s_1}(s_1) - \epsilon \cdot v_{s_1}(s_2) \\
@@ -612,30 +611,30 @@ Now that we know more about the time average distribution, we are also intereste
       \end{align*}
       We know that $R - \gamma > 0$ by our initial assumption. Here, we can make $p$ small enough such that this becomes positive.
       
-      In conclusion, our constructed $s_2$ has higher fitness than $s_1$. This proves that $s_2$ can invade $s_1$, and thus, that $s_1$ is not $\epsilon$-invadable some value of $p < p_0$ and some $\epsilon < \epsilon_0$. In conclusion, then, $s_1$ is not evolutionarily stable, which concludes the proof of \cref{evolutionarystable1}.
+      In conclusion, our constructed $s_2$ has higher fitness than $s_1$. This proves that $s_2$ can invade $s_1$, and thus, that $s_1$ is $\epsilon$-invadable some values of $p < p_0$ and some $\epsilon < \epsilon_0$. In conclusion, then, $s_1$ is not evolutionarily stable, which concludes the proof of \cref{evolutionarystable1}.
 
     \end{proof}
 
-      We now return to the three lemmas that we left out, which detail the construction of $s_2$.
+      We now return to the four lemmas that we left out, which detail the construction of $s_2$.
 
       \begin{proof}[Proof of \cref{claimcanwaitfors1}]
 
-        Let $T_1$ be the random variable designating the time at which $s_1$ transitions into an absorbing strongly connected component, counting from the time $s_2$ entered $K_H$. (In particular, if $s_1$ is already in an absorbing strongly connected component, $T_1 = 0$.)
-        Let $T_2$ be the random variable designating the time at which $s_2$ transitions out of component 1 of $K_H$.
+        Let $T_1$ be a random variable designating the time at which $s_1$ transitions into an absorbing strongly connected component, counting from the time that $s_2$ entered $K_H$. (In particular, if $s_1$ is already in an absorbing strongly connected component, $T_1 = 0$.)
+        Let $T_2$ be a random variable designating the time at which $s_2$ transitions out of component 1 in $K_H$.
         To prove our lemma, we want to prove that with probability $1 - O(p)$, $T_1 \leq T_2$, and that during all the time that we are in component 1 of $K_H$, the output of $s_2$ is indistinguishable from $H$.
 
-        First, we deal with the indistinguishableness part. We create the component by copying $H$. Next, we define a new graph $W$, that we will design in the subsequent paragraphs, which will wait for $s_1$ to get into an absorbing component. This graph will have edges defined with the labels $C$ and $D$ still, but have no outputs at the states. The graph $D$ will also have one designated ``end state.'' We will then construct our component 1 for $K_H$ by replacing every state $h \in H$ with a copy of $D$ that we call $D_h$. There will be a $C$ edge from node $u \in D_h$ to node $v \in D_{h'}$ if and only if there is a $C$ edge from $h$ to $h'$, and from $u$ to $v$ in $D$. Similarly for the $D$ edge. This is commonly known as the Kronecker or tensor product of the graphs $D$ and $H$. The output at every state $u \in D_h$ is the same as the output of $h$. For the end state $e \in D_h$ for each $h$, we will add an edge with label both $C$ and $D$, transitioning out of this component and into component 2.
+        First, we deal with the indistinguishability part. We create the component by copying $H$. Next, we define a new graph $W$, that we will design in the subsequent paragraphs, which will wait for $s_1$ to get into an absorbing component. This graph will have edges defined with the labels $C$ and $D$, but will have no outputs at its states. The graph $W$ will also have one designated end state. We will then construct our component 1 for $K_H$ by replacing every state $h \in H$ with a copy of $W$ that we call $W_h$. There will be a $C$ edge from node $u \in W_h$ to node $v \in W_{h'}$ if and only if there is a $C$ edge from $h$ to $h'$ in $H$, and from $u$ to $v$ in $W$. Similarly for the $D$ edge. This is commonly known as the Kronecker or tensor product of the graphs $H$ and $W$. The output at every state $u \in W_h$ is the same as the output of $h$. For the end state $e \in W_h$ for each $h$, we will add an edge labeled both $C$ and $D$, transitioning out of this component and into component 2.
 
-        It is clear that as long as we don't transition out of this component, the Kronecker product will ensure that the output will be indistinguishable from $H$. We now want to design $D$ such that $T_1 \leq T_2$ with high probability.
+        It is clear that as long as we don't transition out of this component, the Kronecker product will ensure that the output will be indistinguishable from $H$. We now want to design $W$ such that $T_1 \leq T_2$ with high probability.
         
-        Let $d$ be the maximum length of a path from any state in $s_1$ to its closest absorbing strongly connected component. Then, for each state in $s_1$, there is a sequence of perceived inputs of length $\leq d$ (the \textit{special sequence} of that state), such that $s_1$ upon seeing that sequence ends up in an absorbing strongly connected component. For all states, the probability that $s_1$ 
+        Let $d$ be the maximum length of a path from any state in $s_1$ to its closest absorbing strongly connected component. Then, for each state in $s_1$, there is a sequence of perceived inputs of length $\leq d$ (the \textit{special sequence} for that state), such that $s_1$ upon seeing that sequence ends up in an absorbing strongly connected component. For all states, the probability that $s_1$ 
         perceives its special sequence is $\geq p^d$, since, in the worst case, $s_1$ would need to make a mistake on exactly all 
         inputs to perceive the special sequence. That means that at any single point in time, there is a probability $\geq p^d$ that $s_1$ 
-        will go into an absorbing strongly connected component within the subsequent $d$ moves. Consider the geometric random variable $X_1 = d + \operatorname{Geom} (p^d)$. For all $t$, then, we have that $P(X_1 = t) \leq P(T_1 = t)$. Thus, we may see $X_1$ as some sort of upper bound to $T_1$.
-4
-        We now describe the construction of $D$. Consider a state $c_1 \in s_1$ and a state $h \in H$, and suppose that we let them evolve with no mistakes happening at all. Then, the outputs of $c_1$ will form an infinite string $w(c_1, h)$. Let there be $|s_1|$ states in $s_1$ and $|H|$ states in $H$. Now, create a string $w^*$ of length $|s_1| \cdot |H|$, which differs in at least 1 place from each $w(c_1,h)$.\footnote{This is the famous technique of diagonalization.} Thus, if $s_1$ ever outputs the string $w^*$ when we are in this component, we know that at least one mistake has occurred, somewhere. Consequently, the probability that, at each timestep, $w^*$ will be perceived by $s_2$ as the next sequence of outputs of $s_1$ is $\leq p$. 
-        If we repeat $w^*$ $d+1$ times to form $(w^*)^{d+1}$, the probability that that string is perceived by $s_2$ as the next sequence of outputs of $s_1$ is $\leq p^{d+1}$.
-        Now, create $D$ as follows: it is a chain of states $d_1,d_2,\ldots,d_{(d+1)|w^*|+1}$ where $d_i$ transitions to $d_{i+1}$ on seeing the $i$th character of the string $(w^*)^{d+1}$; $d_i$ transitions to $d_1$ otherwise. $d_{(d+1)|w^*|+1}$ is the designated end state of $D$. Now, it is clear that each step, the probability that we will reach the end state in the next $(d+1)|w^*|+1$ steps is $\leq p^{d+1}$. Consider the geometric random variable $X_2 = (d+1)|w^*| + 1 + \operatorname{Geom} (p^{d+1})$. For all $t$, then, we have that $P(X_2 = t) \geq P(T_2 = t)$. Thus, we may see $X_2$ as a lower bound to $T_2$.
+        will go into an absorbing strongly connected component within the subsequent $d$ moves. Consider the geometric random variable $X_1 = d + \operatorname{Geom} (p^d)$. We may see $X_1$ as some sort of upper bound to $T_1$.
+
+        We now describe the construction of $W$. Consider a state $c_1 \in s_1$ and a state $h \in H$, and suppose that we let them evolve with no mistakes happening at all. Then, the outputs of $s_1$ will form an infinite string $l(c_1, h)$. Let there be $|s_1|$ states in $s_1$ and $|H|$ states in $H$. Now, create a string $l^*$ of length $|s_1| \cdot |H|$, which differs in at least 1 place from each $l(c_1,h)$.\footnote{This is the famous technique of diagonalization.} Thus, if $s_1$ ever outputs the string $l^*$ when we are in this component, we know that at least one mistake has occurred, somewhere. Consequently, the probability that, at each timestep, $l^*$ will be perceived by $s_2$ as the next sequence of outputs of $s_1$ is $\leq p$. 
+        If we repeat $l^*$ for $d+1$ times to form $(l^*)^{d+1}$, the probability that that string is perceived by $s_2$ as the next sequence of outputs of $s_1$ is $\leq p^{d+1}$.
+        Now, create $W$ as follows: it is a chain of states $w_1,w_2,\ldots,w_{(d+1)|l^*|+1}$ where $w_i$ transitions to $w_{i+1}$ on seeing the $i$th character of the string $(l^*)^{d+1}$; $w_i$ transitions to $w_1$ otherwise. $w_{(d+1)|l^*|+1}$ is the designated end state of $W$. Now, it is clear that each step, the probability that we will reach the end state in the next $(d+1)|l^*|+1$ steps is $\leq p^{d+1}$. Consider the geometric random variable $X_2 = (d+1)|l^*| + 1 + \operatorname{Geom} (p^{d+1})$. We may see $X_2$ as a lower bound to $T_2$.
 
         We now claim that the probability that $X_1 \leq X_2$ is $1 - O(p)$, where $X_1$ and $X_2$ are independent. It suffices to show that $\operatorname{Geom}(p^d) \leq \operatorname{Geom}(p^{d+1})$ with high probability, and it further suffices to show that $\operatorname{Geom}(x) > \operatorname{Geom}(px)$ with probability $O(p)$, for some arbitrary $x$. This is easy to show. Consider the geometric variable with parameter $px$ to consist of first an event of probability $x$ happening, and then that counts as a real success with a probability $p$. Then, when comparing the two geometric variables, it is clear that both are equally likely to have an event of probability $x$ happening first. Thus, with probability $\frac{1}{2}$, $\operatorname{Geom}(x)$ gets the first real success, with probability $\frac{1}{2} \cdot p$, $\operatorname{Geom}(px)$ gets the first real success, and with probability $\frac{1}{2} (1 - p)$, we saw a fake success and will continue waiting for the next potential success. Clearly, then, $\operatorname{Geom}(x)$ will get the first success with probability $\frac{1}{2} / (\frac{1}{2} + \frac{1}{2}p)$. Thus, $\operatorname{Geom}(px)$ will get the first success with probability $p / (1 + p) = O(p)$, which is exactly what we wanted to show.
 
@@ -643,9 +642,9 @@ Now that we know more about the time average distribution, we are also intereste
       \end{proof}
 
       \begin{proof}[Proof of \cref{claimcansyncs2}]
-        This construction is relatively simple. It is a chain of states where each state transitions to the next on both input $C$ and $D$ (that is, deterministically). Let $w_H^*$ be the string used in the proof of \cref{claimcanwaitfors1} for component $H$. Let $W = \sum_{H} (d+1) | w_H^* |$. Then, the outputs of the first $W$ states form the string $w_H^*$ repeated $d+1$ times, for all $w_H$. The following $W+1$ states always output $D$. This is followed by one last state outputting $C$. The $C$ state has a transition into itself on input $D$, and out of this component (to component 3 of $K_H$) on input $C$.
+        This construction is relatively simple. It is a chain of states where each state transitions to the next on both input $C$ and $D$ (that is, deterministically). Let $l_H^*$ be the string used in the proof of \cref{claimcanwaitfors1} for component $H$. Let $L = \sum_{H} (d+1) | l_H^* |$. Then, the outputs of the first $L$ states form the string $l_H^*$ repeated $d+1$ times, for all $l_H$. The following $L+1$ states always output $D$. This is followed by one last state outputting $C$. The $C$ state has a transition into itself on input $D$, and out of this component (to component 3 of $K_H$) on input $C$.
 
-        Suppose that $s_2$ plays against a clone $s_2'$ of itself, and that $s_2$ enters an absorbing component $K_H$ first. Then, by \cref{claimcanwaitfors1}, using the fact that $s_2'$ is a copy of $s_1$ before it reaches an absorbing component, $s_2$ will not enter component 2 of $K_H$ until $s_2'$ enters an absorbing component $K_{H'}$, with probability $1 - O(p)$. When $s_2$ enters component 2, it will at some point output the entirety of the string $w_{H'}^*$. With probability $1 - O(p)$, $s_2'$ will then, by our construction of component 1, enter component 2. That is, $s_2'$ enters the first part of component 2 before $s_2$ leaves the first part of component 2, which means that $s_2$ is at most $W$ steps ahead of $s_2$. This means that $s_2'$ will be in the defection part of the chain when $s_2$ reaches the cooperation state. Assuming no mistakes, then, $s_2$ will wait until $s_2'$ also reaches the cooperation state, at which point they will both simultaneously leave the component. This happens with probability $1 - O(p)$, as desired.
+        Suppose that $s_2$ plays against a clone $s_2'$ of itself, and that $s_2$ enters an absorbing component $K_H$ first. Then, by \cref{claimcanwaitfors1}, using the fact that $s_2'$ is a copy of $s_1$ before it reaches an absorbing component, $s_2$ will not enter component 2 of $K_H$ until $s_2'$ enters an absorbing component $K_{H'}$, with probability $1 - O(p)$. When $s_2$ enters component 2, it will at some point output the entirety of the string $l_{H'}^*$. With probability $1 - O(p)$, $s_2'$ will then, by our construction of component 1, enter component 2. That is, $s_2'$ enters the first part of component 2 before $s_2$ leaves the first part of component 2, which means that $s_2$ is at most $L$ steps ahead of $s_2$. This means that $s_2'$ will be in the defection part of the chain when $s_2$ reaches the cooperation state. Assuming no mistakes, then, $s_2$ will wait until $s_2'$ also reaches the cooperation state, at which point they will both simultaneously leave the component. This happens with probability $1 - O(p)$, as desired.
       \end{proof}
 
       \begin{proof}[Proof of \cref{claimcanfigureout}]
@@ -744,7 +743,7 @@ Now that we know more about the time average distribution, we are also intereste
 
     We can note that the $2R > T + P$ condition is necessary. Otherwise, the All-D strategy, depicted in \cref{figurealld}, would be able to invade Pavlov. We see this by noting that $\lim_{p \to 0} v_{s_2}(s_1) = T + P$ if $s_2$ is All-D and $s_1$ is Pavlov, and that All-D is better against itself than Pavlov is against it.
 
-    We have some, admittedly weak, empirical evidence for this theorem to be true. First, Pavlov when played against itself gets payoff $R - O(p)$, and our proof of \cref{evolutionarystable1} is very clearly relying heavily on letting $p$ be very close to 0, so it seems unlikely that a similar proof would be able to prove that Pavlov is not evolutionarily stable. Moreover, Fudenberg and Maskin stated but did not prove a similar result in their version of the noisy regime \cite{fundenberg1990evolution}. We also wrote a Julia notebook for generating $s_1$-$s_2$ Markov chains and the time average distributions, and ran Pavlov against a few variants of Pavlov and other simple strategies like All-D, All-C and Tit-for-tat, and in all cases Pavlov performed better than our potential invaders; this can be found in the accompanying GitHub repository \cite{arvid2020}. That repository also contains a document of unorganized notes that may provide hints for proving the conjecture.
+    We have some, admittedly weak, empirical evidence supporting the truth of this conjecture. First, playing Pavlov against itself yields the payoff $R - O(p)$, and our proof of \cref{evolutionarystable1} is very clearly relying heavily on letting $p$ be very close to 0. It therefore seems unlikely that a similar proof would be able to prove that Pavlov is not evolutionarily stable. Moreover, Fudenberg and Maskin stated but did not prove a similar result in their version of the noisy game \cite{fundenberg1990evolution}. To experiment, we also wrote a Julia notebook for generating $s_1$-$s_2$ Markov chains and time average distributions, and ran Pavlov against a few variants of itself, as well as against other simple strategies like All-D, All-C and Tit-for-tat. In all cases, Pavlov performed better than our potential invaders. This code notebook can be found in the accompanying GitHub repository \cite{arvid2020}.
 
 \begin{figure}
 \begin{tikzpicture}[node distance=2cm]
@@ -761,9 +760,9 @@ Now that we know more about the time average distribution, we are also intereste
     \section{Further Work}
     \label{sectiondiscussion}
 
-    An obvious next step is to prove \cref{pavlovtheorem}. We believe that it should not be too hard.
+    An obvious next step is to prove \cref{pavlovtheorem}. We believe that it should not be too hard. The handwritten notes in \cite{arvid2020} might contain some useful ideas.
 
-    One may also consider different setups. For example, weakening \cref{definitionevolutionarystability} of evolutionary stability by saying that it is only required to not be $\epsilon$-invadable for a fixed $p$, instead of for infinitesimally small $p$, would lead to a more interpretable model. Showing that \cref{evolutionarystable1} still holds in this situation would be interesting.
+    One may also consider other setups. For example, weakening \cref{definitionevolutionarystability} of evolutionary stability by saying that it is only required to not be $\epsilon$-invadable for a fixed $p$, instead of for infinitesimally small $p$, would lead to a more interpretable model. Showing that \cref{evolutionarystable1} still holds in this situation would be interesting.
     
     One can also think of other kinds of noise: for example, a ``failure of the mind,'' which could be modeled by a probability $p$ of being transported to any random state in the automaton. This would automatically make the Markov chain strongly connected, which can potentially simplify a lot of the analysis.
 
