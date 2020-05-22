@@ -12,4 +12,4 @@ Besides the paper, this repository contains supporting code files, and the count
 
 ## About
 
-The work was performed by Arvid Lunnemark during the Spring of 2020, under the guidance of Dr. Michael Sipser. I am thankful to Mike for granting me this opportunity, and providing the idea behind the project.
+The work was performed by Arvid Lunnemark during the Spring of 2020, under the guidance of Dr. Michael Sipser. I am thankful to Mike for granting me this opportunity, and for providing the idea behind the project.
