@@ -4,7 +4,7 @@
 
 ## Abstract
 
-> We introduce a natural model for the iterated prisoner's dilemma in the presence of noise, where strategies are finite automata that at each step have a probability $p$ of making a mistake. This leads us to model the result of two strategies playing against each other as a Markov chain. We prove that for a strategy to be evolutionarily stable in our setup, it has to be cooperative, in the sense that it has to cooperate when playing against a clone of itself. We conjecture that the Pavlov strategy is evolutionarily stable.
+> We introduce a natural model for the iterated prisoner's dilemma in the presence of noise, where strategies are finite automata that at each step have a probability p of making a mistake. This leads us to model the result of two strategies playing against each other as a Markov chain. We prove that for a strategy to be evolutionarily stable in our setup, it has to be cooperative, in the sense that it has to cooperate when playing against a clone of itself. We conjecture that the Pavlov strategy is evolutionarily stable.
 
 ## This Repository
 
