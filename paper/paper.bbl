@@ -20,6 +20,11 @@
 \newblock Evolution and cooperation in noisy repeated games.
 \newblock {\em The American Economic Review 80}, 2 (1990), 274--279.
 
+\bibitem{arvid2020}
+{\sc Lunnemark, A.}
+\newblock Code for computing prisoner's dilemma markov chains.
+\newblock \url{https://github.com/arvid220u/prisonersdilemma}, 2020.
+
 \bibitem{nowak2004emergence}
 {\sc Nowak, M.~A., Sasaki, A., Taylor, C., and Fudenberg, D.}
 \newblock Emergence of cooperation and evolutionary stability in finite

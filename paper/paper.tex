@@ -1,6 +1,7 @@
 \documentclass[11pt]{amsart}
 \usepackage{amsmath, amssymb, amsthm}
 \usepackage{todonotes}
+\usepackage[hidelinks]{hyperref}
 \usepackage{cleveref}
 \usepackage{tikz}
 \usepackage{blkarray}
@@ -33,8 +34,7 @@
 
 
 \title{Cooperation Is Provably Required in a Version of the Noisy Iterated Prisoner's Dilemma}
-\author{Arvid Lunnemark. \\ \\
-Supervised by: Michael Sipser}
+\author{Arvid Lunnemark}
 
 \begin{document}
 \tikzset{elliptic state/.style={draw,ellipse, text centered, text width=10em}}
@@ -88,7 +88,7 @@ In light of Axelrod's tournaments highlighting the effectiveness of cooperation,
 
 Notably, all these results impose additional restrictions on the setup, and as noted by Fundenberg and Maskin, one has to do that: in the deterministic infinitely repeated game, one could create a strategy that can self-identify — if the opponent ever deviates from the pattern, the strategy resorts to defecting for the rest of the game. This strategy will be evolutionarily stable, but is not cooperative. 
 
-In this paper, we, like Fundenberg and Maskin, choose the addition of noise as our restriction. In contrast to them, however, we present a model where, at every step, each strategy has a tiny probability $p$ of doing the wrong thing, which is arguably the most natural way of modeling noise. In \cref{sectionsetup}, we define the setup of our version of the problem in detail. Then, in \cref{sectionresults}, we state the two main results: that a strategy needs to be cooperative to be evolutionarily stable, and that such evolutionarily stable strategies exist. In \cref{sectionproofs}, we prove our results. Finally, in \cref{sectiondiscussion} we briefly discuss other potential ways of modeling the problem.
+In this paper, we, like Fundenberg and Maskin, choose the addition of noise as our restriction. In contrast to them, however, we present a model where, at every step, each strategy has a tiny probability $p$ of doing the wrong thing, which is arguably the most natural way of modeling noise. In \cref{sectionsetup}, we define the setup of our version of the problem in detail. Then, in \cref{sectionresults}, we state the two main results: that a strategy needs to be cooperative to be evolutionarily stable, and that such evolutionarily stable strategies exist. In \cref{sectionproofs}, we prove our results. Finally, in \cref{sectiondiscussion} we briefly discuss potential directions for future work.
 
 \section{Setup}
 \label{sectionsetup}
@@ -127,20 +127,20 @@ We can now begin to define the outcome of two strategies playing against each ot
   \begin{equation*}
     p_{(c_1,c_2) \to (c_1', c_2')} = p_{c_1 \to c_1'} \cdot p_{c_2 \to c_2'},
   \end{equation*}
-  where $p_{c_1 \to c_1'}$ is $1-p$ if the output of $s_2$ at state $c_2$ causes $c_1$ to transition to $c_1'$, and is $p$ if the opposite of that output causes that transition; $p_{c_2 \to c_2'}$ is defined similarly.
+  where $p_{c_1 \to c_1'}$ is 1 if $s_1$ always transitions from $c_1$ to $c_1'$, 0 if it never does, $1-p$ if the output of $s_2$ at state $c_2$ causes $s_1$ to transition from $c_1$ to $c_1'$, and $p$ if the opposite of that output causes the transition; $p_{c_2 \to c_2'}$ is defined similarly.
 \end{definition}
 
-Markov chains naturally leads themselves to the study of limiting cases.
+Markov chains naturally lead themselves to the study of limiting cases.
 
 \begin{definition}
   \label{timeaveragedistribution}
-  The \textit{time average distribution} of the $s_1$-$s_2$ Markov chain given the start state $(a, b)$, denoted $\pi^{(a, b)}$, is the distribution such that \begin{equation*}
-    \pi_{c_1, c_2}^{(a, b)} = E \left[ \text{fraction of time in state $(c_1,c_2)$} \mid \text{initial state is } (a, b)  \right]
+  Let $a_0$ be the start state of $s_1$ and $b_0$ the start state of $s_2$. The \textit{time average distribution} of the $s_1$-$s_2$ Markov chain, denoted $\pi$, is the distribution such that \begin{equation*}
+    \pi_{c_1, c_2} = E \left[ \text{fraction of time in state $(c_1,c_2)$} \mid \text{start in state } (a_0, b_0)  \right]
   \end{equation*}
-  where the expected fraction of time is taken over the infinite sequence $(X_0, X_1, \ldots)$.
+  where the expected fraction of time is taken over the infinite sequence of states representing a random walk.
 \end{definition}
 
-We will often use $\pi$ to refer to $\pi^{(a_0, b_0)}$ where $a_0$ is the initial state of $s_1$ and $b_0$ is the initial state of $s_2$.
+Note that the time average distribution given a start state always exists, regardless of the structure of the Markov chain. Now, we can define the payoff.
 
 \begin{definition}
   \label{payofftimeaverage}
@@ -244,6 +244,7 @@ We can now use the fitness of a strategy to compare it with other strategies in 
 That is, if $s_1$ is $\epsilon$-invadable, there exists a strategy $s_2$ that can start as only a tiny fraction $\epsilon$ of the total population, and consistently have higher fitness than $s_1$, eventually causing $s_2$ to overtake and then eliminate $s_1$ completely. We are now finally ready to define evolutionary stability.
 
 \begin{definition}
+  \label{definitionevolutionarystability}
   A strategy $s_1$ is \textit{evolutionarily stable} if there exists parameters $p_0$ and $\epsilon_0$ with $0 < p_0, \epsilon_0 < 1$, such that for all $p < p_0$, and all $\epsilon < \epsilon_0$, $s_1$ is not $\epsilon$-invadable.
 \end{definition}
 
@@ -294,7 +295,7 @@ We can now state our results! Together, the following theorem and conjecture imp
 \begin{remark}
   Tit-for-tat, depicted in \cref{tftfigure}, is not evolutionarily stable. 
   When played against itself, it ends up spending just as much time in the defection state as in the cooperation state, because as soon as one mistake is made, it goes into a mutual defection cycle with its clone that is only broken by an additional mistake.
-  Thus, $v_s(s)$ where $s$ is Tit-for-tat is much smaller than $R$, which means that it is not evolutionarily stable by \cref{evolutionarystable1}.
+  Thus, $v_s(s)$ where $s$ is Tit-for-tat is much smaller than $R$, which means that it is not evolutionarily stable by \cref{evolutionarystable1}. Notably, this shows that our results are different, and perhaps stronger, than Fudenberg and Maskin's: their criterion for evolutionary stability did not rule out Tit-for-tat \cite{fundenberg1990evolution}.
 \end{remark}
 
 
@@ -305,7 +306,7 @@ In this section, we prove our results from the previous section.
 
 \subsection{The time average distribution}
 
-Before we prove \cref{evolutionarystable1}, we need to understand what the payoff $v_{s_1}(s_2)$ really means. In this subsection, we prove a series of lemmas that characterize the time average distribution, and consequently $v_{s_1}(s_2)$.
+Before we prove \cref{evolutionarystable1}, we need to understand the mechanisms behind the payoff $v_{s_1}(s_2)$. In this subsection, we prove a series of lemmas that characterize the time average distribution, and consequently $v_{s_1}(s_2)$.
 
 \begin{lemma}
   \label{timeaverageisstationary}
@@ -326,7 +327,7 @@ We may also put both of the terms together and talk about absorbing strongly con
 
 \begin{lemma}
   \label{lemmaabsorbinghasuniquetimeaverage}
-  An absorbing strongly connected component has a unique time average distribution, i.e., the time average distribution does not depend on the start state.
+  An absorbing strongly connected component has a unique time average distribution. That is, the time average distribution does not depend on the start state.
 \end{lemma}
 
 \begin{proof}
@@ -335,11 +336,23 @@ We may also put both of the terms together and talk about absorbing strongly con
 
 \begin{lemma}
   \label{timeaveragedistributiondecomposition}
-  Let $\mathcal{A}$ be the set of absorbing strongly connected components of the $s_1$-$s_2$ Markov chain. For every $S \in \mathcal{A}$, let $\pi^{(S)}$ be its unique time average distribution. Then
+  Let $\mathcal{A}$ be the set of absorbing strongly connected components of the $s_1$-$s_2$ Markov chain. For every component $S \in \mathcal{A}$, let $\pi^{(S)}$ be its unique time average distribution. Then,
   \begin{equation*}
     \pi = \sum_{S \in \mathcal{A}} P(\text{$s_1$-$s_2$ chain ends up in $S$}) \cdot \pi^{(S)}.
   \end{equation*}
+  By $P(s_1\text{-}s_2 \text{ chain ends up in } S)$, we mean the probability of ending up in $S$ given that we start in the initial states of the two strategies and perform a random walk in the Markov chain.
 \end{lemma}
+
+\begin{proof}
+  Condition all of the following on starting in the start state of $s_1$ and $s_2$. Let $F$ be the fraction of time spent in state $(c_1,c_2)$. If $(c_1,c_2)$ is not in an absorbing strongly connected component, it is well known that the fraction of time in that state $F$ will be 0. This is also what the lemma says. Suppose now that $(c_1,c_2)$ is in an absorbing strongly connected component $S$.
+  Let $X$ be the event that the $s_1$-$s_2$ Markov chain ends up in $S$. By the law of total probability, \begin{equation*}
+    E[F] = E[F \mid X] \cdot P(X) + E[F \mid \text{not } X] \cdot P(\text{not } X)
+  \end{equation*}
+   If the random walk on the $s_1$-$s_2$ chain does not end up in the component $S$, but rather in another absorbing strongly connected component, the expected fraction of time in state $(c_1,c_2)$ is clearly 0. Also, note that $E[F \mid X]$ is exactly $\pi^{(S)}_{c_1,c_2}$, and that $E[F]$ is exactly $\pi_{c_1,c_2}$. We thus find that \begin{equation*}
+     \pi_{c_1,c_2} = P(\text{$s_1$-$s_2$ chain ends up in $S$}) \cdot \pi^{(S)}_{c_1,c_2}.
+   \end{equation*}
+   Note that $\pi^{(S')}_{c_1,c_2}$ is 0 for all other absorbing strongly connected components $S'$. With this, we have proved the lemma.
+\end{proof}
 
 Finally, we can characterize the absorbing strongly connected components of the $s_1$-$s_2$ Markov chain in terms of the absorbing SCCs of $s_1$ and $s_2$ separately.
 
@@ -351,6 +364,10 @@ Finally, we can characterize the absorbing strongly connected components of the 
   \end{equation*}
   where $A \times B$ is the cartesian product $A \times B = \{(a, b) \mid a \in A \text{ and } b \in B\}$.
 \end{lemma}
+
+\begin{proof}
+  First, we note that $H \times K$ for all $H \in \mathcal{A}_1$ and $K \in \mathcal{A}_2$ is an absorbing strongly connected component. If there is an edge from $(h,k)$ to $(u,v)$ in the $s_1$-$s_2$ Markov chain, there must, by definition, be an edge from $h$ to $u$ and $k$ to $v$, so $(u,v) \in H \times K$. It is also easy to see that if there is a path 
+\end{proof}
 
 Now that we know more about the time average distribution, we are also interested in proving that the payoff function behaves nicely.
 
@@ -494,7 +511,7 @@ Now that we know more about the time average distribution, we are also intereste
         By our definition of $\gamma$, we have that $v_{s_1}(s_1) = \gamma \pm O(p)$.
 
         Consider now the case of $s_1$ playing against $s_2$. Suppose that $s_2$ ends up in the absorbing component $K_H$. By \cref{claimcanwaitfors1}, with probability $1 - O(p)$, $s_2$ is indistinguishable from $s_1$ until $s_1$ reaches an absorbing strongly connected component, which we call $H'$.         
-        This means that the probability of reaching the absorbing component $H' \times K_H$ in the $s_1$-$s_2$ Markov chain, is up to a factor of $1 - O(p)$ the same as if we hadn't replaced $H$ by $K_H$ in $s_2$, which is just the probability of reaching the absorbing component $H' \times H$ in the $s_1$-$s_1$ Markov chain. Thus, 
+        This means that the probability of reaching the absorbing component $H' \times K_H$ in the $s_1$-$s_2$ Markov chain, is up to a factor of $1 - O(p)$, the same as if we hadn't replaced $H$ by $K_H$ in $s_2$, which is just the probability of reaching the absorbing component $H' \times H$ in the $s_1$-$s_1$ Markov chain. Thus, 
         \begin{multline*}
           P(\text{$s_1$-$s_2$ ends up in $H' \times K_H$}) = (1 - O(p)) P(\text{$s_1$-$s_1$ ends up in $H' \times H$})
         \end{multline*}
@@ -585,133 +602,144 @@ Now that we know more about the time average distribution, we are also intereste
       \begin{proof}[Proof of \cref{claimcanfigureout}]
         
           Let $\mathcal{A}_1$ be the set of all absorbing strongly connected components in $s_1$.
-           Let $M$ be the set of all tuples of $(C, c)$ where $H \in \mathcal{A}_1$ and $c$ is a possible state of $C$. Let $M'$ be a subset of $M$ where a tuple $(C, c)$ has been removed if there is another tuple $(C', c') \in M'$ produces exactly the same output on all inputs, when only following the $1-p$ transitions.
+           Let $L$ be the set of all tuples of $(H, h)$ where $H \in \mathcal{A}_1$ and $h$ is a possible state of $H$. 
 
-        The procedure works as follows:
+        The third component is implemented as follows. When we talk about ``at compile time'' we refer to when we construct the finite automaton.
         \begin{enumerate}
-          \item Simulate $C_1$ for $N$ steps. (This can be done by e.g. duplicating $C_1$ $N$ times and having all edges advance to corresponding state in the next copy.) Choose $N$ so that after $N$ timesteps, $s_1$ will be in an absorbing strongly connected component with probability $1 - O(p)$. \todo{move this out of the claim??? but it's annoying and needs a space somewhere}
-          \item Iterate over every pair of tuples $(C,c)$ and $(C', c')$ in $M$:
+          \item Iterate over every pair of tuples $(H,h)$ and $(H', h')$ in $L$:
           \begin{enumerate}
-            \item There is a string $S$ of actions on which $C$ starting in $c$ and $C'$ starting in $c'$ will produce a different output at a time $t$. Now, output the string $S$, and determine if the sequence of perceived actions corresponds to $(C,c)$ or $(C', c')$.
+            \item At compile time, we know what actions have been taken so far in this component, and thus know, if $s_1$ were in $H$ in state $h$ when $s_2$ started out this component, the state $g$ that $s_1$ is in now, with high probability. Similarly supposing that $s_1$ were in $H'$ in state $h'$ when $s_2$ started out this component, we know the state $g'$ where $s_1$ would be now.
+            \item At compile time, we also know whether there exists an input string $w$ such that $s_1$ starting in state $g$ perceiving $w$ produces a different output sequence than if it started in state $g'$, following only $1-p$ transitions.
+            \item If no such $w$ exists, continue the loop here.
+            \item If such a $w$ exists, then output $w$ deterministically here. Determine if the sequence of perceived actions corresponds to what would be expected from $(H,h)$ or from $(H', h')$.
           \end{enumerate}
         \end{enumerate}
-        Choose $T = \max t$ over all $t$.
-         With probability $1 - O(p)$, there will be exactly 1 pair $(C, c)$ that corresponds to all perceived actions in each of its comparisons. We know what $C$, when starting in $c$, outputs at time $T$. Thus, with probability $1 - O(p)$, we know what action $A$ that $s_1$ outputs at time $T$.
+        In the end, there will be a subset $U$ of $L$ that corresponds to all tuples $(H,h)$ that corresponded to the perceived sequence of actions in each comparison it was part of. By the way the loop is constructed, all $(H,h)$ in $U$ will produce the same high probability output on any input string; for our purposes, we can therefore just pick one canonical $(H,h)$ from $U$.
 
-        It should be noted that this procedure is easily implementable on a finite automaton, using e.g. a decision tree structure.
+        Note that when we implement this procedure on a finite automaton, it becomes a large decision tree, which means that in the end, there will be one branch for each canonical $(H, h)$, and we will be in one corresponding to where $s_1$ actually started off in the beginning of this component with probability $1 - O(p)$. In each such branch, we know, at compile time, which state $s_1$ is in at the end of the branch, and thus know what output that $s_1$ will have in the next step, with probability $1 - O(p)$. This is exactly what we wanted, so we transition out of component 3.
       \end{proof}
 
 
-      \todo{KEY IMPORTANT DETAIL: we need to say that at a large finite $T$ then $s_1$ will be within an absorbing strongly connected component. probably need to look at all possible starting states of all possible ASCCs, not only every ASCC. uhhhhhhhhhhhh also need to modify our language a little bit to think about the fact that absorbing strongly connected components of $s_2$ actually DO AFFECT the condensation probabilities. however, since $C_2$ behaves as $C_1$ for many steps, it won't affect it meaningfully. }
+    %   \todo{KEY IMPORTANT DETAIL: we need to say that at a large finite $T$ then $s_1$ will be within an absorbing strongly connected component. probably need to look at all possible starting states of all possible ASCCs, not only every ASCC. uhhhhhhhhhhhh also need to modify our language a little bit to think about the fact that absorbing strongly connected components of $s_2$ actually DO AFFECT the condensation probabilities. however, since $C_2$ behaves as $C_1$ for many steps, it won't affect it meaningfully. }
 
-    \begin{proof}
-      \begin{claim}
-        Suppose that there are no mistakes, i.e., that $p = 0$. We can create a $C_2$ such that 
-      \end{claim}
+    % \begin{proof}
+    %   \begin{claim}
+    %     Suppose that there are no mistakes, i.e., that $p = 0$. We can create a $C_2$ such that 
+    %   \end{claim}
       
-      First, copy the entire $s_1$ machine into $s_2$. Suppose that the state corresponding to the start state of $s_1$ is $c$, and that the output at $c$ is $\alpha$, and that the state $s$ goes to upon perceiving the opponent move $\alpha$ is $c' = T(c, \alpha)$. Now, create two new states: $c_0$ and $c_1$. Define the transitions as \begin{align*}
-        T(c_0, \alpha) &= c'\\
-        T(c_0, \bar{\alpha}) &= c_1 \\
-        T(c_1, \cdot) &= c_1
-      \end{align*}
-      and the outputs as \begin{align*}
-        G(c_0) &= \lnot G(c_2)\\
-        G(c_1) &= C.
-      \end{align*}
-      Let the start state of $s_2$ be $c_0$. 
+    %   First, copy the entire $s_1$ machine into $s_2$. Suppose that the state corresponding to the start state of $s_1$ is $c$, and that the output at $c$ is $\alpha$, and that the state $s$ goes to upon perceiving the opponent move $\alpha$ is $c' = T(c, \alpha)$. Now, create two new states: $c_0$ and $c_1$. Define the transitions as \begin{align*}
+    %     T(c_0, \alpha) &= c'\\
+    %     T(c_0, \bar{\alpha}) &= c_1 \\
+    %     T(c_1, \cdot) &= c_1
+    %   \end{align*}
+    %   and the outputs as \begin{align*}
+    %     G(c_0) &= \lnot G(c_2)\\
+    %     G(c_1) &= C.
+    %   \end{align*}
+    %   Let the start state of $s_2$ be $c_0$. 
 
-      \begin{figure}
-        \centering
-        \begin{tikzpicture}[node distance=2cm]
-          \node[state, initial] (c_0) {$\bar{\alpha}$};
-          \node[state] (c_1) [below right of=c_0] {$C$};
-          \node[state] (c_prime) [above right of=c_0] {};
-          \node[state] (c) [above left of=c_prime] {$\alpha$};
+    %   \begin{figure}
+    %     \centering
+    %     \begin{tikzpicture}[node distance=2cm]
+    %       \node[state, initial] (c_0) {$\bar{\alpha}$};
+    %       \node[state] (c_1) [below right of=c_0] {$C$};
+    %       \node[state] (c_prime) [above right of=c_0] {};
+    %       \node[state] (c) [above left of=c_prime] {$\alpha$};
 
-          \path[->] (c_0) edge node [above right] {$\bar{\alpha}$} (c_1);
-          \path[->] (c_1) edge [loop right] node [right] {$C,D$} ();
-          \path[->] (c_0) edge node [above left] {$\alpha$} (c_prime);
-          \path[->] (c) edge node [below left] {$\alpha$} (c_prime);
-        \end{tikzpicture}
-        \caption{Constructon of invasion strategy, used in the proof of \cref{evolutionarystable1}}
-        \label{invasionstrategy}
-      \end{figure}
+    %       \path[->] (c_0) edge node [above right] {$\bar{\alpha}$} (c_1);
+    %       \path[->] (c_1) edge [loop right] node [right] {$C,D$} ();
+    %       \path[->] (c_0) edge node [above left] {$\alpha$} (c_prime);
+    %       \path[->] (c) edge node [below left] {$\alpha$} (c_prime);
+    %     \end{tikzpicture}
+    %     \caption{Constructon of invasion strategy, used in the proof of \cref{evolutionarystable1}}
+    %     \label{invasionstrategy}
+    %   \end{figure}
 
 
-      \begin{claim}
-        Given the above construction of $s_2$, the following inequalities hold:
-      \begin{align*}
-        v_{s_1}(s_1) &\leq (1-p)^2 \gamma + 2(1-p)p R + p^2  R \\ 
-        v_{s_1}(s_2) &\leq (1-p) \gamma + p T \\
-        v_{s_2}(s_1) &\geq (1 - p) \gamma  + p S \\
-        v_{s_2}(s_2) &\geq (1-p)^{2} R + 2 (1-p) p (\tfrac{S + T}{2}) + p^2 \gamma .
-      \end{align*}
-      \end{claim}
+    %   \begin{claim}
+    %     Given the above construction of $s_2$, the following inequalities hold:
+    %   \begin{align*}
+    %     v_{s_1}(s_1) &\leq (1-p)^2 \gamma + 2(1-p)p R + p^2  R \\ 
+    %     v_{s_1}(s_2) &\leq (1-p) \gamma + p T \\
+    %     v_{s_2}(s_1) &\geq (1 - p) \gamma  + p S \\
+    %     v_{s_2}(s_2) &\geq (1-p)^{2} R + 2 (1-p) p (\tfrac{S + T}{2}) + p^2 \gamma .
+    %   \end{align*}
+    %   \end{claim}
 
-      Before proving this claim, we will use it to finish our proof of \cref{evolutionarystable1}.
+    %   Before proving this claim, we will use it to finish our proof of \cref{evolutionarystable1}.
 
-      Now, we simply compute $F(s_2) - F(s_1)$, which we want to show is greater than 0.
-      \begin{align*}
-        F(s_2) - F(s_1) &= \\
-        &= (1 - \epsilon) \cdot v_{s_2}(s_1) + \epsilon \cdot v_{s_2}(s_2) - (1 - \epsilon) \cdot v_{s_1}(s_1) - \epsilon \cdot v_{s_1}(s_2) \\
-        &= (1 - \epsilon) (\gamma + p(\ldots)) + \epsilon (R + p(\ldots)) - (1-\epsilon) (\gamma + p(\ldots)) - \epsilon (\gamma + p(\ldots)) \\
-        &= \epsilon (R - \gamma) + p(\ldots)
-      \end{align*}
+    %   Now, we simply compute $F(s_2) - F(s_1)$, which we want to show is greater than 0.
+    %   \begin{align*}
+    %     F(s_2) - F(s_1) &= \\
+    %     &= (1 - \epsilon) \cdot v_{s_2}(s_1) + \epsilon \cdot v_{s_2}(s_2) - (1 - \epsilon) \cdot v_{s_1}(s_1) - \epsilon \cdot v_{s_1}(s_2) \\
+    %     &= (1 - \epsilon) (\gamma + p(\ldots)) + \epsilon (R + p(\ldots)) - (1-\epsilon) (\gamma + p(\ldots)) - \epsilon (\gamma + p(\ldots)) \\
+    %     &= \epsilon (R - \gamma) + p(\ldots)
+    %   \end{align*}
 
-      We know that $R - \gamma > 0$ by our initial assumption. Clearly, since $(\ldots)$ is some polynomial in $p$, given an $\epsilon$ we can find a sufficiently small $p$ such that the full expression is positive. This proves that $s_2$ can invade $s_1$, and thus, that $s_1$ is not $\epsilon$-invadable for this value of $p$. In conclusion, then $s_1$ is not evolutionarily stable, which concludes the proof of \cref{evolutionarystable1}.
+    %   We know that $R - \gamma > 0$ by our initial assumption. Clearly, since $(\ldots)$ is some polynomial in $p$, given an $\epsilon$ we can find a sufficiently small $p$ such that the full expression is positive. This proves that $s_2$ can invade $s_1$, and thus, that $s_1$ is not $\epsilon$-invadable for this value of $p$. In conclusion, then $s_1$ is not evolutionarily stable, which concludes the proof of \cref{evolutionarystable1}.
 
-    \end{proof}
+    % \end{proof}
 
-    \begin{proof}[Proof of \cref{claimpayoffs}]
-      We can prove this using either of the two definitions.
-    \end{proof}
+    % \begin{proof}[Proof of \cref{claimpayoffs}]
+    %   We can prove this using either of the two definitions.
+    % \end{proof}
 
     \subsection{Evolutionarily Stable Strategies Exist}
 
     Unfortunately, we have no proof of \cref{pavlovtheorem}.
 
-    We note that the $2R > T + P$ condition is necessary. Otherwise, the AllD strategy would be able to invade Pavlov. We see this by noting that $\lim_{p \to 0} v_{s_2}(s_1) = T + P$ if $s_2$ is AllD and $s_1$ is Pavlov, and that AllD is better against itself than Pavlov is against it.
+    We can note that the $2R > T + P$ condition is necessary. Otherwise, the All-D strategy, depicted in \cref{figurealld}, would be able to invade Pavlov. We see this by noting that $\lim_{p \to 0} v_{s_2}(s_1) = T + P$ if $s_2$ is All-D and $s_1$ is Pavlov, and that All-D is better against itself than Pavlov is against it.
+
+    We have some, admittedly weak, empirical evidence for this theorem to be true. First, Pavlov when played against itself gets payoff $R - O(p)$, and our proof of \cref{evolutionarystable1} is very clearly relying heavily on letting $p$ be very close to 0, so it seems unlikely that a similar proof would be able to prove that Pavlov is not evolutionarily stable. Moreover, Fudenberg and Maskin stated but did not prove a similar result in their version of the noisy regime \cite{fundenberg1990evolution}. We also wrote a Julia notebook for generating $s_1$-$s_2$ Markov chains and the time average distributions, and ran Pavlov against a few variants of Pavlov and other simple strategies like All-D, All-C and Tit-for-tat, and in all cases Pavlov performed better than our potential invaders; this can be found in the accompanying GitHub repository \cite{arvid2020}. That repository also contains a document of unorganized notes that may provide hints for proving the conjecture.
+
+\begin{figure}
+\begin{tikzpicture}[node distance=2cm]
+  \node[state,initial] (s_0) {$D$};
+
+  \path[->] (s_0) edge [loop above] node {$C,D$} ();
+\end{tikzpicture}
+  \centering
+  \caption{The always defecting All-D strategy.}
+  \label{figurealld}
+\end{figure}
 
 
-
-    \section{Discussion of Model}
+    \section{Further Work}
     \label{sectiondiscussion}
 
+    An obvious next step is to prove \cref{pavlovtheorem}. We believe that it should not be too hard.
+
+    One may also consider different setups. For example, weakening \cref{definitionevolutionarystability} of evolutionary stability by saying that it is only required to not be $\epsilon$-invadable for a fixed $p$, instead of for infinitesimally small $p$, would lead to a more interpretable model. Showing that \cref{evolutionarystable1} still holds in this situation would be interesting.
+    
+    One can also think of other kinds of noise: for example, a ``failure of the mind,'' which could be modeled by a probability $p$ of being transported to any random state in the automaton. This would automatically make the Markov chain strongly connected, which can potentially simplify a lot of the analysis.
 
 
-    \subsection{Other Potential Models}
+    % \section{Appendix: Time average distributions}
 
-    Right now we have only modeled noise in perception. One could think of another possible kind of noise: a ``failure of the mind,'' which perhaps could be modeled instead by a probability $p$ of being transported to any random state, instead. This would create ergodicity which is nice.
+    % We might have periodicity, but for our purposes, we might as well extend the definition and look at periodic distributions as stationary too. The following two lemmas help with that.
 
-    \iffalse
+    % \begin{lemma}
+    %   Given a starting distribution $v$ and a Markov matrix $M$, for every $\epsilon > 0$, there will exist a $k$ such that $|vP^{nk} - vP^{mk}| < \epsilon$ for all $n$ and $m$ $> 0$.
+    % \end{lemma}
 
-    \section{Appendix: Time average distributions}
+    % This proves that a Markov chain will always reach a periodic state.
 
-    We might have periodicity, but for our purposes, we might as well extend the definition and look at periodic distributions as stationary too. The following two lemmas help with that.
+    % \begin{lemma}
+    %   Suppose distributions form a chain $p_1 \to p_2 \to \cdots \to p_n \to p_1$. Then $\pi = \frac{p_1 + \ldots p_n}{n}$ is stationary.
+    % \end{lemma}
 
-    \begin{lemma}
-      Given a starting distribution $v$ and a Markov matrix $M$, for every $\epsilon > 0$, there will exist a $k$ such that $|vP^{nk} - vP^{mk}| < \epsilon$ for all $n$ and $m$ $> 0$.
-    \end{lemma}
+    % This proves that we're able to talk about stationary distributions even when they don't really actually exist.
 
-    This proves that a Markov chain will always reach a periodic state.
 
-    \begin{lemma}
-      Suppose distributions form a chain $p_1 \to p_2 \to \cdots \to p_n \to p_1$. Then $\pi = \frac{p_1 + \ldots p_n}{n}$ is stationary.
-    \end{lemma}
+    % \section{Appendix: Probablistic Automata}
 
-    This proves that we're able to talk about stationary distributions even when they don't really actually exist.
+    % OHHHHHHH. THIS WILL HELP WITH MY PROOF????? THIS IS EXACTLY WHAT I'M TRYING TO DO IN MY PROOF RIGHT????? YEAHHHH, NO.
 
-    \fi
+    % In this paper, we have considered strategies that make a deterministic move based on what they perceive. One could also imagine strategies that attaches a certain probability distribution to a perceived input, and chooses their next action based on that. In this appendix we show that these can be reduced to the deterministic ones, and thus that all results for the deterministic ones also hold for the probabilistic ones.
 
-    \section{Appendix: Probablistic Automata}
+    % Proof idea: we can use cycles in the Markov chain with n total outputs, x of which are to state 1, to model getting to state 1 with probability x / n. this assumes that the outputs are of low enough probability, which can be achieved by chaining together lots of (1-p) transitions, which go to 0.
 
-    OHHHHHHH. THIS WILL HELP WITH MY PROOF????? THIS IS EXACTLY WHAT I'M TRYING TO DO IN MY PROOF RIGHT????? YEAHHHH, NO.
-
-    In this paper, we have considered strategies that make a deterministic move based on what they perceive. One could also imagine strategies that attaches a certain probability distribution to a perceived input, and chooses their next action based on that. In this appendix we show that these can be reduced to the deterministic ones, and thus that all results for the deterministic ones also hold for the probabilistic ones.
-
-    Proof idea: we can use cycles in the Markov chain with n total outputs, x of which are to state 1, to model getting to state 1 with probability x / n. this assumes that the outputs are of low enough probability, which can be achieved by chaining together lots of (1-p) transitions, which go to 0.
-
-    the hard part of this is showing that modifying the finite automaton like this won't hurt us. in fact, it would certainly not hurt us if not every state had to give an output. but that doesn't work for our model i think. so there are certainly things to think about here.
+    % the hard part of this is showing that modifying the finite automaton like this won't hurt us. in fact, it would certainly not hurt us if not every state had to give an output. but that doesn't work for our model i think. so there are certainly things to think about here.
 
 
 
