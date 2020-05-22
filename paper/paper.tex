@@ -354,20 +354,20 @@ We may also put both of the terms together and talk about absorbing strongly con
    Note that $\pi^{(S')}_{c_1,c_2}$ is 0 for all other absorbing strongly connected components $S'$. With this, we have proved the lemma.
 \end{proof}
 
-Finally, we can characterize the absorbing strongly connected components of the $s_1$-$s_2$ Markov chain in terms of the absorbing SCCs of $s_1$ and $s_2$ separately.
+% Finally, we can characterize the absorbing strongly connected components of the $s_1$-$s_2$ Markov chain in terms of the absorbing SCCs of $s_1$ and $s_2$ separately.
 
-\begin{lemma}
-  \label{absorbingstronglyconnectedcomponentscartesianproduct}
-  Let $\mathcal{A}_1$ be the set of absorbing strongly connected components of $s_1$, and similarly, let $\mathcal{A}_2$ be the set of absorbing strongly connected components of $s_2$. If $\mathcal{A}$ is the set of absorbing strongly connected components of the $s_1$-$s_2$ Markov chain, then 
-  \begin{equation*}
-    \mathcal{A} = \{H \times K \mid H \in \mathcal{A}_1 \text{ and } K \in \mathcal{A}_2\},
-  \end{equation*}
-  where $A \times B$ is the cartesian product $A \times B = \{(a, b) \mid a \in A \text{ and } b \in B\}$.
-\end{lemma}
+% \begin{lemma}
+%   \label{absorbingstronglyconnectedcomponentscartesianproduct}
+%   Let $\mathcal{A}_1$ be the set of absorbing strongly connected components of $s_1$, and similarly, let $\mathcal{A}_2$ be the set of absorbing strongly connected components of $s_2$. If $\mathcal{A}$ is the set of absorbing strongly connected components of the $s_1$-$s_2$ Markov chain, then 
+%   \begin{equation*}
+%     \mathcal{A} = \{H \times K \mid H \in \mathcal{A}_1 \text{ and } K \in \mathcal{A}_2\},
+%   \end{equation*}
+%   where $A \times B$ is the cartesian product $A \times B = \{(a, b) \mid a \in A \text{ and } b \in B\}$.
+% \end{lemma}
 
-\begin{proof}
-  First, we note that $H \times K$ for all $H \in \mathcal{A}_1$ and $K \in \mathcal{A}_2$ is an absorbing strongly connected component. If there is an edge from $(h,k)$ to $(u,v)$ in the $s_1$-$s_2$ Markov chain, there must, by definition, be an edge from $h$ to $u$ and $k$ to $v$, so $(u,v) \in H \times K$. It is also easy to see that if there is a path 
-\end{proof}
+% \begin{proof}
+%   First, we note that $H \times K$ for all $H \in \mathcal{A}_1$ and $K \in \mathcal{A}_2$ is an absorbing strongly connected component. If there is an edge from $(h,k)$ to $(u,v)$ in the $s_1$-$s_2$ Markov chain, there must, by definition, be an edge from $h$ to $u$ and $k$ to $v$, so $(u,v) \in H \times K$. It is also easy to see that if there is a path 
+% \end{proof}
 
 Now that we know more about the time average distribution, we are also interested in proving that the payoff function behaves nicely.
 
@@ -430,7 +430,7 @@ Now that we know more about the time average distribution, we are also intereste
       
       We want to prove that $s_1$ is not evolutionarily stable. 
       
-      To do that, we want to prove that for all $p_0, \epsilon_0 \in (0,1)$, there exists $p < p_0$ and $\epsilon < \epsilon_0$, such that $s_1$ is $\epsilon$-invadable. We choose $\epsilon = \epsilon_0 / 2$, and present a strategy $s_2$ that can invade $s_1$ for all $p$ that are sufficiently small.
+      To do that, we want to prove that for all $p_0, \epsilon_0 \in (0,1)$, there exists $p < p_0$ and $\epsilon < \epsilon_0$, such that $s_1$ is $\epsilon$-invadable. We present a strategy $s_2$ that can invade $s_1$ for all $p$ and $\epsilon$ that are sufficiently small.
 
 
       The underlying idea is to construct $s_2$ such that $s_1$ can see no difference between itself and $s_2$, while $s_2$, on the other hand, can. If we succeed in doing so, we will have that $v_{s_1}(s_2) = v_{s_2}(s_1) = v_{s_1}(s_1)$, and can construct $s_2$ such that it always cooperates when it recognizes itself, thereby yielding $v_{s_2}(s_2) = R$. This would give $s_2$ a higher fitness than $s_1$. The rest of this proof executes this plan in detail.
@@ -441,11 +441,12 @@ Now that we know more about the time average distribution, we are also intereste
       We now construct a $K_H$ for each $H$. \Cref{c2flowchart} shows the high-level construction of $K_H$.
        All of the steps succeed with probability $1 - O(p)$. The first step makes sure that $K_H$ does not deviate from $s_1$ at all
         until $s_1$ has reached an absorbing strongly connected component. 
-       Once $s_1$ is in an absorbing strongly connected component, \cref{lemmaabsorbinghasuniquetimeaverage} tells us that the time average distribution does not depend on the particular start state in that component, which means that even if $s_1$ after this point ``figures out'' that it is not playing against itself anymore, there is nothing it can do about it (since it also cannot escape the component). 
+       Once $s_1$ is in an absorbing strongly connected component, it cannot escape, and $s_2$ can also force it to end up in any of the states in the component, which means that even if $s_1$ after this point ``figures out'' that it is not playing against itself anymore, there's nothing it can do about it.
       The second step in the construction of $K_H$ makes sure that if $s_2$ is playing against itself, it is in sync with its clone; that is, with probability $1 - O(p)$, both copies of $s_2$ will transition to the third component at the exact same time (although not necessarily in the same $K_H$). 
       The third step now figures out what action $s_1$ would take at some large finite time $T$. 
       Then, $K_H$ outputs the exact opposite action at time $T$. 
-      At that point, if its opponent outputs $s_1$'s expected action, it transitions into the absorbing strongly connected component $H_\text{copy}$, which is just an exact copy of $H$, but if its opponent outputs the opposite of that action, it has successfully recognized itself and enters an always cooperating state.
+      At that point, if its opponent outputs $s_1$'s expected action, it wants to transition into the absorbing strongly connected component $H_\text{copy}$, which is just an exact copy of $H$, but if its opponent outputs the opposite of that action, it has successfully recognized itself and enters an always cooperating state.
+      Before transitioning into $H_\text{copy}$, $s_2$ makes sure that $s_1$ is in a state that is beneficial for $s_2$.
 
       \begin{figure}
         \centering
@@ -456,7 +457,8 @@ Now that we know more about the time average distribution, we are also intereste
           \node[state] (c_4) [below left=of c_3] {$C$};
           \node[state] (c_5) [below right=of c_3] {$D$};
           \node[state] (c_6) [below=of c_5] {$C$};
-          \node[elliptic state] (c_7) [below=of c_4] {$H_\text{copy}$ \\(an exact copy of $H$)};
+          \node[elliptic state] (c_7) [below=of c_4] {4. Force $s_1$ into a good state.};
+          \node[elliptic state] (c_8) [below=of c_7] {$H_\text{copy}$ \\(an exact copy of $H$)};
 
 
           \path[->] (c_0) edge (c_1);
@@ -468,16 +470,17 @@ Now that we know more about the time average distribution, we are also intereste
           \path[->] (c_4) edge node [left] {$D$} (c_7);
           \path[->] (c_5) edge node [below, pos=0.1] {$C$} (c_7);
           \path[->] (c_6) edge [loop right] (c_6);
+          \path[->] (c_7) edge (c_8);
           % \path[->] (c_0) edge node [above right] {$\bar{\alpha}$} (c_1);
           % \path[->] (c_1) edge [loop right] node [right] {$C,D$} ();
           % \path[->] (c_0) edge node [above left] {$\alpha$} (c_prime);
           % \path[->] (c) edge node [below left] {$\alpha$} (c_prime);
         \end{tikzpicture}
-        \caption{High level construction of $K_H$, the absorbing component replacing $H$ when creating $s_2$ in the proof of \cref{evolutionarystable1}. Note that $K_H$ contains exactly 2 absorbing strongly connected components.}
+        \caption{High level construction of $K_H$, the absorbing component replacing $H$ when creating $s_2$ in the proof of \cref{evolutionarystable1}. Note that $K_H$ contains exactly 2 absorbing strongly connected components. SCC means strongly connected component.}
         \label{c2flowchart}
       \end{figure}
       
-      This concludes the high-level construction of $s_2$. We now want to prove that this $s_2$ can in fact invade $s_1$. To do that, we will first assume that the below 3 lemmas are correct, i.e., that the construction is possible and works as specified, and then finish the proof of our theorem using those assumptions. Once that's done, we will prove the 3 lemmas.
+      This concludes the high-level construction of $s_2$. We now want to prove that this $s_2$ can in fact invade $s_1$. To do that, we will first assume that the below four lemmas are correct, i.e., that the construction is possible and works as specified, and then finish the proof of our theorem using those assumptions. Once that's done, we will prove the four lemmas.
 
       \begin{lemma}
         \label{claimcanwaitfors1}
@@ -494,6 +497,11 @@ Now that we know more about the time average distribution, we are also intereste
         We can construct a non-absorbing component with a finite number of maximum steps that, supposing that $s_2$ plays against $s_1$, can figure out what action $s_1$ will take at the exact timestep following the transition out of the component. This component is the same for all $H$.
       \end{lemma}
 
+      \begin{lemma}
+        \label{claimcanforcegoodstate}
+        We can construct a non-absorbing component placed after the third component that, supposing that $s_2$ plays against $s_1$, can transition into any given absorbing strongly connected component $S$ in the $s_1$-$s_2$ chain that is a subset of $H_\text{copy} \times H'$ where $H'$ is the absorbing strongly connected component that $s_1$ is in.
+      \end{lemma}
+
       We now finish our proof, starting with a lemma concerning the payoffs.
 
       \begin{lemma}
@@ -501,17 +509,25 @@ Now that we know more about the time average distribution, we are also intereste
         Given the above construction of $s_2$, the payoffs are as follows.
       \begin{align*}
         v_{s_1}(s_1) &= \gamma \pm O(p) \\
-        v_{s_1}(s_2) &= \gamma \pm O(p) \\
-        v_{s_2}(s_1) &= \gamma \pm O(p) \\
-        v_{s_2}(s_2) &= R \pm O(p)
+        v_{s_2}(s_2) &= R \pm O(p),
+      \end{align*}
+      and either
+      \begin{align*}
+        \lim_{p \to 0} v_{s_2}(s_1) > \gamma,
+      \end{align*}
+      or
+      \begin{align*}
+        v_{s_1}(s_2) = \gamma \pm O(p) \text{ and }
+        v_{s_2}(s_1) = \gamma \pm O(p)
       \end{align*}
       \end{lemma}
       \begin{subproof}
+        By our definition of $\gamma$, we have that $v_{s_1}(s_1) \leq \gamma \pm O(p)$.
 
-        By our definition of $\gamma$, we have that $v_{s_1}(s_1) = \gamma \pm O(p)$.
+        Consider now the $s_2$-$s_2$ Markov chain. By \cref{claimcansyncs2}, both clones will transition into the third component at the exact same time. The third component spends only a finite amount of time by \cref{claimcanfigureout}, and is the same regardless of which $K_H$ the strategies are in. Thus, after leaving the third component of $K_H$, if no mistakes have happened since leaving the second component, both clones of $s_2$ will be in exactly corresponding states, since they will always mirror each other. This happens with probability at least $(1-p)^N$ where $N$ is the finite number of states in the third component, and thus with probability $1 - O(p)$. Thus, in the identifying stage, both clones will output the same action, and as we can see in \cref{c2flowchart}, they will then both transition to the always cooperating state with probability $1 - O(p)$. Therefore, $v_{s_2}(s_2) = R \pm O(p)$.
 
         Consider now the case of $s_1$ playing against $s_2$. Suppose that $s_2$ ends up in the absorbing component $K_H$. By \cref{claimcanwaitfors1}, with probability $1 - O(p)$, $s_2$ is indistinguishable from $s_1$ until $s_1$ reaches an absorbing strongly connected component, which we call $H'$.         
-        This means that the probability of reaching the absorbing component $H' \times K_H$ in the $s_1$-$s_2$ Markov chain, is up to a factor of $1 - O(p)$, the same as if we hadn't replaced $H$ by $K_H$ in $s_2$, which is just the probability of reaching the absorbing component $H' \times H$ in the $s_1$-$s_1$ Markov chain. Thus, 
+        This means that the probability of reaching the absorbing component $H' \times K_H$ in the $s_1$-$s_2$ Markov chain, is up to a factor of $1 - O(p)$ the same as if we had not replaced $H$ by $K_H$ in $s_2$, which is just the probability of reaching the absorbing component $H' \times H$ in the $s_1$-$s_1$ Markov chain. Thus, 
         \begin{multline*}
           P(\text{$s_1$-$s_2$ ends up in $H' \times K_H$}) = (1 - O(p)) P(\text{$s_1$-$s_1$ ends up in $H' \times H$})
         \end{multline*}
@@ -520,13 +536,26 @@ Now that we know more about the time average distribution, we are also intereste
           \label{equationhhcopy}
           P(\text{$s_1$-$s_2$ ends up in $H' \times H_\text{copy}$}) = P(\text{$s_1$-$s_1$ ends up in $H' \times H$}) \pm O(p).
         \end{equation}
-        Let $C_H$ be the always cooperating absorbing state of $K_H$. Then, this equation implies that 
+        % Let $C_H$ be the always cooperating absorbing state of $K_H$. Then, this equation implies that 
+        % \begin{equation}
+        %   \label{equationhch}
+        %   P(\text{$s_1$-$s_2$ ends up in $H' \times C_H$}) = O(p).
+        % \end{equation}
+        By \cref{claimcanforcegoodstate}, $s_1$ can choose to end up in any absorbing strongly connected component $S_{H', H}$ that is a subset of $H' \times H_\text{copy}$, with probability $1 - O(p)$. 
+        Naturally, $s_1$ chooses an $S_{H', H}^*$ as follows: among the $S$ that have the maximum payoff for $s_2$, not caring about $O(p)$, we choose the one the minimizes the payoff for $s_1$.
+        Let $v_{s}(S)$ denote the payoff that strategy $s$ achieves in the absorbing strongly connected component $S$. Then,
         \begin{equation}
-          \label{equationhch}
-          P(\text{$s_1$-$s_2$ ends up in $H' \times C_H$}) = O(p).
+          \label{imtoootired}
+          v_{s_2}(S_{H', H}^*) \geq \sum_{S} P(\text{$s_1$-$s_1$ ends up in $S$} \mid \text{$s_1$-$s_1$ ends up in $H' \times H$}) \cdot v_{s_1}(S) \pm O(p)
         \end{equation}
-        Thus, when $s_1$ plays against $s_2$, the absorbing strongly connected components are mostly the same, with mostly the same probabilities. 
-        Now, let $\pi$ be the time average distribution of the $s_1$-$s_1$ Markov chain and let $\tau$ be the time average distribution of the $s_1$-$s_2$ Markov chain. Let $\mathcal{A}$ be the set of absorbing strongly connected components of the $s_1$-$s_1$ chain, and let $\mathcal{B}$ be the set of absorbing strongly connected components of the $s_1$-$s_2$ chain. Using \cref{timeaveragedistributiondecomposition} and \cref{absorbingstronglyconnectedcomponentscartesianproduct}, we can now calculate $\tau$:
+        since the right hand side is a weighted average of $v_{s_1}(S)$, which is the same as $v_{s_2}(S)$ in this case, which is what we maximized over when we chose $S_{H', H}^*$. Also, since $s_1$ could make sure to get into it with probability $1 - O(p)$, we have 
+        \begin{equation}
+          \label{eqshh}
+          P(\text{$s_1$-$s_2$ ends up in $S_{H',H}^*$}) = P(\text{$s_1$-$s_2$ ends up in $H' \times H_\text{copy}$})  \pm O(p).
+        \end{equation}
+        Also, as a consequence, the $S_{H,H'}^*$ for all $H$ and $H'$ become the only absorbing strongly connected components with probabilities of ending up in them greater than $O(p)$.
+
+        Now, let $\mathcal{A}$ be the set of absorbing strongly connected components of the $s_1$-$s_1$ chain, and let $\mathcal{B}$ be the set of absorbing strongly connected components of the $s_1$-$s_2$ chain. We can now calculate $v_{s_2}(s_1)$.
 
         % By definition, $v_{s_1}(s_1) = \gamma$. By \cref{timeaveragedistributiondecomposition}, the time average distribution of the $s_1$-$s_1$ Markov chain $\pi$ is \begin{equation*}
         %   \pi = \sum_{(C_1, C_1') \in \mathcal{C}_1 \times \mathcal{C}_1} p_{(C_1, C_1')} \cdot \pi^{(C_1, C_1')}
@@ -542,28 +571,35 @@ Now that we know more about the time average distribution, we are also intereste
         \begin{align*}
           \WithArrowsOptions{displaystyle}
           \begin{WithArrows}
-          \tau &= \sum_{S \in \mathcal{B}} P(\text{$s_1$-$s_2$ ends up in $S$}) \cdot \pi^{(S)} \Arrow{\cref{absorbingstronglyconnectedcomponentscartesianproduct}}\\
-          &= \sum_{H', C_H} P(\text{$s_1$-$s_2$ ends up in $H' \times C_H$}) \cdot \pi^{(H' \times C_H)}\\ &\:\:\:\:\:\:\:+ \sum_{H', H_\text{copy}} P(\text{$s_1$-$s_2$ ends up in $H' \times H_\text{copy}$}) \cdot \pi^{(H' \times H_\text{copy})} \Arrow{\cref{equationhch}}\\
-          &= \sum_{H', H_\text{copy}} P(\text{$s_1$-$s_2$ ends up in $H' \times H_\text{copy}$}) \cdot \pi^{(H' \times H_\text{copy})} \pm O(p) \Arrow{\cref{equationhhcopy}}\\
-          &= \sum_{H', H} P(\text{$s_1$-$s_1$ ends up in $H' \times H$}) \cdot \pi^{(H' \times H)} \pm O(p) \Arrow{\cref{absorbingstronglyconnectedcomponentscartesianproduct}}\\
-          &= \sum_{S \in \mathcal{A}} P(\text{$s_1$-$s_1$ ends up in $S$}) \cdot \pi^{(S)} \pm O(p)\\
-          &= \pi \pm O(p)
+          v_{s_2}(s_1) &= \sum_{S \in \mathcal{B}} P(\text{$s_1$-$s_2$ ends up in $S$}) \cdot v_{s_2}(S) \\
+          &= \sum_{S_{H',H}^*} P(\text{$s_1$-$s_2$ ends up in $S_{H', H}^*$}) \cdot v_{s_2}(S_{H', H}^*) \pm O(p) \Arrow{\cref{eqshh}} \\
+          &= \sum_{S_{H',H}^*} P(\text{$s_1$-$s_2$ ends up in $H' \times H_\text{copy}$}) \cdot v_{s_2}(S_{H', H}^*) \pm O(p) \Arrow{\cref{equationhhcopy}} \\
+          &= \sum_{S_{H',H}^*} P(\text{$s_1$-$s_1$ ends up in $H' \times H$}) \cdot v_{s_2}(S_{H', H}^*) \pm O(p) \Arrow{\cref{imtoootired}}\\
+          &\geq \sum_{S \in \mathcal{A}} P(\text{$s_1$-$s_1$ ends up in $S$}) \cdot v_{s_1}(S) \pm O(p)\\
+          &= v_{s_1}(s_1) \pm O(p)
           \end{WithArrows}
         \end{align*}
-        Thus, $s_1$-$s_1$ and $s_1$-$s_2$ have almost the same time average distribution. This proves that $v_{s_1}(s_2) = \gamma \pm O(p)$ and $v_{s_2}(s_1) = \gamma \pm O(p)$.
+        Thus, we have that $v_{s_2}(s_1) \geq \gamma \pm O(p)$. Suppose that $v_{s_2}(s_1) = \gamma \pm O(p)$. Then, we must have equality in \cref{imtoootired} for all $H$ and $H'$, which means that all $S$ were equally good for $s_2$, in which case we chose $S_{H',H}^*$ to minimize the payoff for $s_1$. Following through with the exact same argument as above, but flipping the inequalities, we then find that $v_{s_1}(s_2) \leq \gamma \pm O(p)$.
 
-        For the last part of the claim, consider the $s_2$-$s_2$ Markov chain. By \cref{claimcansyncs2}, both clones will transition enter the third component at the exact same time. The third step takes only a finite number of steps by \cref{claimcanfigureout}, and is the same regardless of which $K_H$ the strategies are in. Thus, after leaving the third step of $K_H$, if no mistakes have happened since leaving state 2, both clones of $s_2$ will be in exactly corresponding states, since they will always mirror each other. This happens with probability at least $(1-p)^N$ where $N$ is the finite number of states in step 3, and thus with probability $1 - O(p)$. Thus, in the identifying stage, both clones will output the same thing, and as we can see in \cref{c2flowchart}, they will then both transition to the always cooperating state with probability $1 - O(p)$. Therefore, $v_{s_2}(s_2) = R \pm O(p)$, which finishes the proof of the lemma.
       \end{subproof}
 
-      Given \cref{claimpayoffs}, we simply compute $F(s_2) - F(s_1)$, which we want to show is greater than 0.
+      Given \cref{claimpayoffs}, we simply compute $F(s_2) - F(s_1)$, which we want to show is greater than 0. We have two cases. First, we assume that $\lim_{p \to 0} v_{s_2}(s_1) > \gamma$. Let $\lim_{p \to 0} v_{s_2}(s_1) = \beta$. Then,
       \begin{align*}
         F(s_2) - F(s_1) &= \\
         &= (1 - \epsilon) \cdot v_{s_2}(s_1) + \epsilon \cdot v_{s_2}(s_2) - (1 - \epsilon) \cdot v_{s_1}(s_1) - \epsilon \cdot v_{s_1}(s_2) \\
-        &= (1 - \epsilon) (\gamma \pm O(p)) + \epsilon (R \pm O(p)) - (1-\epsilon) (\gamma \pm O(p)) - \epsilon (\gamma \pm O(p)) \\
+        &= (1 - \epsilon) (\beta \pm O(p)) + \epsilon (R \pm O(p)) - (1-\epsilon) (\gamma \pm O(p)) - \epsilon (v_{s_1}(s_2) \pm O(p)) \\
+        &\geq (1 - \epsilon) (\beta - \gamma) + \epsilon(R - v_{s_1}(s_2)) \pm O(p)
+      \end{align*}
+      Here, we can make $\epsilon$ small enough such that this becomes positive, since $\beta - \gamma > 0$. Now, in the second case, we assume that $v_{s_2}(s_1) = \gamma \pm O(p)$ and $v_{s_1}(s_2) \leq \gamma \pm O(p)$. Then,
+      \begin{align*}
+        F(s_2) - F(s_1) &= \\
+        &= (1 - \epsilon) \cdot v_{s_2}(s_1) + \epsilon \cdot v_{s_2}(s_2) - (1 - \epsilon) \cdot v_{s_1}(s_1) - \epsilon \cdot v_{s_1}(s_2) \\
+        &\geq (1 - \epsilon) (\gamma \pm O(p)) + \epsilon (R \pm O(p)) - (1-\epsilon) (\gamma \pm O(p)) - \epsilon (\gamma \pm O(p)) \\
         &\geq \epsilon (R - \gamma) \pm O(p)
       \end{align*}
-
-      We know that $R - \gamma > 0$ by our initial assumption. For all sufficiently small $p$, thus, $F(s_2) - F(s_1) > 0$. This proves that $s_2$ can invade $s_1$, and thus, that $s_1$ is not $\epsilon$-invadable some value of $p < p_0$. In conclusion, then, $s_1$ is not evolutionarily stable, which concludes the proof of \cref{evolutionarystable1}.
+      We know that $R - \gamma > 0$ by our initial assumption. Here, we can make $p$ small enough such that this becomes positive.
+      
+      In conclusion, our constructed $s_2$ has higher fitness than $s_1$. This proves that $s_2$ can invade $s_1$, and thus, that $s_1$ is not $\epsilon$-invadable some value of $p < p_0$ and some $\epsilon < \epsilon_0$. In conclusion, then, $s_1$ is not evolutionarily stable, which concludes the proof of \cref{evolutionarystable1}.
 
     \end{proof}
 
@@ -617,6 +653,11 @@ Now that we know more about the time average distribution, we are also intereste
         In the end, there will be a subset $U$ of $L$ that corresponds to all tuples $(H,h)$ that corresponded to the perceived sequence of actions in each comparison it was part of. By the way the loop is constructed, all $(H,h)$ in $U$ will produce the same high probability output on any input string; for our purposes, we can therefore just pick one canonical $(H,h)$ from $U$.
 
         Note that when we implement this procedure on a finite automaton, it becomes a large decision tree, which means that in the end, there will be one branch for each canonical $(H, h)$, and we will be in one corresponding to where $s_1$ actually started off in the beginning of this component with probability $1 - O(p)$. In each such branch, we know, at compile time, which state $s_1$ is in at the end of the branch, and thus know what output that $s_1$ will have in the next step, with probability $1 - O(p)$. This is exactly what we wanted, so we transition out of component 3.
+      \end{proof}
+
+
+      \begin{proof}[Proof of \cref{claimcanforcegoodstate}]
+        Note that an absorbing strongly connected component $S$ of the $s_1$-$s_2$ chain that is a subset of $H_\text{copy} \times H'$ can be gotten to by making $s_1$ transition to some state $h_1$ and $s_2$ transition to some state $h_2 \in H_\text{copy}$ where $(h_1, h_2) \in S$. This is simple. Note that $s_1$ is in a strongly connected component already, and that $s_2$ knows, by the previous component, which state $s_1$ is in. Thus, $s_2$ knows the path for $s_1$ to get to $h_1$, and can just output that. Then, $s_1$ will be in $h_1$, and $s_2$ can simply transition to $h_2$. This proves the lemma.
       \end{proof}
 
 

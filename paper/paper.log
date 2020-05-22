@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2020.4.8)  22 MAY 2020 06:35
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2020.4.8)  22 MAY 2020 08:41
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -834,6 +834,16 @@ Overfull \hbox (102.84833pt too wide) has occurred while \output is active
  []
 
 [9] [10]
+Overfull \hbox (17.16917pt too wide) detected at line 550
+[]\OML/cmm/m/it/10.95 v[]\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 S[]\OT1/cmr/m/n/10.95 ) \OMS/cmsy/m/n/10.95 ^^U [] \OML/cmm/m/it/10.95 P\OT1/cmr/m/n/10.95 ([] \OMS/cmsy/m/n/10.95 j []\OT1/cmr/m/n/10.95 ) \OMS/cmsy/m/n/10.95 ^^A \OML/cmm/m/it/10.95 v[]\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 S\OT1/cmr/m/n/10.95 ) \OMS/cmsy/m/n/10.95 ^^F \OML/cmm/m/it/10.95 O\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 )
+ []
+
+
+Overfull \hbox (102.84833pt too wide) has occurred while \output is active
+ \OT1/cmr/m/n/8 COOPERATION IS PROVABLY REQUIRED IN A VERSION OF THE NOISY ITERATED PRISONER'S DILEMMA []
+ []
+
+[11]
 \l__wa_x_dim=\dimen290
 \l__wa_initial_int=\count311
 \l__wa_final_int=\count312
@@ -846,12 +856,12 @@ Overfull \hbox (102.84833pt too wide) has occurred while \output is active
 \l__wa_first_arrow_int=\count319
 \l__wa_last_arrow_int=\count320
 
-Overfull \hbox (102.84833pt too wide) has occurred while \output is active
- \OT1/cmr/m/n/8 COOPERATION IS PROVABLY REQUIRED IN A VERSION OF THE NOISY ITERATED PRISONER'S DILEMMA []
+Overfull \hbox (66.66719pt too wide) detected at line 592
+[]
  []
 
-[11]
-Overfull \hbox (40.14612pt too wide) detected at line 564
+
+Overfull \hbox (40.14612pt too wide) detected at line 599
 []
  []
 
@@ -865,29 +875,34 @@ Overfull \hbox (102.84833pt too wide) has occurred while \output is active
  \OT1/cmr/m/n/8 COOPERATION IS PROVABLY REQUIRED IN A VERSION OF THE NOISY ITERATED PRISONER'S DILEMMA []
  []
 
-[15] (/Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/paper/paper.bbl) [16]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 750.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 750.
+[15] [16] (/Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/paper/paper.bbl)
+Overfull \hbox (102.84833pt too wide) has occurred while \output is active
+ \OT1/cmr/m/n/8 COOPERATION IS PROVABLY REQUIRED IN A VERSION OF THE NOISY ITERATED PRISONER'S DILEMMA []
+ []
+
+[17]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 791.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 791.
  (/Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/paper/paper.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 750.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 750.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 791.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 791.
 Package rerunfilecheck Info: File `paper.out' has not changed.
 (rerunfilecheck)             Checksum: 3A4FD83BCBBE7FA5EF9132767127C11C;691.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 750.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 791.
  ) 
 Here is how much of TeX's memory you used:
- 33218 strings out of 492616
- 686761 string characters out of 6129482
- 735399 words of memory out of 5000000
- 36486 multiletter control sequences out of 15000+600000
+ 33175 strings out of 492616
+ 685671 string characters out of 6129482
+ 730559 words of memory out of 5000000
+ 36441 multiletter control sequences out of 15000+600000
  541290 words of font info for 58 fonts, out of 8000000 for 9000
  1302 hyphenation exceptions out of 8191
- 62i,20n,84p,1389b,1235s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 62i,20n,81p,1389b,1235s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb>
-Output written on "/Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/paper/paper.pdf" (16 pages, 285592 bytes).
+Output written on "/Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/paper/paper.pdf" (17 pages, 286570 bytes).
 PDF statistics:
- 332 PDF objects out of 1000 (max. 8388607)
- 274 compressed objects within 3 object streams
- 72 named destinations out of 1000 (max. 500000)
+ 337 PDF objects out of 1000 (max. 8388607)
+ 279 compressed objects within 3 object streams
+ 74 named destinations out of 1000 (max. 500000)
  197 words of extra memory for PDF output out of 10000 (max. 10000000)
 
