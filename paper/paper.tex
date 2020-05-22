@@ -425,7 +425,7 @@ Now that we know more about the time average distribution, we are also intereste
        All of the steps succeed with probability $1 - O(p)$. The first step makes sure that $K_H$ does not deviate from $s_1$ at all
         until $s_1$ has reached an absorbing strongly connected component. 
        Once $s_1$ is in an absorbing strongly connected component, \cref{lemmaabsorbinghasuniquetimeaverage} tells us that the time average distribution does not depend on the particular start state in that component, which means that even if $s_1$ after this point ``figures out'' that it is not playing against itself anymore, there is nothing it can do about it (since it also cannot escape the component). 
-      The second step in the construction of $K_H$ makes sure that if $s_2$ is playing against itself, it is in sync with its clone; that is, with probability $1 - O(p)$, both copies of $s_2$ will be in the exact same state after the second step. 
+      The second step in the construction of $K_H$ makes sure that if $s_2$ is playing against itself, it is in sync with its clone; that is, with probability $1 - O(p)$, both copies of $s_2$ will transition to the third component at the exact same time (although not necessarily in the same $K_H$). 
       The third step now figures out what action $s_1$ would take at some large finite time $T$. 
       Then, $K_H$ outputs the exact opposite action at time $T$. 
       At that point, if its opponent outputs $s_1$'s expected action, it transitions into the absorbing strongly connected component $H_\text{copy}$, which is just an exact copy of $H$, but if its opponent outputs the opposite of that action, it has successfully recognized itself and enters an always cooperating state.
@@ -460,26 +460,26 @@ Now that we know more about the time average distribution, we are also intereste
         \label{c2flowchart}
       \end{figure}
       
-      This concludes the high-level construction of $s_2$. We now want to prove that this $s_2$ can in fact invade $s_1$. To do that, we will first assume that the below 3 claims are correct, i.e., that the construction is possible and works as specified, and then finish the proof of our theorem using those assumptions. Once that's done, we will prove the 3 claims.
+      This concludes the high-level construction of $s_2$. We now want to prove that this $s_2$ can in fact invade $s_1$. To do that, we will first assume that the below 3 lemmas are correct, i.e., that the construction is possible and works as specified, and then finish the proof of our theorem using those assumptions. Once that's done, we will prove the 3 lemmas.
 
-      \begin{claim}
+      \begin{lemma}
         \label{claimcanwaitfors1}
         We can construct a non-absorbing component with behavior indistinguishable from the behavior of component $H$, such that when we leave the component, $s_1$ will be in an absorbing strongly connected component with probability $1 - O(p)$.
-      \end{claim}
+      \end{lemma}
 
-      \begin{claim}
+      \begin{lemma}
         \label{claimcansyncs2}
-        We can construct a non-absorbing component placed after the first component, such that if $s_2$ plays against itself, both clones transition out of the component at the exact same time with probability $1 - O(p)$.
-      \end{claim}
+        We can construct a non-absorbing component placed after the first component, such that if $s_2$ plays against itself, both clones transition from the second component to the third component of their respective $K_H$ at the exact same time, with probability $1 - O(p)$.
+      \end{lemma}
 
-      \begin{claim}
+      \begin{lemma}
         \label{claimcanfigureout}
-        We can construct a non-absorbing component with a finite number of maximum steps that, supposing that $s_2$ plays against $s_1$, can figure out what action $s_1$ will take at the exact timestep following the transition out of the component.
-      \end{claim}
+        We can construct a non-absorbing component with a finite number of maximum steps that, supposing that $s_2$ plays against $s_1$, can figure out what action $s_1$ will take at the exact timestep following the transition out of the component. This component is the same for all $H$.
+      \end{lemma}
 
-      We now finish our proof.
+      We now finish our proof, starting with a lemma concerning the payoffs.
 
-      \begin{claim}
+      \begin{lemma}
         \label{claimpayoffs}
         Given the above construction of $s_2$, the payoffs are as follows.
       \begin{align*}
@@ -488,7 +488,7 @@ Now that we know more about the time average distribution, we are also intereste
         v_{s_2}(s_1) &= \gamma \pm O(p) \\
         v_{s_2}(s_2) &= R \pm O(p)
       \end{align*}
-      \end{claim}
+      \end{lemma}
       \begin{subproof}
 
         By our definition of $\gamma$, we have that $v_{s_1}(s_1) = \gamma \pm O(p)$.
@@ -535,7 +535,7 @@ Now that we know more about the time average distribution, we are also intereste
         \end{align*}
         Thus, $s_1$-$s_1$ and $s_1$-$s_2$ have almost the same time average distribution. This proves that $v_{s_1}(s_2) = \gamma \pm O(p)$ and $v_{s_2}(s_1) = \gamma \pm O(p)$.
 
-        For the last part of the claim, consider the $s_2$-$s_2$ Markov chain. By \cref{claimcansyncs2}, both clones will be in the exact same position after the sync step. The third step takes only a finite number of steps by \cref{claimcanfigureout}. Thus, after leaving the third step of $K_H$, if no mistakes have happened since leaving state 2, both clones of $s_2$ will be in the exact same state. This happens with probability at least $(1-p)^N$ where $N$ is the finite number of states in step 3, and thus with probability $1 - O(p)$. Thus, in the identifying stage, both clones will output the same thing, and as we can see in \cref{c2flowchart}, they will then both transition to the always cooperating state with probability $1 - O(p)$. Therefore, $v_{s_2}(s_2) = R \pm O(p)$, which finishes the proof of the claim.
+        For the last part of the claim, consider the $s_2$-$s_2$ Markov chain. By \cref{claimcansyncs2}, both clones will transition enter the third component at the exact same time. The third step takes only a finite number of steps by \cref{claimcanfigureout}, and is the same regardless of which $K_H$ the strategies are in. Thus, after leaving the third step of $K_H$, if no mistakes have happened since leaving state 2, both clones of $s_2$ will be in exactly corresponding states, since they will always mirror each other. This happens with probability at least $(1-p)^N$ where $N$ is the finite number of states in step 3, and thus with probability $1 - O(p)$. Thus, in the identifying stage, both clones will output the same thing, and as we can see in \cref{c2flowchart}, they will then both transition to the always cooperating state with probability $1 - O(p)$. Therefore, $v_{s_2}(s_2) = R \pm O(p)$, which finishes the proof of the lemma.
       \end{subproof}
 
       Given \cref{claimpayoffs}, we simply compute $F(s_2) - F(s_1)$, which we want to show is greater than 0.
@@ -550,15 +550,42 @@ Now that we know more about the time average distribution, we are also intereste
 
     \end{proof}
 
-      We now return to the three claims we left out that detail the construction of $s_2$.
+      We now return to the three lemmas that we left out, which detail the construction of $s_2$.
 
-      \begin{claim}
-        There is a $T$ and a procedure implementable in $C_2$ that runs in a finite number of steps and can determine the action $A$ of $s_1$ at time $T$ with probability $1 - O(p)$.
-      \end{claim}
+      \begin{proof}[Proof of \cref{claimcanwaitfors1}]
 
-      \begin{proof}
-          Let $\mathcal{C}_1$ be the set of all absorbing strongly connected components in $s_1$.
-           Let $M$ be the set of all tuples of $(C, c)$ where $C \in \mathcal{C}_1$ and $c$ is a possible state of $C$. Let $M'$ be a subset of $M$ where a tuple $(C, c)$ has been removed if there is another tuple $(C', c') \in M'$ produces exactly the same output on all inputs, when only following the $1-p$ transitions.
+        Let $T_1$ be the random variable designating the time at which $s_1$ transitions into an absorbing strongly connected component, counting from the time $s_2$ entered $K_H$. (In particular, if $s_1$ is already in an absorbing strongly connected component, $T_1 = 0$.)
+        Let $T_2$ be the random variable designating the time at which $s_2$ transitions out of component 1 of $K_H$.
+        To prove our lemma, we want to prove that with probability $1 - O(p)$, $T_1 \leq T_2$, and that during all the time that we are in component 1 of $K_H$, the output of $s_2$ is indistinguishable from $H$.
+
+        First, we deal with the indistinguishableness part. We create the component by copying $H$. Next, we define a new graph $W$, that we will design in the subsequent paragraphs, which will wait for $s_1$ to get into an absorbing component. This graph will have edges defined with the labels $C$ and $D$ still, but have no outputs at the states. The graph $D$ will also have one designated ``end state.'' We will then construct our component 1 for $K_H$ by replacing every state $h \in H$ with a copy of $D$ that we call $D_h$. There will be a $C$ edge from node $u \in D_h$ to node $v \in D_{h'}$ if and only if there is a $C$ edge from $h$ to $h'$, and from $u$ to $v$ in $D$. Similarly for the $D$ edge. This is commonly known as the Kronecker or tensor product of the graphs $D$ and $H$. The output at every state $u \in D_h$ is the same as the output of $h$. For the end state $e \in D_h$ for each $h$, we will add an edge with label both $C$ and $D$, transitioning out of this component and into component 2.
+
+        It is clear that as long as we don't transition out of this component, the Kronecker product will ensure that the output will be indistinguishable from $H$. We now want to design $D$ such that $T_1 \leq T_2$ with high probability.
+        
+        Let $d$ be the maximum length of a path from any state in $s_1$ to its closest absorbing strongly connected component. Then, for each state in $s_1$, there is a sequence of perceived inputs of length $\leq d$ (the \textit{special sequence} of that state), such that $s_1$ upon seeing that sequence ends up in an absorbing strongly connected component. For all states, the probability that $s_1$ 
+        perceives its special sequence is $\geq p^d$, since, in the worst case, $s_1$ would need to make a mistake on exactly all 
+        inputs to perceive the special sequence. That means that at any single point in time, there is a probability $\geq p^d$ that $s_1$ 
+        will go into an absorbing strongly connected component within the subsequent $d$ moves. Consider the geometric random variable $X_1 = d + \operatorname{Geom} (p^d)$. For all $t$, then, we have that $P(X_1 = t) \leq P(T_1 = t)$. Thus, we may see $X_1$ as some sort of upper bound to $T_1$.
+4
+        We now describe the construction of $D$. Consider a state $c_1 \in s_1$ and a state $h \in H$, and suppose that we let them evolve with no mistakes happening at all. Then, the outputs of $c_1$ will form an infinite string $w(c_1, h)$. Let there be $|s_1|$ states in $s_1$ and $|H|$ states in $H$. Now, create a string $w^*$ of length $|s_1| \cdot |H|$, which differs in at least 1 place from each $w(c_1,h)$.\footnote{This is the famous technique of diagonalization.} Thus, if $s_1$ ever outputs the string $w^*$ when we are in this component, we know that at least one mistake has occurred, somewhere. Consequently, the probability that, at each timestep, $w^*$ will be perceived by $s_2$ as the next sequence of outputs of $s_1$ is $\leq p$. 
+        If we repeat $w^*$ $d+1$ times to form $(w^*)^{d+1}$, the probability that that string is perceived by $s_2$ as the next sequence of outputs of $s_1$ is $\leq p^{d+1}$.
+        Now, create $D$ as follows: it is a chain of states $d_1,d_2,\ldots,d_{(d+1)|w^*|+1}$ where $d_i$ transitions to $d_{i+1}$ on seeing the $i$th character of the string $(w^*)^{d+1}$; $d_i$ transitions to $d_1$ otherwise. $d_{(d+1)|w^*|+1}$ is the designated end state of $D$. Now, it is clear that each step, the probability that we will reach the end state in the next $(d+1)|w^*|+1$ steps is $\leq p^{d+1}$. Consider the geometric random variable $X_2 = (d+1)|w^*| + 1 + \operatorname{Geom} (p^{d+1})$. For all $t$, then, we have that $P(X_2 = t) \geq P(T_2 = t)$. Thus, we may see $X_2$ as a lower bound to $T_2$.
+
+        We now claim that the probability that $X_1 \leq X_2$ is $1 - O(p)$, where $X_1$ and $X_2$ are independent. It suffices to show that $\operatorname{Geom}(p^d) \leq \operatorname{Geom}(p^{d+1})$ with high probability, and it further suffices to show that $\operatorname{Geom}(x) > \operatorname{Geom}(px)$ with probability $O(p)$, for some arbitrary $x$. This is easy to show. Consider the geometric variable with parameter $px$ to consist of first an event of probability $x$ happening, and then that counts as a real success with a probability $p$. Then, when comparing the two geometric variables, it is clear that both are equally likely to have an event of probability $x$ happening first. Thus, with probability $\frac{1}{2}$, $\operatorname{Geom}(x)$ gets the first real success, with probability $\frac{1}{2} \cdot p$, $\operatorname{Geom}(px)$ gets the first real success, and with probability $\frac{1}{2} (1 - p)$, we saw a fake success and will continue waiting for the next potential success. Clearly, then, $\operatorname{Geom}(x)$ will get the first success with probability $\frac{1}{2} / (\frac{1}{2} + \frac{1}{2}p)$. Thus, $\operatorname{Geom}(px)$ will get the first success with probability $p / (1 + p) = O(p)$, which is exactly what we wanted to show.
+
+        This concludes the proof that component 1 is such that with probability $1 - O(p)$, $s_1$ will have reached an absorbing strongly connected component before $s_2$ continues to component 2 of $K_H$.
+      \end{proof}
+
+      \begin{proof}[Proof of \cref{claimcansyncs2}]
+        This construction is relatively simple. It is a chain of states where each state transitions to the next on both input $C$ and $D$ (that is, deterministically). Let $w_H^*$ be the string used in the proof of \cref{claimcanwaitfors1} for component $H$. Let $W = \sum_{H} (d+1) | w_H^* |$. Then, the outputs of the first $W$ states form the string $w_H^*$ repeated $d+1$ times, for all $w_H$. The following $W+1$ states always output $D$. This is followed by one last state outputting $C$. The $C$ state has a transition into itself on input $D$, and out of this component (to component 3 of $K_H$) on input $C$.
+
+        Suppose that $s_2$ plays against a clone $s_2'$ of itself, and that $s_2$ enters an absorbing component $K_H$ first. Then, by \cref{claimcanwaitfors1}, using the fact that $s_2'$ is a copy of $s_1$ before it reaches an absorbing component, $s_2$ will not enter component 2 of $K_H$ until $s_2'$ enters an absorbing component $K_{H'}$, with probability $1 - O(p)$. When $s_2$ enters component 2, it will at some point output the entirety of the string $w_{H'}^*$. With probability $1 - O(p)$, $s_2'$ will then, by our construction of component 1, enter component 2. That is, $s_2'$ enters the first part of component 2 before $s_2$ leaves the first part of component 2, which means that $s_2$ is at most $W$ steps ahead of $s_2$. This means that $s_2'$ will be in the defection part of the chain when $s_2$ reaches the cooperation state. Assuming no mistakes, then, $s_2$ will wait until $s_2'$ also reaches the cooperation state, at which point they will both simultaneously leave the component. This happens with probability $1 - O(p)$, as desired.
+      \end{proof}
+
+      \begin{proof}[Proof of \cref{claimcanfigureout}]
+        
+          Let $\mathcal{A}_1$ be the set of all absorbing strongly connected components in $s_1$.
+           Let $M$ be the set of all tuples of $(C, c)$ where $H \in \mathcal{A}_1$ and $c$ is a possible state of $C$. Let $M'$ be a subset of $M$ where a tuple $(C, c)$ has been removed if there is another tuple $(C', c') \in M'$ produces exactly the same output on all inputs, when only following the $1-p$ transitions.
 
         The procedure works as follows:
         \begin{enumerate}
