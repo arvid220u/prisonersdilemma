@@ -1,6 +1,6 @@
 # Cooperation in the Noisy Iterated Prisoner's Dilemma
 
-**[Read the paper](paper/paper.pdf)!**
+**[Read (a draft of) the paper](paper/paper.pdf)!**
 
 ## Abstract
 
