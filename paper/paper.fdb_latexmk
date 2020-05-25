@@ -1,13 +1,13 @@
 # Fdb version 3
-["bibtex paper"] 1590428618 "paper.aux" "paper.bbl" "paper" 1590428669
+["bibtex paper"] 1590430212 "paper.aux" "paper.bbl" "paper" 1590430219
   "/usr/local/texlive/2020/texmf-dist/bibtex/bst/base/acm.bst" 1292289607 21064 c61a48664f3c347ce7f73c1a6a530506 ""
-  "bibliography.bib" 1590116129 2012 bcd1b1e236c40976ed2143fc3bb95cc0 ""
-  "paper.aux" 1590428668 8578 93e56a30e0f80205b7e5b5e6ecb9a8a9 "pdflatex"
+  "bibliography.bib" 1590430211 2011 ab8e838e92ecd2b2c45225aa07698742 ""
+  "paper.aux" 1590430215 8578 93e56a30e0f80205b7e5b5e6ecb9a8a9 "pdflatex"
   (generated)
-  "paper.blg"
   "paper.bbl"
-["pdflatex"] 1590428666 "/Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/paper/paper.tex" "/Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/paper/paper.pdf" "paper" 1590428669
-  "/Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/paper/paper.aux" 1590428668 8578 93e56a30e0f80205b7e5b5e6ecb9a8a9 ""
+  "paper.blg"
+["pdflatex"] 1590430212 "/Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/paper/paper.tex" "/Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/paper/paper.pdf" "paper" 1590430219
+  "/Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/paper/paper.aux" 1590430215 8578 93e56a30e0f80205b7e5b5e6ecb9a8a9 ""
   "/Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/paper/paper.tex" 1590428666 60932 a5898053a0a95be08f82c74a2c7cce16 ""
   "/Users/arvidlunnemark/Library/texmf/tex/latex/commonstuff/witharrows.sty" 1590134248 90702 3eaa7712d0b6e8ff4f4f23d3c21a0b55 ""
   "/usr/local/texlive/2020/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -222,14 +222,14 @@
   "/usr/local/texlive/2020/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1586288239 4811913 0be9a7e86c70a26e5e3042966bcd7097 ""
   "/usr/local/texlive/2020/texmf-var/web2c/pdftex/pdflatex.fmt" 1586288259 2432462 fd0fa20e9a3cb5f8169fd0ba1c955158 ""
   "/usr/local/texlive/2020/texmf.cnf" 1586288231 577 d60164b4589a341208aff7a667fbbdcb ""
-  "paper.aux" 1590428668 8578 93e56a30e0f80205b7e5b5e6ecb9a8a9 "pdflatex"
-  "paper.bbl" 1590428618 1212 1a8c2b30a7bb8291bf3fd474a22b2676 "bibtex paper"
-  "paper.out" 1590428668 473 8d0c530469eefe1a48cb8046becc585d "pdflatex"
+  "paper.aux" 1590430215 8578 93e56a30e0f80205b7e5b5e6ecb9a8a9 "pdflatex"
+  "paper.bbl" 1590430212 1211 602d3bb1744c4b4d3359cbf9628c218e "bibtex paper"
+  "paper.out" 1590430215 473 8d0c530469eefe1a48cb8046becc585d "pdflatex"
   "paper.tex" 1590428666 60932 a5898053a0a95be08f82c74a2c7cce16 ""
   (generated)
-  "/Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/paper/paper.log"
   "paper.aux"
   "paper.out"
-  "paper.log"
   "/Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/paper/paper.pdf"
+  "/Users/arvidlunnemark/Dropbox (MIT)/UROPs/Spring 2020/sipser/prisonersdilemma/paper/paper.log"
+  "paper.log"
   "paper.pdf"
