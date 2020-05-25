@@ -70,13 +70,13 @@ The prisoner's dilemma is a classic symmetric two-player game, where both player
         Defect ($D$) & $T=5, S=0$ & $P=1, P=1$ \\
         & Temptation to defect, sucker's payoff & Punishment for mutual defection \\ \hline
     \end{tabularx}
-    \caption{The prisoner's dilemma. The payoff of the player picking the row is listed first.}
+    \caption{The prisoner's dilemma. One player picks a row, the other a column. The payoff of the player picking the row is listed first.}
     \label{fig:prisonersdilemmatable}
 \end{figure}
 
 Given the other player's action, a player always maximizes their payoff by choosing to defect, but with both doing so, the players end up in the $(D, D)$ state, which is worse for both than the $(C, C)$ state. The game has been used to model many real-world situations, including countries failing to act to stop climate change, doping in sport, and economic competition.
 
-To make the game more interesting, one can consider playing it multiple times in a row, with multiple players. One might loosely connect this repeated multiplayer game to evolution: why have humans evolved to cooperate with each other? In a seminal paper in 1980, Axelrod presented evidence that in a repeated setting with multiple players facing off in a tournament, cooperation can arise as the strategy of choice, even for a selfish player \cite{axelrod1980effective}. In particular, the mostly cooperating Tit-for-tat strategy, depicted in \cref{tftfigure}, won his tournament. The idea is that even though Tit-for-tat loses when it plays against defecting strategies, it is being heavily rewarded when it cooperates with other cooperating strategies, giving Tit-for-tat a net advantage.
+To make the game more interesting, one can consider playing it multiple times in a row, with multiple players. One might loosely connect this repeated multiplayer game to evolution: why have humans evolved to cooperate with each other? In a seminal paper published in 1980, Axelrod \cite{axelrod1980effective} presented evidence that in a repeated setting with multiple players facing off in a tournament, cooperation can arise as the strategy of choice, even for a selfish player. In particular, the mostly cooperating Tit-for-tat strategy, depicted in \cref{tftfigure}, won his tournament. The idea is that even though Tit-for-tat loses when it plays against defecting strategies, it is being heavily rewarded when it cooperates with other cooperating strategies, resulting in a net advantage for Tit-for-tat.
 
 \begin{figure}
 \begin{tikzpicture}[node distance=2cm]
@@ -89,19 +89,19 @@ To make the game more interesting, one can consider playing it multiple times in
   \path[->] (s_1) edge [bend left] node [below] {$C$} (s_0);
 \end{tikzpicture}
   \centering
-  \caption{The Tit-for-tat strategy. At any one point, it is in one of two states, taking the action corresponding to the label of the state. Upon perceiving its opponent's move, it decides to switch state if the opponent does something different.}
+  \caption{The Tit-for-tat strategy. At any one point, it is in one of two states, taking the action corresponding to the label of that state. It always switches state so as to copy the opponent's last move.}
   \label{tftfigure}
 \end{figure}
 
-Clearly, however, the winning strategy in a tournament depends on the composition of strategies in that tournament. If all strategies had been of the type to always defect, Tit-for-tat would not have won the Axelrod tournament. Therefore, follow-up tournaments and simulations have been run, and perhaps surprisingly, most provide further evidence that cooperation is the prevailing strategy, as Axelrod summarized in 1981 in his well-cited book on the topic  \cite{axelrod1981evolution}. There, he also presented an evolutionary model that can be used for analyzing the game: strategies are considered to exist in a population that evolves over time in an evolutionary way (more successful strategies reproduce, and mutations can happen). In that context, a strategy is said to be evolutionarily stable if, supposing it controls a large share of the population, it resists being overtaken by any other strategy entering the population in small numbers. That is, populations of evolutionarily stable strategies form the equilibrium states of the evolutionary process, and thus, one may say that the evolutionarily stable strategies are the ``best'' strategies.
+Clearly, however, the winning strategy in a tournament depends on the composition of strategies in that tournament. If all strategies had been of the type to always defect, Tit-for-tat would not have won the Axelrod tournament. Therefore, follow-up tournaments and simulations have been run, and perhaps surprisingly, most provide further evidence that cooperation is the prevailing strategy, as Axelrod summarized in 1981 in his well-cited book on the topic  \cite{axelrod1981evolution}. There, he also presented an evolutionary model that can be used for analyzing the game: strategies are considered to exist in a population that evolves over time in an evolutionary way (more successful strategies reproduce, and random new strategies are introduced in small numbers). In that context, a strategy is said to be evolutionarily stable if, supposing it controls a large share of the population, it resists being overtaken by any other strategy entering the population in small numbers. That is, populations of evolutionarily stable strategies form the equilibrium states of the evolutionary process, and thus, one may say that the evolutionarily stable strategies are the ``best'' strategies. This characterizes the best strategies without relying on a particular composition of strategies to begin with.
 
-In light of Axelrod's tournaments highlighting the effectiveness of cooperation, it has long been a goal to prove that a cooperating strategy like Tit-for-tat is evolutionarily stable. A few variants on this result has been shown. First, Nowak et al. showed that in the finitely repeated game, a strategy that always defects is sometimes not evolutionarily stable \cite{nowak2004emergence}. Second, Binmore and Samuelson showed that in the infinitely repeated game where strategies are modeled as finite automata where having more states comes at a cost, a strategy needs to cooperate with with its clone to be stable \cite{binmore1992evolutionary}. And third, Fudenberg and Maskin showed that a strategy needs to cooperate with its clone to be stable also in the infinitely repeated game in the presence of a certain notion of infinitesimally small noise \cite{fundenberg1990evolution}.
+In light of Axelrod's tournaments highlighting the effectiveness of cooperation, it has long been a goal to prove that a cooperating strategy like Tit-for-tat is evolutionarily stable. A few variants on this result has been shown. First, Nowak et al. \cite{nowak2004emergence} showed that in the finitely repeated game, a strategy that always defects is sometimes not evolutionarily stable. Second, Binmore and Samuelson \cite{binmore1992evolutionary} showed that in the infinitely repeated game where strategies are modeled as finite automata where having more states comes at a cost, a strategy needs to cooperate with its clone to be stable. And third, Fudenberg and Maskin \cite{fundenberg1990evolution} showed that a strategy needs to cooperate with its clone to be stable also in the infinitely repeated game in the presence of a certain notion of infinitesimally small noise.
 
-Notably, all these results impose additional restrictions on the setup, and as noted by Fudenberg and Maskin, restrictions are necessary: in the deterministic infinitely repeated game, one could create a strategy that can self-identify — if the opponent ever deviates from the pattern, the strategy resorts to defecting for the rest of the game. This strategy will be evolutionarily stable, but is not cooperative. 
+Notably, all these results impose additional restrictions on the setup, and as noted by Fudenberg and Maskin, restrictions are necessary: in the deterministic infinitely repeated game, one could create a strategy that cooperates only with itself — if the opponent ever deviates from what the strategy would do, the strategy resorts to defecting for the rest of the game. This strategy will be evolutionarily stable, but is not necessarily cooperative. 
 
 In this paper, we, like Fudenberg and Maskin, choose the addition of noise as our restriction. In contrast to them, however, we present a model where, at every step, each strategy has a tiny probability $p$ of doing the wrong thing, which is arguably the most natural way of modeling noise. 
 
-In \cref{sectionsetup}, we define the setup of our version of the problem in detail. Then, in \cref{sectionresults}, we state the two main results: that a strategy needs to be cooperative to be evolutionarily stable, and that such evolutionarily stable strategies exist. In \cref{sectionproofs}, we prove our results. Finally, in \cref{sectiondiscussion}, we briefly discuss potential directions for future work.
+In \cref{sectionsetup}, we define the setup of our version of the problem in detail. Then, in \cref{sectionresults}, we state the two main results: a theorem saying that a strategy needs to be cooperative to be evolutionarily stable, and conjecture saying that such evolutionarily stable strategies exist. In \cref{sectionproofs}, we prove our results. Finally, in \cref{sectiondiscussion}, we briefly discuss potential directions for future work.
 
 \section{Setup}
 \label{sectionsetup}
@@ -150,12 +150,12 @@ Markov chains naturally lead themselves to the study of limiting cases.
   Let $a_0$ be the start state of $s_1$ and $b_0$ the start state of $s_2$. The \textit{time average distribution} of the $s_1$-$s_2$ Markov chain, denoted $\pi$, is the distribution such that \begin{equation*}
     \pi_{c_1, c_2} = E \left[ \text{fraction of time in state $(c_1,c_2)$} \mid \text{start in state } (a_0, b_0)  \right],
   \end{equation*}
-  where the expectation is taken over the infinite sequence of states representing a random walk.
+  where the expectation is taken over the infinite sequence of states representing a random walk in the Markov chain.
 \end{definition}
 
 Note that the time average distribution given a start state always exists, regardless of the structure of the Markov chain.
 
-Now, we can define the payoff.
+Now, we can define the payoff that one strategy gets when playing against another one.
 
 \begin{definition}
   \label{payofftimeaverage}
@@ -172,67 +172,7 @@ For notational convenience, we may also make $r(c_1, c_2)$ into a vector, denote
 
 That is, the payoff that $s_1$ gets when playing against $s_2$ is simply an average of the reward it gets in each possible state of the Markov chain, weighted by the fraction of time that is spent there.
 
-\iffalse
-We use the notation $G_{s_1,s_2}(c_1,c_2)$ to refer to the vector $(G_{s_1}(c_1), G_{s_2}(c_2))$, and we use $S_{s_1,s_2}$ to refer to the set of all states in the Markov chain.
-
-\begin{definition}
-  \label{strategypayoffs}
-  Let $X_t$ be the random variable designating which state the $s_1$-$s_2$ Markov chain is in at time $t$. The \text{payoff} of strategy $s_1$ when played against strategy $s_2$ is 
-  \begin{equation*}
-    v_{s_1}(s_2) = E \left[ \lim_{T \to \infty} \frac{1}{T} \sum_{t=0}^T r(G_{s_1,s_2} (X_t)) \Bigm| X_0 = (c_{\text{start}}(s_1), c_{\text{start}}(s_2)) \right]
-  \end{equation*}
-\end{definition}
-
-That is, when $s_1$ plays against $s_2$, we define its payoff to be the average payoff over all possible infinite sequences of moves. Note that the expectation is taken over the infinite sequence $(X_0, X_1, \ldots)$. The limit inside is thus simply a normal time average limit of bounded real numbers, which clearly exists. 
-
-We will now introduce the notion of a time average distribution which will lead us to a second way of defining the payoff $v_{s_1}(s_2)$. \todo{is this really necessary?? should i pick one or the other?? should i move one of them to the next section? which one is easier to understand? do they trivially say the same thing?}
-
-\begin{definition}
-  \label{timeaveragedistribution}
-  The \textit{time average distribution} of the $s_1$-$s_2$ Markov chain given the start state $(a, b)$, denoted $\pi^{(a, b)}$, is the distribution such that \begin{equation*}
-    \pi_{c_1, c_2}^{(a, b)} = E \left[ \text{fraction of time in state $(c_1,c_2)$} \mid \text{initial state is } (a, b)  \right]
-  \end{equation*}
-  where the expected fraction of time is taken over the infinite sequence $(X_0, X_1, \ldots)$.
-\end{definition}
-
-We will use $\pi$ to refer to $\pi^{(c_{\text{start}}(s_1), c_\text{start}(s_2))}$.
-
-\begin{lemma}
-  \label{payofftimeaverage}
-  The payoff when $s_1$ plays against $s_2$ is
-  \begin{equation*}
-    v_{s_1}(s_2) = \sum_{(c_1,c_2) \in S_{s_1,s_2}} \pi_{c_1,c_2} \cdot r(G_{s_1}(c_1),G_{s_2}(c_2)).
-  \end{equation*}
-\end{lemma}
-
-We may also make $r(G_{s_1}(c_1),G_{s_2}(c_2))$ into a vector, denoted by $r$, and write this as the dot product \begin{equation*}
-  v_{s_1}(s_2) = \pi \cdot r.
-\end{equation*}
-
-\todo{I think the best way to handle this is to remove the expected value definition altogether. just do the time average distribution and skip the proof of the lemma. it is honestly a very natural definition}
-
-\begin{proof}[Proof of \cref{payofftimeaverage}]
-  The key idea is that a time average sum where each element is one of finitely many values can be written as a frequency-weighted finite sum instead. Let $I_{c_1,c_2,t}$ be the indicator variable that is 1 if $G_{s_1,s_2}(X_t) = (c_1,c_2)$ and 0 otherwise.  Then, we can write \begin{equation*}
-    \lim_{T \to \infty} \frac{1}{T} \sum_{t = 0}^T r(G_{s_1,s_2}(X_t)) = 
-    \lim_{T \to \infty}\frac{1}{T} \sum_{t = 0}^T \sum_{(c_1,c_2) \in S_{s_1,s_2}} r(c_1,c_2) \cdot I_{c_1,c_2,t}
-  \end{equation*}
-  We may now exchange the order of summation and move the finite sum out of the limit, to get \begin{equation*}
-    \lim_{T \to \infty}\frac{1}{T} \sum_{t = 0}^T \sum_{(c_1,c_2) \in S_{s_1,s_2}} r(c_1,c_2) \cdot I_{c_1,c_2,t}
-    = \sum_{(c_1,c_2) \in S_{s_1,s_2}} r(c_1,c_2) \cdot \lim_{T \to \infty} \sum_{t=0}^T \frac{I_{c_1,c_2,t} }{T}
-  \end{equation*}
-  We can now use \cref{strategypayoffs} and linearity of expectation to find that
-  \begin{equation*}
-    v_{s_1}(s_2) = \sum_{(c_1,c_2) \in S_{s_1,s_2}} r(c_1, c_2) E \left[ \lim_{T \to \infty} \sum_{t=0}^T \frac{I_{c_1,c_2,t}}{T} \bigm| X_0 = (c_{\text{start}}(s_1), c_{\text{start}}(s_2))
-    \right]
-  \end{equation*}
-  Finally, we note that this is exactly the statement of \cref{payofftimeaverage}, which proves our lemma.
-\end{proof}
-
-Appendix A contains more details on time average distributions. In particular, if a unique stationary distribution exists, it is equal to the time-average distribution, which enables us to quickly find the time-average distribution in many cases.
-
-\fi
-
-We're now ready to look at how strategies interact in bigger numbers.
+We're now ready to look at how strategies interact in a multiplayer setting.
 
 \begin{definition}
   A \textit{population} of strategies $P = (S, f)$ is a set $S$ of strategies and a function $f : S \to (0,1]$ such that $\sum_{s \in S} f(s) = 1$, representing the frequency of each strategy in the population.
@@ -281,7 +221,9 @@ Together, the following theorem and conjecture imply that in the setup described
 
 \begin{theorem}
   \label{evolutionarystable1}
-  Suppose that a strategy $s_1$ is evolutionarily stable. Then $\lim_{p \to 0} v_{s_1}(s_1) = R$.
+  Suppose that a strategy $s_1$ is evolutionarily stable. Then \begin{equation*}
+  \lim_{p \to 0} v_{s_1}(s_1) = R.
+  \end{equation*}
 \end{theorem}
 
 \begin{conjecture}
@@ -308,7 +250,7 @@ Together, the following theorem and conjecture imply that in the setup described
 \begin{remark}
   Tit-for-tat, depicted in \cref{tftfigure}, is not evolutionarily stable. 
   When played against itself, it ends up spending just as much time in the defection state as in the cooperation state, because as soon as one mistake is made, it goes into a mutual defection cycle with its clone that is only broken by an additional mistake.
-  Thus, $v_s(s)$, where $s$ is Tit-for-tat, is much smaller than $R$, which means that it is not evolutionarily stable by \cref{evolutionarystable1}. Notably, this shows that these results are different, and perhaps stronger, than Fudenberg and Maskin's: their criterion for evolutionary stability does not rule out Tit-for-tat \cite{fundenberg1990evolution}.
+  Thus, $v_s(s)$, where $s$ is Tit-for-tat, is much smaller than $R$, which means that it is not evolutionarily stable by \cref{evolutionarystable1}. Notably, this shows that these results are different, and perhaps stronger, than Fudenberg and Maskin's \cite{fundenberg1990evolution}: while Tit-for-tat is not stable in their model either, their criterion for evolutionary stability does not rule out Tit-for-tat.
 \end{remark}
 
 
@@ -319,7 +261,7 @@ In this section, we prove our results from the previous section.
 
 \subsection{The time average distribution}
 
-Before we prove \cref{evolutionarystable1}, we need to understand the mechanisms behind the payoff $v_{s_1}(s_2)$. In this subsection, we prove a series of lemmas that characterize the time average distribution, and in turn $v_{s_1}(s_2)$.
+Before we prove \cref{evolutionarystable1}, we need to understand the mechanisms governing the payoff $v_{s_1}(s_2)$. In this subsection, we prove a series of lemmas that characterize the time average distribution, and in turn $v_{s_1}(s_2)$.
 
 \begin{lemma}
   \label{timeaverageisstationary}
@@ -329,7 +271,7 @@ Before we prove \cref{evolutionarystable1}, we need to understand the mechanisms
 We state this lemma without proof, as it is a fairly standard result. Important to note is that the time average distribution is not necessarily a \textit{unique} stationary distribution, as we do not assume that our Markov chain is ergodic.
 
 \begin{definition}
-  A \textit{strongly connected component} of a directed graph is a subgraph where there is a path from every node to every other node.
+  A \textit{strongly connected component} of a directed graph is a maximal subgraph where there is a path from every node to every other node.
 \end{definition}
 
 \begin{definition}
@@ -340,7 +282,7 @@ We may also put both of the terms together and talk about absorbing strongly con
 
 \begin{lemma}
   \label{lemmaabsorbinghasuniquetimeaverage}
-  An absorbing strongly connected component has a unique time average distribution. That is, the time average distribution does not depend on the start state.
+  An absorbing strongly connected component has a unique time average distribution. That is, the time average distribution of the component does not depend on the start state (as long as it is inside the component).
 \end{lemma}
 
 \begin{proof}
@@ -449,7 +391,7 @@ In this subsection, we prove that evolutionary stability requires that a strateg
       The underlying idea is to construct $s_2$ such that $s_1$ can see no difference between itself and $s_2$, while $s_2$, on the other hand, can. If we succeed in doing so, we will have that $v_{s_1}(s_2) = v_{s_2}(s_1) = v_{s_1}(s_1)$, and will be able to construct $s_2$ such that it always cooperates when it recognizes itself, thereby yielding $v_{s_2}(s_2) = R$. This would give $s_2$ a higher fitness than $s_1$. The rest of this proof executes this plan in detail.
 
       We create the strategy $s_2$ as follows. First, we copy all of $s_1$ into $s_2$. Let $\mathcal{A}_1$ be the set of
-       absorbing strongly connected components of $s_1$. The key idea, now, is to replace each original absorbing strongly connected component $H \in \mathcal{A}_1$ with a new absorbing component $K_H$, which has the capability of identifying itself.
+       absorbing strongly connected components of $s_1$. The key idea, now, is to replace each original absorbing strongly connected component $H \in \mathcal{A}_1$ with a new absorbing component $K_H$, which has the capability of distinguishing between itself and $s_1$.
 
       We now describe how to construct $K_H$ for each $H$. \Cref{c2flowchart} shows the high-level construction of $K_H$.
        All of the steps succeed with probability $1 - O(p)$. The first step makes sure that $K_H$ does not deviate from $s_1$ at all
@@ -458,7 +400,7 @@ In this subsection, we prove that evolutionary stability requires that a strateg
       The second step in the construction of $K_H$ makes sure that if $s_2$ is playing against itself, it is in sync with its clone; that is, with probability $1 - O(p)$, both copies of $s_2$ will transition to the third component at the exact same time (although not necessarily in the same $K_H$). 
       The third step figures out what action $s_1$ would take at some large finite time $T$. 
       Then, $K_H$ outputs the exact opposite action at time $T$. 
-      At that point, if its opponent outputs $s_1$'s expected action, it wants to transition into the absorbing strongly connected component $H_\text{copy}$, which is just an exact copy of $H$, but if its opponent outputs the opposite of that action, it has successfully recognized itself and thus enters an always cooperating state.
+      At that point, if its opponent outputs $s_1$'s expected action, it wants to transition into the absorbing strongly connected component $H_\text{copy}$, which is just an exact copy of $H$, but if its opponent outputs the opposite of that action, it has successfully distinguished its opponent from $s_1$ and thus enters an always cooperating state.
       Before transitioning into $H_\text{copy}$, $s_2$ makes sure that $s_1$ is in a state that is beneficial for $s_2$.
 
       \begin{figure}
@@ -554,8 +496,8 @@ In this subsection, we prove that evolutionary stability requires that a strateg
         %   \label{equationhch}
         %   P(\text{$s_1$-$s_2$ ends up in $H' \times C_H$}) = O(p).
         % \end{equation}
-        By \cref{claimcanforcegoodstate}, $s_1$ can choose to end up in any absorbing strongly connected component $S_{H', H}$ that is a subset of $H' \times H_\text{copy}$, with probability $1 - O(p)$. 
-        Naturally, $s_1$ chooses an $S_{H', H}^*$ as follows: among the $S$ that have the maximum payoff for $s_2$, in the limit as $p$ goes to 0, we choose the one the minimizes the payoff for $s_1$.
+        By \cref{claimcanforcegoodstate}, $s_2$ can choose to end up in any absorbing strongly connected component $S_{H', H}$ that is a subset of $H' \times H_\text{copy}$, with probability $1 - O(p)$. 
+        Naturally, $s_2$ chooses an $S_{H', H}^*$ as follows: among the $S$ that have the maximum payoff for $s_2$, in the limit as $p$ goes to 0, we choose the one the minimizes the payoff for $s_1$.
         Let $v_{s}(S)$ denote the payoff that strategy $s$ achieves in the absorbing strongly connected component $S$ of the Markov chain. Then,
         \begin{equation}
           \label{imtoootired}
@@ -743,7 +685,7 @@ In this subsection, we prove that evolutionary stability requires that a strateg
 
     We can note that the $2R > T + P$ condition is necessary. Otherwise, the All-D strategy, depicted in \cref{figurealld}, would be able to invade Pavlov. We see this by noting that $\lim_{p \to 0} v_{s_2}(s_1) = T + P$ if $s_2$ is All-D and $s_1$ is Pavlov, and that All-D is better against itself than Pavlov is against it.
 
-    We have some, admittedly weak, empirical evidence supporting the truth of this conjecture. First, playing Pavlov against itself yields the payoff $R - O(p)$, and our proof of \cref{evolutionarystable1} is very clearly relying heavily on letting $p$ be very close to 0. It therefore seems unlikely that a similar proof would be able to prove that Pavlov is not evolutionarily stable. Moreover, Fudenberg and Maskin stated but did not prove a similar result in their version of the noisy game \cite{fundenberg1990evolution}. To experiment, we also wrote a Julia notebook for generating $s_1$-$s_2$ Markov chains and time average distributions, and ran Pavlov against a few variants of itself, as well as against other simple strategies like All-D, All-C and Tit-for-tat. In all cases, Pavlov performed better than our potential invaders. This code notebook can be found in the accompanying GitHub repository \cite{arvid2020}.
+    We have some, admittedly weak, empirical evidence supporting the truth of this conjecture. First, playing Pavlov against itself yields the payoff $R - O(p)$, and our proof of \cref{evolutionarystable1} is very clearly relying heavily on letting $p$ be very close to 0. It therefore seems unlikely that a similar proof would be able to prove that Pavlov is not evolutionarily stable. Moreover, Fudenberg and Maskin \cite{fundenberg1990evolution} stated but did not prove a similar result in their version of the noisy game. To experiment, we also wrote a Julia notebook for generating $s_1$-$s_2$ Markov chains and time average distributions, and ran Pavlov against a few variants of itself, as well as against other simple strategies like All-D, All-C and Tit-for-tat. In all cases, Pavlov performed better than our potential invaders. This code notebook can be found in the accompanying GitHub repository \cite{arvid2020}.
 
 \begin{figure}
 \begin{tikzpicture}[node distance=2cm]
@@ -757,7 +699,7 @@ In this subsection, we prove that evolutionary stability requires that a strateg
 \end{figure}
 
 
-    \section{Further Work}
+    \section{Future Work}
     \label{sectiondiscussion}
 
     An obvious next step is to prove \cref{pavlovtheorem}. We believe that it should not be too hard. The handwritten notes in \cite{arvid2020} might contain some useful ideas.
